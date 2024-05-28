@@ -15,7 +15,7 @@ body {
 
 #menuButton{
     background: none;
-    background-image: url("Menu.svg");
+    background-image: url("menu.svg");
     background-repeat: no-repeat;
     padding-right:0%;
     width:5vw;
