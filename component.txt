@@ -1,0 +1,17 @@
+<body>
+<div id="sidebarDiv" class="sidebar closeSidebar">
+    <div class="textSidebarContainer">
+        <a href="about-us.html"><h2>ABOUT US</h2></a>
+        <h2>SPONSORS</h2>
+        <h2>DOCUMENTATION</h2>
+        <h2>CONTACT US</h2>
+    </div>
+</div>
+<div id="topDiv" class="shrinkTopBarBack growTopbar">
+    <span id="textContainer">
+        <button onclick="openSideMenu()" id="menuButton"> 
+        </button>
+        <a class="title" href="index.html"><h1>24702 Regal Robots</h1></a>
+    </span>
+</div>
+</body>

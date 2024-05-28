@@ -1,0 +1,118 @@
+/* Place your CSS styles in this file */
+
+h1{font-size:2.4vw;}
+h2{font-size:1.2vw;}
+a {text-decoration:none; color:#E8D7F1;}
+
+body {
+    display: flex;
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    background-color: #CEAFDE;
+}
+
+#menuButton{
+    background: none;
+    background-image: url("Menu.svg");
+    background-repeat: no-repeat;
+    padding-right:0%;
+    width:5vw;
+    height:8vh;
+    outline: red;
+    border: red;
+    cursor: pointer;
+}
+
+#topDiv{
+    background-color: #A167A5;
+    height:4vw;
+    width:100vw;
+}
+
+#textContainer{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 4vw;
+}
+
+h2.textSidebarContainer{
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.title {
+    cursor: pointer;
+    margin-bottom: 0;
+    margin-left: 6.5vw;
+    color:#E8D7F1; 
+}
+
+.sidebar{
+    display: flex;
+    background-color:#A167A5;
+    color:#E8D7F1;
+    height:100vh;
+    width: 9vw;
+    overflow:hidden;
+    padding-left:1.5vw;
+    padding-right:3vw;
+}
+
+/* keep in this order */
+.growTopbar {
+    position:absolute;
+    transition-property: left, width; 
+    transition-duration: 1s;
+    left: 0vw;
+    width: 100vw;
+}
+
+.shrinkTopbar {
+    position:absolute;
+    transition-property: left, width;
+    transition-duration: 1s;
+    left: 13.5vw;
+    width: 86.5vw;
+}
+
+.closeSidebar {
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 1s;
+    transform: translateX(-100%);
+}
+.openSidebar {
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 1s;
+    transform: translateX(0%);
+}
+
+.staticTopbar {
+    transition: none;
+    position:absolute;
+    left: 13.5vw;
+    width: 86.5vw;
+}
+
+.staticSidebar {
+    transition: none;
+    position: absolute;
+    transform: translateX(0%);
+}
+
+.staticTopbarClosed {
+    transition: none;
+    position:absolute;
+    left: 0vw;
+    width: 100vw;
+}
+
+.staticSidebarClosed {
+    transition: none;
+    position: absolute;
+    transform: translateX(-100%);
+}
