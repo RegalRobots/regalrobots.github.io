@@ -80,13 +80,13 @@ h2.textSidebarContainer{
 }
 
 .closeSidebar {
-    position: absolute;
+    position: fixed;
     transition-property: transform;
     transition-duration: 1s;
     transform: translateX(-100%);
 }
 .openSidebar {
-    position: absolute;
+    position: fixed;
     transition-property: transform;
     transition-duration: 1s;
     transform: translateX(0%);
@@ -101,7 +101,7 @@ h2.textSidebarContainer{
 
 .staticSidebar {
     transition: none;
-    position: absolute;
+    position: fixed;
     transform: translateX(0%);
 }
 
@@ -114,7 +114,7 @@ h2.textSidebarContainer{
 
 .staticSidebarClosed {
     transition: none;
-    position: absolute;
+    position: fixed;
     transform: translateX(-100%);
 }
 

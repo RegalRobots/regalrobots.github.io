@@ -98,16 +98,13 @@ function closeSidebar(){
 
 
 window.addEventListener("resize", function() {
-    console.log("RESIZE")
     sideBarAnimated = false;
     if(!sidebarOpen) {
-        console.log("BLOCKED FROM TRANSITION")        
         sidebar.classList.remove("closeSidebar");
         sidebar.classList.add("staticSidebarClosed");
         titleBar.classList.remove("growTopbar")
         titleBar.classList.add("staticTopbarClosed")
     } else if(sidebarOpen){
-        console.log("BLOCKED FROM TRANSITION")
         sidebar.classList.remove("openSidebar");
         sidebar.classList.add("staticSidebar");
         titleBar.classList.remove("shrinkTopbar")
