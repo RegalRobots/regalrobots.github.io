@@ -19,7 +19,7 @@ class Item{
         caption.style.display = "inline";
         caption.style.background = "#5268A5";
         caption.style.padding = "0.5vw 0.5vw 2vw 0.5vw";
-        caption.style.maxWidth = "35vw";
+        caption.style.maxWidth = "86.5vw";
         caption.style.margin = "0vw";
         caption.innerHTML = this.content;
         var item = document.createElement("div");
