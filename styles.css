@@ -1,7 +1,8 @@
 /* Place your CSS styles in this file */
 
 h1{font-size:2.4vw;}
-h2{font-size:1.2vw;}
+h2{font-size:2.0vw;}
+h3{font-size:1.2vw;}
 a {text-decoration:none; color:#E8D7F1;}
 
 body {
@@ -28,7 +29,6 @@ body {
 #topDiv{
     background-color: #A167A5;
     height:4vw;
-    width:100vw;
 }
 
 #textContainer{
@@ -115,4 +115,16 @@ h2.textSidebarContainer{
     transition: none;
     position: absolute;
     transform: translateX(-100%);
+}
+
+.navigation{
+    display: flex;
+}
+
+#content{
+    margin-top: 4.5vw;
+    margin-left: 1vw;
+    width:auto;
+    display: grid;
+    grid-gap: 2.5vw;
 }
