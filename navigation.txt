@@ -2,6 +2,7 @@
 <div class="navigation">
     <div id="sidebarDiv" class="sidebar closeSidebar">
         <div class="textSidebarContainer">
+            <a href="index.html"><h3>HOME</h3></a>
             <a href="about-us.html"><h3>ABOUT US</h3></a>
             <h3>SPONSORS</h3>
             <h3>DOCUMENTATION</h3>
