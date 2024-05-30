@@ -35,7 +35,7 @@ body {
     display: flex;
     justify-content: left;
     align-items: center;
-    height: 4vw;
+    height: inherit;
 }
 
 h2.textSidebarContainer{
@@ -120,12 +120,27 @@ h2.textSidebarContainer{
 
 .navigation{
     display: flex;
+    overflow: hidden;
 }
 
 #content{
     margin-top: 4.5vw;
     margin-left: 1vw;
     width:auto;
-    display: grid;
-    grid-gap: 2.5vw;
+    display: flex;
+    gap: 2.5vw;
+}
+
+@media(orientation:portrait){
+    h1{font-size: 9vw;}
+    h2{font-size: 6vw;}
+    h3{font-size: 5.5vw;}
+    p{font-size: 4.5vw;}
+    .sidebar{width: 55vw; margin-top:25vw; height: 100vh;}
+    #topDiv{height: 25vw; overflow: hidden;}
+    #content{flex-direction: column; margin-top: 28vw; margin-left:6vw; width: 94vw; gap: 4vw;
+        position: fixed; height:100vh;}
+    #menuButton{width:25vw;}
+    .shrinkTopbar{left: 0vw; width: 100vw;}
+    #content.shrinkTopbar{left: 55vw;}
 }

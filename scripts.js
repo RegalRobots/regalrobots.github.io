@@ -1,4 +1,9 @@
 /* Place your JavaScript in this file */
+var sidebar;
+var titleBar;
+var sidebarOpen;
+var sideBarAnimated;
+var content;
 
 class Item{
     title;
@@ -12,18 +17,23 @@ class Item{
         var header = document.createElement("h2");
         header.innerHTML = this.title;
         header.style.display = "inline";
+        header.style.overflow = "hidden";
         header.style.background = "#A167A5";
         header.style.padding = "0.5vw 0.5vw 0vw 0.5vw";
         header.style.margin = "0vw";
         var caption = document.createElement("p");
         caption.style.display = "inline";
+        caption.style.overflow = "hidden";
         caption.style.background = "#5268A5";
         caption.style.padding = "0.5vw 0.5vw 2vw 0.5vw";
-        caption.style.maxWidth = "86.5vw";
         caption.style.margin = "0vw";
         caption.innerHTML = this.content;
         var item = document.createElement("div");
         item.style.display = "grid";
+        item.style.minWidth = "38vw";
+        item.style.maxWidth = "86.5vw";
+        item.style.overflow = "hidden";
+        item.style.height = "min-content";
         document.getElementById(parentDiv).appendChild(item);
         item.appendChild(header);
         item.appendChild(caption);
@@ -43,25 +53,23 @@ function loadPage(){
     fetch('navigation.txt')
     .then(response => response.text())
     .then(text => {
-            document.body.innerHTML = text;
-            sidebar = document.getElementById("sidebarDiv");
-            titleBar = document.getElementById("topDiv");
-            content = document.getElementById("content");
-            sidebarOpen = false;
-            sideBarAnimated = true;
-            var itemArray = new ItemCollection();
-            itemArray.add(new Item("New website up and running!", 
-            "Hello world! This is our website made to be ready for the 2024-2025 season of the FTC robotics competition!"));
-            itemArray.add(new Item("About us", "..."));
-            itemArray.forEach((x)=>{x.render("content")});}
+        document.body.innerHTML = text;
+        sidebar = document.getElementById("sidebarDiv");
+        titleBar = document.getElementById("topDiv");
+        content = document.getElementById("content");
+        sidebarOpen = false;
+        sideBarAnimated = true;
+        var itemArray = new ItemCollection();
+        itemArray.add(new Item("New website up and running!", 
+        "Hello world! This is our website made for the 2024-2025 season of the FTC robotics competition!"));
+        itemArray.add(new Item("About us", "..."));
+        itemArray.forEach((x)=>{x.render("content")});
+        content.addEventListener("click", ()=>{
+            if(window.matchMedia("(orientation:portrait)").matches) closeSidebar();
+        });
+    }
     )
 }
-
-var sidebar;
-var titleBar;
-var sidebarOpen;
-var sideBarAnimated;
-
 
 function openSideMenu(){
     sideBarAnimated = true;
@@ -76,14 +84,14 @@ function openSideMenu(){
     }
 }
 
-function openSidebar(){
+function openSidebar(){  
+    sidebarOpen = true;
     titleBar.classList.remove("growTopbar");
     sidebar.classList.remove("closeSidebar");
     sidebar.classList.add("openSidebar");
     titleBar.classList.add("shrinkTopbar");
     content.classList.remove("growTopbar");
     content.classList.add("shrinkTopbar");
-    sidebarOpen = true;
 }
 
 function closeSidebar(){
@@ -98,6 +106,7 @@ function closeSidebar(){
 
 
 window.addEventListener("resize", function() {
+    if(window.matchMedia("(orientation:portrait)").matches) return;
     sideBarAnimated = false;
     if(!sidebarOpen) {
         sidebar.classList.remove("closeSidebar");
@@ -111,4 +120,3 @@ window.addEventListener("resize", function() {
         titleBar.classList.add("staticTopbar")
     }
   })
-
