@@ -5,7 +5,7 @@
             <a href="about-us.html"><h3>ABOUT US</h3></a>
             <h3>SPONSORS</h3>
             <h3>DOCUMENTATION</h3>
-            <h3>CONTACT US</h3>
+            <a href="mailto:24702regalrobots@gmail.com"><h3>CONTACT US</h3></a>
         </div>
     </div>
     <div id="topDiv" class="shrinkTopBarBack growTopbar">
