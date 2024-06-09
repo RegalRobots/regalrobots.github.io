@@ -20,14 +20,13 @@ class Item{
         header.style.display = "inline";
         header.style.overflow = "hidden";
         header.style.background = "#A167A5";
-        header.style.padding = "0.5vw 0.5vw 0vw 0.5vw";
+        header.style.padding = "0.5vw 0.5vw 2vh";
         header.style.margin = "0vw";
         var caption = document.createElement("p");
         caption.style.display = "inline";
         caption.style.overflow = "hidden";
         caption.style.background = "#5268A566";
-        caption.style.padding = "0.5vw 0.5vw 2vw 0.5vw";
-        caption.style.marginTop = "0.5vw";
+        caption.style.padding = "0.5vw 0.5vw 2vw";
         caption.innerHTML = this.content;
         var item = document.createElement("div");
         item.style.display = "grid";
@@ -72,7 +71,7 @@ function loadHomepage(){
     new Promise(loadPage).then(()=>{
         var itemArray = new ItemCollection();
         itemArray.add(new Item("New website up and running!", 
-        "Hello world! This is our website made for the 2024-2025 season of the FTC robotics competition!"));
+        "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
         itemArray.forEach((x)=>{x.render(content_div)});
     });
 }
@@ -102,18 +101,21 @@ function loadAboutpage(){
         var item = document.createElement("div");
         item.style.display = "grid";
         item.style.minWidth = "38vw";
-        item.style.maxWidth = "86.5vw";
+        item.style.maxWidth = "55.5vw";
         item.style.overflow = "hidden";
         content_div.appendChild(item);
         item.appendChild(header);
         item.appendChild(caption);
-
+        item.classList.add("custom-style");
+        
         var image2023 = document.createElement("img");
         image2023.src = "2023group_photo.jpg";
+        image2023.style.maxWidth = "30vw";
         var image2023container = document.createElement("aside");
         image2023container.style.background = "#5268A566";
         image2023container.style.flex = "1 1 auto";
-        image2023container.style.minWidth = "fit-content";
+        image2023container.style.maxWidth = "30vw";
+        image2023container.style.width = "fit-content";
         var caption2023 = document.createElement("h4");
         caption2023.innerHTML = "Our team in the 2023-2024 season.";
         image2023container.appendChild(image2023);
@@ -124,9 +126,22 @@ function loadAboutpage(){
         captionCurrent.innerHTML = "Our current team.";
         image2023container.appendChild(imageCurrent);
         image2023container.appendChild(captionCurrent);
-  
+        image2023.classList.add("custom-style");
+        image2023container.classList.add("custom-style");
+
+        document.querySelector("style").innerText = "@media(orientation:portrait){\
+            .custom-style{max-width:86.5vw !important; width:86.5vw !important;}\
+        }";
         content_div.appendChild(image2023container);
     });
+}
+
+function loadSponsorspage(){
+    loadPage();
+}
+
+function loadDocumentationpage(){
+    loadPage();
 }
 
 function openSideMenu(){
@@ -177,4 +192,4 @@ window.addEventListener("resize", function() {
         titleBar.classList.remove("shrinkTopbar")
         titleBar.classList.add("staticTopbar")
     }
-  })
+  });

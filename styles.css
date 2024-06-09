@@ -1,12 +1,12 @@
 /* Place your CSS styles in this file */
 
-h1{font-size:2.4vw;}
-h2{font-size:2.0vw;}
+h1{font-size: 2.4vw; margin:0;}
+h2{font-size:20px;}
 h3{font-size:1.2vw;}
 h4, h5{margin:0}
-p{font-size: 2.0vw;}
+p{font-size: 26px;}
 a {text-decoration:none; color:#E8D7F1;}
-img{width:100%; height:auto; min-width: 200px;}
+img{width:100%; height:auto;}
 
 body {
     display: flex;
@@ -21,9 +21,10 @@ body {
     background: none;
     background-image: url("menu.svg");
     background-repeat: no-repeat;
+    background-position-y: center;
     padding-right:0%;
-    width:5vw;
-    height:8vh;
+    width:8vh;
+    height:14vh;
     outline: red;
     border: red;
     cursor: pointer;
@@ -31,7 +32,8 @@ body {
 
 #topDiv{
     background-color: #A167A5;
-    height:4vw;
+    height:14vh;
+    overflow: hidden;
 }
 
 #textContainer{
@@ -47,10 +49,17 @@ h2.textSidebarContainer{
 }
 
 .title {
+    margin: 0vh;
     cursor: pointer;
     margin-bottom: 0;
     margin-left: 6.5vw;
-    color:#E8D7F1; 
+    color:#E8D7F1;
+    display: flex;
+    gap: 1vw;
+}
+
+#homeIcon {
+    width: 4vw;
 }
 
 .sidebar{
@@ -71,7 +80,7 @@ h2.textSidebarContainer{
     transition-property: left, width; 
     transition-duration: 0.5s;
     left: 0vw;
-    width: 100vw;
+    width: 100%;
 }
 
 .shrinkTopbar {
@@ -127,9 +136,9 @@ h2.textSidebarContainer{
 }
 
 #content{
-    margin-top: 4.5vw;
+    margin-top: 15vh;
     margin-left: 1vw;
-    width:85.5vw;
+    max-width:85.5vw;
     display: flex;
     gap: 2.5vw;
 }
@@ -141,12 +150,13 @@ h2.textSidebarContainer{
     h3{font-size: 5.5vw;}
     h4{font-size: 3.5vw;}
     p{font-size: 4.5vw;}
-    .sidebar{width: 55vw; margin-top:25vw; height: 100vh;}
-    #topDiv{height: 25vw; overflow: hidden;}
-    #content{flex-direction: column; margin-top: 28vw; margin-left:6vw; width: 94vw; gap: 4vw;
-        position: fixed; height:100vh;}
-    #menuButton{width:25vw;}
+    .sidebar{width: 55vw; margin-top:0vh;}
+    .textSidebarContainer{margin-top: 16vh;}
+    #content{flex-direction: column; margin-left:6vw; width: 94vw; gap: 4vw; position: relative; margin-top:18vh; 
+        max-width: none;}
+    #homeIcon{width: 20vw;}
+    .title{gap:4vw;}
     .shrinkTopbar{left: 0vw; width: 100vw;}
-    aside{max-width: 86.5vw;}
+    aside{max-width: 86.5vw; width:86.5vw;}
     #content.shrinkTopbar{left: 59.5vw;}
 }
