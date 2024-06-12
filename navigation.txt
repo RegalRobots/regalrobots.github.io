@@ -9,7 +9,7 @@
             <a href="mailto:24702regalrobots@gmail.com"><h3>CONTACT US</h3></a>
         </div>
     </div>
-    <div id="topDiv" class="shrinkTopBarBack growTopbar">
+    <div id="topDiv" class="shrinkContentBack growContent">
         <span id="textContainer">
             <button onclick="openSideMenu()" id="menuButton"> 
             </button>
@@ -20,7 +20,7 @@
         </span>
     </div>
     <style class="custom-style"></style>
-    <div id="content" class="growTopbar">
+    <div id="content" class="growContent">
 
     </div>
 </div>

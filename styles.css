@@ -72,10 +72,12 @@ h2.textSidebarContainer{
     padding-left:1.5vw;
     padding-right:3vw;
     position: fixed;
+    transition-property: transform;
+    transition-duration: 0.5s;
 }
 
 /* keep in this order */
-.growTopbar {
+.growContent {
     position:absolute;
     transition-property: left, width; 
     transition-duration: 0.5s;
@@ -83,7 +85,7 @@ h2.textSidebarContainer{
     width: 100%;
 }
 
-.shrinkTopbar {
+.shrinkContent {
     position:absolute;
     transition-property: left, width;
     transition-duration: 0.5s;
@@ -92,19 +94,13 @@ h2.textSidebarContainer{
 }
 
 .closeSidebar {
-    position: fixed;
-    transition-property: transform;
-    transition-duration: 0.5s;
     transform: translateX(-100%);
 }
 .openSidebar {
-    position: fixed;
-    transition-property: transform;
-    transition-duration: 0.5s;
     transform: translateX(0%);
 }
 
-.staticTopbar {
+.staticContent {
     transition: none;
     position:absolute;
     left: 13.5vw;
@@ -117,7 +113,7 @@ h2.textSidebarContainer{
     transform: translateX(0%);
 }
 
-.staticTopbarClosed {
+.staticContentClosed {
     transition: none;
     position:absolute;
     left: 0vw;
@@ -150,13 +146,13 @@ h2.textSidebarContainer{
     h3{font-size: 5.5vw;}
     h4{font-size: 3.5vw;}
     p{font-size: 4.5vw;}
-    .sidebar{width: 55vw; margin-top:0vh;}
+    .sidebar{width: 55vw;}
     .textSidebarContainer{margin-top: 16vh;}
     #content{flex-direction: column; margin-left:6vw; width: 94vw; gap: 4vw; position: relative; margin-top:18vh; 
         max-width: none;}
     #homeIcon{width: 20vw;}
     .title{gap:4vw;}
-    .shrinkTopbar{left: 0vw; width: 100vw;}
+    .shrinkContent{left: 0vw; width: 100vw;}
     aside{max-width: 86.5vw; width:86.5vw;}
-    #content.shrinkTopbar{left: 59.5vw;}
+    #content.shrinkContent{left: 59.5vw;}
 }

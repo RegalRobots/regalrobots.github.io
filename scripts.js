@@ -147,9 +147,9 @@ function loadDocumentationpage(){
 function openSideMenu(){
     sideBarAnimated = true;
     sidebar.classList.remove("staticSidebarClosed")
-    titleBar.classList.remove("staticTopbarClosed")
+    titleBar.classList.remove("staticContentClosed")
     sidebar.classList.remove("staticSidebar")
-    titleBar.classList.remove("staticTopbar")
+    titleBar.classList.remove("staticContent")
     if(sidebarOpen){
         closeSidebar();
     } else if(!sidebarOpen){
@@ -159,21 +159,21 @@ function openSideMenu(){
 
 function openSidebar(){  
     sidebarOpen = true;
-    titleBar.classList.remove("growTopbar");
+    titleBar.classList.remove("growContent");
     sidebar.classList.remove("closeSidebar");
     sidebar.classList.add("openSidebar");
-    titleBar.classList.add("shrinkTopbar");
-    content_div.classList.remove("growTopbar");
-    content_div.classList.add("shrinkTopbar");
+    titleBar.classList.add("shrinkContent");
+    content_div.classList.remove("growContent");
+    content_div.classList.add("shrinkContent");
 }
 
 function closeSidebar(){
-    titleBar.classList.remove("shrinkTopbar");
+    titleBar.classList.remove("shrinkContent");
     sidebar.classList.remove("openSidebar");
-    titleBar.classList.add("growTopbar");
+    titleBar.classList.add("growContent");
     sidebar.classList.add("closeSidebar");
-    content_div.classList.remove("shrinkTopbar");
-    content_div.classList.add("growTopbar");
+    content_div.classList.remove("shrinkContent");
+    content_div.classList.add("growContent");
     sidebarOpen = false;
 }
 
@@ -184,12 +184,12 @@ window.addEventListener("resize", function() {
     if(!sidebarOpen) {
         sidebar.classList.remove("closeSidebar");
         sidebar.classList.add("staticSidebarClosed");
-        titleBar.classList.remove("growTopbar")
-        titleBar.classList.add("staticTopbarClosed")
+        titleBar.classList.remove("growContent")
+        titleBar.classList.add("staticContentClosed")
     } else if(sidebarOpen){
         sidebar.classList.remove("openSidebar");
         sidebar.classList.add("staticSidebar");
-        titleBar.classList.remove("shrinkTopbar")
-        titleBar.classList.add("staticTopbar")
+        titleBar.classList.remove("shrinkContent")
+        titleBar.classList.add("staticContent")
     }
   });
