@@ -165,6 +165,10 @@ function openSidebar(){
     titleBar.classList.add("shrinkContent");
     content_div.classList.remove("growContent");
     content_div.classList.add("shrinkContent");
+    if(window.matchMedia("(orientation:portrait)").matches){
+        document.body.style.height = "100%";
+        document.body.style.overflow = "hidden";
+    }
 }
 
 function closeSidebar(){
