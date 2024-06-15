@@ -165,10 +165,7 @@ function openSidebar(){
     titleBar.classList.add("shrinkContent");
     content_div.classList.remove("growContent");
     content_div.classList.add("shrinkContent");
-    if(window.matchMedia("(orientation:portrait)").matches){
-        document.body.style.height = "100%";
-        document.body.style.overflow = "hidden";
-    }
+    if(window.matchMedia("(orientation:portrait)").matches) document.body.style.overflow = "hidden";
 }
 
 function closeSidebar(){
@@ -178,7 +175,7 @@ function closeSidebar(){
     sidebar.classList.add("closeSidebar");
     content_div.classList.remove("shrinkContent");
     content_div.classList.add("growContent");
-    document.body.overflow = "auto";
+    document.body.overflow = "visible";
     sidebarOpen = false;
 }
 
