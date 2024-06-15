@@ -1,6 +1,6 @@
 /* Place your CSS styles in this file */
 
-h1{font-size: 2.4vw; margin:0;}
+h1{font-size: 2.98em; margin:0;}
 h2{font-size:20px;}
 h3{font-size:1.2vw;}
 h4, h5{margin:0}
@@ -24,7 +24,7 @@ body {
     background-position-y: center;
     padding-right:0%;
     width:8vh;
-    height:14vh;
+    height:8vh;
     outline: red;
     border: red;
     cursor: pointer;
@@ -51,16 +51,20 @@ h2.textSidebarContainer{
 .title {
     margin: 0vh;
     cursor: pointer;
-    margin-bottom: 0;
+    padding-right:0%;
     margin-left: 6.5vw;
-    color:#E8D7F1;
     display: flex;
-    gap: 1vw;
+    align-items: center;
 }
 
-#homeIcon {
-    width: 4vw;
+img.titleContent{
+    content: url("logo_landscape.svg");
+    height: 8dvh;
 }
+
+/* #homeIcon {
+    width: 8vh;
+} */
 
 .sidebar{
     display: flex;
@@ -140,7 +144,7 @@ h2.textSidebarContainer{
 }
 
 @media(orientation:portrait){
-    h1{font-size: 9vw;}
+    h1{font-size: 6em;}
     h1#aboutUsHeader{font-size: 5vw;}
     h2{font-size: 4vw;}
     h3{font-size: 5.5vw;}
@@ -150,9 +154,9 @@ h2.textSidebarContainer{
     .textSidebarContainer{margin-top: 16vh;}
     #content{flex-direction: column; margin-left:6vw; width: 94vw; gap: 4vw; position: relative; margin-top:18vh; 
         max-width: none;}
-    #homeIcon{width: 20vw;}
     .title{gap:4vw;}
-    .shrinkContent{left: 0vw; width: 100vw; overflow-y: hidden;}
+    img.titleContent{content: url("logo_portrait.svg");}
+    .shrinkContent{left: 0vw; width: 100vw;}
     aside{max-width: 86.5vw; width:86.5vw;}
     #content.shrinkContent{left: 59.5vw;}
 }
