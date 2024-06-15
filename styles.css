@@ -70,7 +70,7 @@ img.titleContent{
     display: flex;
     background-color:#A167A5;
     color:#E8D7F1;
-    min-height:100%;
+    min-height:100lvh;
     /* min-height:100dvh; */
     width: 9vw;
     overflow:hidden;

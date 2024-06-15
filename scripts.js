@@ -178,6 +178,7 @@ function closeSidebar(){
     sidebar.classList.add("closeSidebar");
     content_div.classList.remove("shrinkContent");
     content_div.classList.add("growContent");
+    document.body.overflow = "auto";
     sidebarOpen = false;
 }
 
