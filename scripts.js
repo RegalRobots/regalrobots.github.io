@@ -1,10 +1,10 @@
 /* Place your JavaScript in this file */
 "use strict";
-var sidebar;
-var titleBar;
-var sidebarOpen;
-var sideBarAnimated;
-var content_div;
+let sidebar;
+let titleBar;
+let sidebarOpen;
+let sideBarAnimated;
+let content_div;
 
 class Item{
     title;
@@ -14,37 +14,50 @@ class Item{
         this.content = content;
     }
     
-    render(parentDiv) {
-        var header = document.createElement("h2");
+    render(parentDiv, imagePath = null, imageCaptionText = null) {
+        let header = document.createElement("h2");
         header.innerHTML = this.title;
         header.style.display = "inline";
         header.style.overflow = "hidden";
         header.style.background = "#A167A5";
         header.style.padding = "0.5vw 0.5vw 2vh";
         header.style.margin = "0vw";
-        var caption = document.createElement("p");
+        let caption = document.createElement("p");
         caption.style.display = "inline";
         caption.style.overflow = "hidden";
         caption.style.background = "#5268A566";
         caption.style.padding = "0.5vw 0.5vw 2vw";
         caption.innerHTML = this.content;
-        var item = document.createElement("div");
+        let item = document.createElement("div");
         item.style.display = "grid";
         item.style.minWidth = "38vw";
         item.style.maxWidth = "86.5vw";
         item.style.overflow = "hidden";
-        item.style.height = "min-content";
         parentDiv.appendChild(item);
+        if(imagePath !== null && imageCaptionText !== null){
+            let imageDiv = document.createElement("div");
+            imageDiv.style.float = "right";
+
+            let imageCaption = document.createElement("h5")
+            imageCaption.innerHTML = imageCaptionText;
+
+            let sideImage = document.createElement("img");
+            sideImage.src = imagePath;
+            imageDiv.appendChild(sideImage);
+            imageDiv.appendChild(imageCaption);
+
+            item.appendChild(imageDiv);
+        }
         item.appendChild(header);
         item.appendChild(caption);
     }
 }
 
-class ItemCollection extends Array{
+class Queue extends Array{
     constructor(){
         super(1);
     }
-    add(item){
+    push(item){
         this.splice(0, 0, item);
     }
 }
@@ -64,13 +77,13 @@ function loadPage(resolve, reject){
         });
         resolve();
     }
-    )
+    ).catch(()=>{reject();});
 }
 
 function loadHomepage(){
     new Promise(loadPage).then(()=>{
-        var itemArray = new ItemCollection();
-        itemArray.add(new Item("New website up and running!", 
+        let itemArray = new Queue();
+        itemArray.push(new Item("New website up and running!", 
         "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
         itemArray.forEach((x)=>{x.render(content_div)});
     });
@@ -78,15 +91,9 @@ function loadHomepage(){
 
 function loadAboutpage(){
     new Promise(loadPage).then(() => {
-        var header = document.createElement("h1");
+        let header = document.createElement("h1");
         header.innerHTML = "About us!";
-        header.id = "aboutUsHeader";
-        header.style.display = "inline";
-        header.style.overflow = "hidden";
-        header.style.background = "#A167A5";
-        header.style.padding = "0.5vw 0.5vw 0vw 0.5vw";
-        header.style.margin = "0vw";
-        var caption = document.createElement("h2");
+        let caption = document.createElement("h2");
         caption.style.display = "inline";
         caption.style.overflow = "hidden";
         caption.style.background = "#5268A566";
@@ -98,7 +105,7 @@ function loadAboutpage(){
         the 2024-2025 season starting with the creation of this very website! Not only do we hope to do better this season but \
         to be able to preserve as much knowledge and experience as possible through the documentation on this website and through our \
         our school-wide robotics club and this junior team.";
-        var item = document.createElement("div");
+        let item = document.createElement("div");
         item.style.display = "grid";
         item.style.minWidth = "38vw";
         item.style.maxWidth = "55.5vw";
@@ -108,31 +115,37 @@ function loadAboutpage(){
         item.appendChild(caption);
         item.classList.add("custom-style");
         
-        var image2023 = document.createElement("img");
+        let image2023 = document.createElement("img");
         image2023.src = "2023group_photo.jpg";
-        image2023.style.maxWidth = "30vw";
-        var image2023container = document.createElement("aside");
-        image2023container.style.background = "#5268A566";
-        image2023container.style.flex = "1 1 auto";
-        image2023container.style.maxWidth = "30vw";
-        image2023container.style.width = "fit-content";
-        var caption2023 = document.createElement("h4");
+        image2023.style.width = "95%";
+        image2023.style.padding = "0.75vw 0.75vw 0vh";
+        
+        let caption2023 = document.createElement("h4");
         caption2023.innerHTML = "Our team in the 2023-2024 season.";
-        image2023container.appendChild(image2023);
-        image2023container.appendChild(caption2023);
-        var imageCurrent = document.createElement("img");
-        // image2023.src = "2023group_photo.jpg";
-        var captionCurrent = document.createElement("h4");
+        
+        let imageCurrent = document.createElement("img");
+        // imageCurrent.src = "group_photo.jpg";
+        let captionCurrent = document.createElement("h4");
         captionCurrent.innerHTML = "Our current team.";
-        image2023container.appendChild(imageCurrent);
-        image2023container.appendChild(captionCurrent);
+        
+        let imagesContainer = document.createElement("aside");
+        imagesContainer.style.background = "#5268A566";
+        imagesContainer.style.flex = "1 1 auto";
+        imagesContainer.style.maxWidth = "30vw";
+        imagesContainer.style.width = "fit-content";
+        
+        
+        imagesContainer.appendChild(image2023);
+        imagesContainer.appendChild(caption2023);
+        imagesContainer.appendChild(imageCurrent);
+        imagesContainer.appendChild(captionCurrent);
         image2023.classList.add("custom-style");
-        image2023container.classList.add("custom-style");
+        imagesContainer.classList.add("custom-style");
 
         document.querySelector("style").innerText = "@media(orientation:portrait){\
             .custom-style{max-width:86.5vw !important; width:86.5vw !important;}\
         }";
-        content_div.appendChild(image2023container);
+        content_div.appendChild(imagesContainer);
     });
 }
 
@@ -141,7 +154,34 @@ function loadSponsorspage(){
 }
 
 function loadDocumentationpage(){
-    loadPage();
+    new Promise(loadPage).then(()=>{
+        content_div.style.flexDirection = "column";
+        let programmingHeader = document.createElement("h1");
+        programmingHeader.innerHTML = "Programming:";
+        content_div.appendChild(programmingHeader);
+        let itemArray = [];
+        itemArray.push(new Item("Init:", 
+        "Lorem Ipsum"));
+        itemArray.push(new Item("OpMode Movement:", 
+        "Lorem Ipsum (gm0.org)"));
+        itemArray.push(new Item("CV:", 
+        "Lorem Ipsum"));
+        itemArray.forEach((x)=>{x.render(content_div)});
+        
+        let cadHeader = document.createElement("h1");
+        cadHeader.innerHTML = "CAD:";
+        content_div.appendChild(cadHeader);
+        itemArray = [];
+        itemArray.push(new Item("Software to use:", "Lorem Ipsum"));
+        itemArray.forEach((x)=>{x.render(content_div)});
+        
+        let buildHeader = document.createElement("h1");
+        buildHeader.innerHTML = "Building:";
+        content_div.appendChild(buildHeader);
+        itemArray = [];
+        itemArray.push(new Item("Useful resources:", "Lorem Ipsum"));
+        itemArray.forEach((x)=>{x.render(content_div)});
+    });
 }
 
 function openSideMenu(){
