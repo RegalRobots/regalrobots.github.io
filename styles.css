@@ -66,7 +66,7 @@ h2.textSidebarContainer{
     display: flex;
     background-color:#A167A5;
     color:#E8D7F1;
-    height:100vh;
+    height:100lvh;
     width: 9vw;
     overflow:hidden;
     padding-left:1.5vw;
@@ -152,7 +152,7 @@ h2.textSidebarContainer{
         max-width: none;}
     #homeIcon{width: 20vw;}
     .title{gap:4vw;}
-    .shrinkContent{left: 0vw; width: 100vw;}
+    .shrinkContent{left: 0vw; width: 100vw; overflow-y: hidden;}
     aside{max-width: 86.5vw; width:86.5vw;}
     #content.shrinkContent{left: 59.5vw;}
 }
