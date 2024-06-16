@@ -7,14 +7,20 @@ let sideBarAnimated;
 let content_div;
 
 class Item{
+    parentDiv;
     title;
     content;
-    constructor(title, content){
-        this.title = title;
-        this.content = content;
+    imagePath;
+    imageCaptionText;
+    constructor(itemBuilder){
+        this.parentDiv = itemBuilder.parentDiv;
+        this.title = itemBuilder.title;
+        this.content = itemBuilder.content;
+        this.imagePath = itemBuilder.imagePath;
+        this.imageCaptionText = itemBuilder.imageCaptionText;
     }
-    
-    render(parentDiv, imagePath = null, imageCaptionText = null) {
+
+    render() {
         let header = document.createElement("h2");
         header.innerHTML = this.title;
         header.style.display = "inline";
@@ -30,26 +36,51 @@ class Item{
         caption.innerHTML = this.content;
         let item = document.createElement("div");
         item.style.display = "grid";
-        item.style.minWidth = "38vw";
-        item.style.maxWidth = "86.5vw";
+        item.style.minWidth = "28vw";
+        item.style.maxWidth = "56.5vw";
         item.style.overflow = "hidden";
-        parentDiv.appendChild(item);
-        if(imagePath !== null && imageCaptionText !== null){
+        this.parentDiv.appendChild(item);
+        if(this.imagePath !== null && this.imageCaptionText !== null){
             let imageDiv = document.createElement("div");
             imageDiv.style.float = "right";
+            imageDiv.style.minWidth = "20vw";
 
             let imageCaption = document.createElement("h5")
-            imageCaption.innerHTML = imageCaptionText;
+            imageCaption.innerHTML = this.imageCaptionText;
+            imageCaption.style.textAlign = "center";
 
             let sideImage = document.createElement("img");
-            sideImage.src = imagePath;
+            sideImage.src = this.imagePath;
             imageDiv.appendChild(sideImage);
             imageDiv.appendChild(imageCaption);
 
-            item.appendChild(imageDiv);
+            caption.appendChild(imageDiv);
         }
         item.appendChild(header);
         item.appendChild(caption);
+    }
+}
+
+class ItemBuilder {
+    parentDiv;
+    title;
+    content;
+    imagePath;
+    imageCaptionText;
+    constructor(parentDiv, title, content){
+        this.parentDiv = parentDiv;
+        this.title = title;
+        this.content = content;
+        this.imagePath = null;
+        this.imageCaptionText = null;
+    }
+    addImage(imagePath, imageCaptionText){
+        this.imagePath = imagePath;
+        this.imageCaptionText = imageCaptionText;
+        return this;
+    }
+    build(){
+        return new Item(this);
     }
 }
 
@@ -70,6 +101,7 @@ function loadPage(resolve, reject){
         sidebar = document.getElementById("sidebarDiv");
         titleBar = document.getElementById("topDiv");
         content_div = document.getElementById("content");
+        content_div.style.paddingBottom = "4vh";
         sidebarOpen = false;
         sideBarAnimated = true;
         content_div.addEventListener("click", ()=>{
@@ -83,9 +115,9 @@ function loadPage(resolve, reject){
 function loadHomepage(){
     new Promise(loadPage).then(()=>{
         let itemArray = new Queue();
-        itemArray.push(new Item("New website up and running!", 
-        "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
-        itemArray.forEach((x)=>{x.render(content_div)});
+        itemArray.push(new ItemBuilder(content_div, "New website up and running!", 
+        "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!").build());
+        itemArray.forEach((x)=>{x.render()});
     });
 }
 
@@ -110,6 +142,7 @@ function loadAboutpage(){
         item.style.minWidth = "38vw";
         item.style.maxWidth = "55.5vw";
         item.style.overflow = "hidden";
+        item.style.alignSelf = "flex-start";
         content_div.appendChild(item);
         item.appendChild(header);
         item.appendChild(caption);
@@ -118,13 +151,15 @@ function loadAboutpage(){
         let image2023 = document.createElement("img");
         image2023.src = "2023group_photo.jpg";
         image2023.style.width = "95%";
-        image2023.style.padding = "0.75vw 0.75vw 0vh";
+        image2023.style.paddingTop = "2.5%";
         
         let caption2023 = document.createElement("h4");
         caption2023.innerHTML = "Our team in the 2023-2024 season.";
         
         let imageCurrent = document.createElement("img");
-        // imageCurrent.src = "group_photo.jpg";
+        imageCurrent.src = "2023group_photo.jpg";
+        imageCurrent.style.width = "95%";
+        imageCurrent.style.paddingTop = "2.5%";
         let captionCurrent = document.createElement("h4");
         captionCurrent.innerHTML = "Our current team.";
         
@@ -133,13 +168,14 @@ function loadAboutpage(){
         imagesContainer.style.flex = "1 1 auto";
         imagesContainer.style.maxWidth = "30vw";
         imagesContainer.style.width = "fit-content";
-        
+        imagesContainer.style.display = "flex";
+        imagesContainer.style.flexDirection = "column";
+        imagesContainer.style.alignItems = "center";
         
         imagesContainer.appendChild(image2023);
         imagesContainer.appendChild(caption2023);
         imagesContainer.appendChild(imageCurrent);
         imagesContainer.appendChild(captionCurrent);
-        image2023.classList.add("custom-style");
         imagesContainer.classList.add("custom-style");
 
         document.querySelector("style").innerText = "@media(orientation:portrait){\
@@ -160,27 +196,27 @@ function loadDocumentationpage(){
         programmingHeader.innerHTML = "Programming:";
         content_div.appendChild(programmingHeader);
         let itemArray = [];
-        itemArray.push(new Item("Init:", 
-        "Lorem Ipsum"));
-        itemArray.push(new Item("OpMode Movement:", 
-        "Lorem Ipsum (gm0.org)"));
-        itemArray.push(new Item("CV:", 
-        "Lorem Ipsum"));
-        itemArray.forEach((x)=>{x.render(content_div)});
+        itemArray.push(new ItemBuilder(content_div, "Init:", 
+        "Lorem Ipsum").build());
+        itemArray.push(new ItemBuilder(content_div, "OpMode Movement:", 
+        "Lorem Ipsum (gm0.org)").build());
+        itemArray.push(new ItemBuilder(content_div, "CV:", 
+        "Lorem Ipsum").build());
+        itemArray.forEach((x)=>{x.render()});
         
         let cadHeader = document.createElement("h1");
         cadHeader.innerHTML = "CAD:";
         content_div.appendChild(cadHeader);
         itemArray = [];
-        itemArray.push(new Item("Software to use:", "Lorem Ipsum"));
-        itemArray.forEach((x)=>{x.render(content_div)});
+        itemArray.push(new ItemBuilder(content_div, "Software to use:", "Lorem Ipsum").build());
+        itemArray.forEach((x)=>{x.render()});
         
         let buildHeader = document.createElement("h1");
         buildHeader.innerHTML = "Building:";
         content_div.appendChild(buildHeader);
         itemArray = [];
-        itemArray.push(new Item("Useful resources:", "Lorem Ipsum"));
-        itemArray.forEach((x)=>{x.render(content_div)});
+        itemArray.push(new ItemBuilder(content_div, "Useful resources:", "Lorem Ipsum").build());
+        itemArray.forEach((x)=>{x.render()});
     });
 }
 
