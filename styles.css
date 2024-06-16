@@ -23,6 +23,7 @@ body {
     background-repeat: no-repeat;
     background-position-y: center;
     padding-right:0%;
+    margin-left: 2vw;
     width:8vh;
     height:8vh;
     outline: red;
