@@ -38,6 +38,7 @@ class Item{
         item.style.display = "grid";
         item.style.minWidth = "28vw";
         item.style.maxWidth = "56.5vw";
+        if(window.matchMedia("(orientation:portrait)").matches) item.style.maxWidth = "86.5vw";
         item.style.overflow = "hidden";
         this.parentDiv.appendChild(item);
         if(this.imagePath !== null && this.imageCaptionText !== null){
