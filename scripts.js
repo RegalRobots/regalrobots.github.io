@@ -151,7 +151,7 @@ function loadAboutpage(){
         let image2023 = document.createElement("img");
         image2023.src = "2023group_photo.jpg";
         image2023.style.width = "95%";
-        image2023.style.paddingTop = "2.5%";
+        image2023.style.paddingTop = "1.5vh";
         
         let caption2023 = document.createElement("h4");
         caption2023.innerHTML = "Our team in the 2023-2024 season.";
@@ -159,7 +159,7 @@ function loadAboutpage(){
         let imageCurrent = document.createElement("img");
         imageCurrent.src = "2023group_photo.jpg";
         imageCurrent.style.width = "95%";
-        imageCurrent.style.paddingTop = "2.5%";
+        imageCurrent.style.paddingTop = "1.5vh";
         let captionCurrent = document.createElement("h4");
         captionCurrent.innerHTML = "Our current team.";
         
@@ -167,6 +167,7 @@ function loadAboutpage(){
         imagesContainer.style.background = "#5268A566";
         imagesContainer.style.flex = "1 1 auto";
         imagesContainer.style.maxWidth = "30vw";
+        imagesContainer.style.paddingBottom = "1.5vh";
         imagesContainer.style.width = "fit-content";
         imagesContainer.style.display = "flex";
         imagesContainer.style.flexDirection = "column";
