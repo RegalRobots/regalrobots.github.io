@@ -60,7 +60,7 @@ h2.textSidebarContainer{
 
 img.titleContent{
     content: url("Assets/Icons/logo_landscape.svg");
-    width: max-content;
+    overflow: visible;
     height: 8dvh;
 }
 
