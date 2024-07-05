@@ -17,31 +17,22 @@ function createCardItem(){
     return item;
 }
 
-class ImageWithCaption{
-    text;
-    imgPath;
-    constructor(text, imgPath){
-        this.text = text;
-        this.imgPath = imgPath;
-    }
-    
-    create(){
-        let img = document.createElement("img");
-        img.src = this.imgPath;
-        img.style.width = "95%";
-        img.style.paddingTop = "1.5vh";
+function createImageWithCaption(text, imgPath){
+    let img = document.createElement("img");
+    img.src = imgPath;
+    img.style.width = "95%";
+    img.style.paddingTop = "1.5vh";
 
-        let caption = document.createElement("h4");
-        caption.innerHTML = this.text;
+    let caption = document.createElement("h4");
+    caption.innerHTML = text;
 
-        let ImageWithCaption = document.createElement("div")
-        ImageWithCaption.appendChild(img);
-        ImageWithCaption.appendChild(caption);
-        ImageWithCaption.style.display = "flex";
-        ImageWithCaption.style.flexDirection = "column";
-        ImageWithCaption.style.alignItems = "center";
-        return ImageWithCaption;
-    }
+    let ImageWithCaption = document.createElement("div")
+    ImageWithCaption.appendChild(img);
+    ImageWithCaption.appendChild(caption);
+    ImageWithCaption.style.display = "flex";
+    ImageWithCaption.style.flexDirection = "column";
+    ImageWithCaption.style.alignItems = "center";
+    return ImageWithCaption;
 }
 
 class Item{
@@ -157,13 +148,18 @@ function loadAboutpage(){
         header.innerHTML = "About us!";
 
         let caption = document.createElement("h2");
-        caption.innerHTML = "Our team was created in 2023 in time for the Powerplay season from 2023-2024. We started \
-        out with very little other than the knowledge of the others in our school robotics club, a driving station, some\
-        old spare tools from other teams, and a drivertrain kit from goBilda. Starting with what we started with, we did \
-        not do terrible, but instead peaked at 4th place in our regional competition. We hope to do even better starting in \
-        the 2024-2025 season starting with the creation of this very website! Not only do we hope to do better this season but \
-        to be able to preserve as much knowledge and experience as possible through the documentation on this website and through our \
-        our school-wide robotics club and this junior team.";
+        caption.innerHTML = "The First Tech Challenge is a competition between different robotics teams across \
+        the globe, split across different leagues and districts. In this competition, the teamwork, ingenuity, \
+        innovation, and the creativity of these different teams are pitted against each other as every team \
+        struggles to put together a robot that completes a variety of tasks in time before they face off against \
+        other teams. <br> <br>\
+        Our team was created in 2023 in time for the Powerplay season from 2023-2024. We started out with very \
+        little other than the knowledge of the others in our school robotics club, a driving station, some old spare \
+        tools from other teams in our school, and a drivertrain kit from goBilda. Starting with what we started with, \
+        we did not do terrible, but instead peaked at 4th place in our regional competition. We hope to do even better \
+        starting in the 2024-2025 season starting with the creation of this very website! Not only do we hope to do \
+        better this season but to be able to preserve as much knowledge and experience as possible through the \
+        documentation on this website and through our our school-wide robotics club and this junior team.";
         caption.style.background = backgroundAccent;
         caption.style.padding = defaultPadding;
 
@@ -175,8 +171,8 @@ function loadAboutpage(){
         item.appendChild(caption);
         content_div.appendChild(item);
         
-        let image2023 = new ImageWithCaption("Our team in the 2023-2024 season.", "2023group_photo.jpg").create();
-        let imageCurrent = new ImageWithCaption("Our current team.", "2023group_photo.jpg").create();
+        let image2023 = createImageWithCaption("Our team in the 2023-2024 season.", "Assets/Group_Photos/2023group_photo.jpg")
+        let imageCurrent = createImageWithCaption("Our current team.", "Assets/Group_Photos/2023group_photo.jpg")
 
         let imagesContainer = document.createElement("aside");
         imagesContainer.style.background = backgroundAccent;
@@ -197,10 +193,34 @@ function loadSponsorspage(){
 function loadDocumentationpage(){
     new Promise(loadPage).then((content_div)=>{
         content_div.style.flexDirection = "column";
+        let overviewHeader = document.createElement("h1");
+        overviewHeader.innerHTML = "Overview:";
+        content_div.appendChild(overviewHeader);
+        let overviewText = document.createElement("h2");
+        overviewText.innerHTML = "The First Tech Challenge is made up of two different periods where both you and your allied team face an alliance \
+        of two other teams. These periods are an autonomous mode and a TeleOp mode. Every game starts in the autonomous mode which is active for 30 \
+        seconds and in this period the robot must run a preset program without human input to complete tasks and objectives within the bounds of the \
+        game. Then the 2:30 minute TeleOp mode begins where players must control their robot with game controllers to complete tasks and score points \
+        as fast as possible. The last 30 seconds of the TeleOp mode constitute the endgame time where special rules apply and it is possible to score \
+        more points. To see a more in depth explanation of this year's minigame check out the game manuals \
+        <a href=\"https://www.firstinspires.org/resource-library/ftc/game-and-season-info\">here</a>.";
+        content_div.appendChild(overviewText);
         let programmingHeader = document.createElement("h1");
         programmingHeader.innerHTML = "Programming:";
         content_div.appendChild(programmingHeader);
         let itemArray = [];
+        itemArray.push(new ItemBuilder(content_div, "Overview: ",
+        "When programming a robot for the First Tech Challenge, one must use Android Studio, a REV \
+        driver hub (tablet), and a REV control hub. So, how does code from a computer program a robot's movements in TeleOp and autonomous modes?\
+        Code is pushed from a computer running Android Studio to the REV control hub which has motors, servos, sensors, and other hardware parts\
+        plugged into it via different colorful cables. So, the REV control hub is attached to the rest of the robot on the actual drivetrain and\
+        code is pushed to it from a computer using Android Studio software. The driver hub serves as the human interface for running code already \
+        uploaded onto the robot. This means that the driver hub is where controllers are plugged in, camera systems can be checked, telemetry is read,\
+        and where different OpModes are run from with a simple GUI.").build());
+        itemArray.push(new ItemBuilder(content_div, "Getting Started:", 
+        "To get started fork <a href=\"https://github.com/FIRST-Tech-Challenge/FtcRobotController\">the ftc sdk</a> \
+        by copying the link and pasting it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
+        to have git downloaded from <a href=\"https://git-scm.com/downloads\">here</a>. ").build());
         itemArray.push(new ItemBuilder(content_div, "Init:", 
         "Lorem Ipsum").build());
         itemArray.push(new ItemBuilder(content_div, "OpMode Movement:", 
