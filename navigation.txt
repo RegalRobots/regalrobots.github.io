@@ -18,7 +18,14 @@
             </a>
         </span>
     </div>
-    <style class="custom-style"></style>
+    <style class="custom-style">
+        @media(orientation:portrait){
+            .custom-style{
+                max-width: 86.5vw !important;
+                width: 86.5vw !important;
+            }
+        }
+    </style>
     <div id="content" class="growContent">
 
     </div>

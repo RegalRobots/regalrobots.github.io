@@ -1,10 +1,48 @@
 /* Place your JavaScript in this file */
 "use strict";
+const backgroundAccent = "#5268A566";
+const defaultPadding = "0.5vw 0.5vw 2vh";
+
 let sidebar;
 let titleBar;
 let sidebarOpen;
 let sideBarAnimated;
 let content_div;
+
+function createCardItem(){
+    let item = document.createElement("div");
+    item.style.gap = "2vh";
+    item.style.display = "grid";
+    item.style.maxWidth = "56.5vw";
+    return item;
+}
+
+class ImageWithCaption{
+    text;
+    imgPath;
+    constructor(text, imgPath){
+        this.text = text;
+        this.imgPath = imgPath;
+    }
+    
+    create(){
+        let img = document.createElement("img");
+        img.src = this.imgPath;
+        img.style.width = "95%";
+        img.style.paddingTop = "1.5vh";
+
+        let caption = document.createElement("h4");
+        caption.innerHTML = this.text;
+
+        let ImageWithCaption = document.createElement("div")
+        ImageWithCaption.appendChild(img);
+        ImageWithCaption.appendChild(caption);
+        ImageWithCaption.style.display = "flex";
+        ImageWithCaption.style.flexDirection = "column";
+        ImageWithCaption.style.alignItems = "center";
+        return ImageWithCaption;
+    }
+}
 
 class Item{
     parentDiv;
@@ -23,38 +61,29 @@ class Item{
     render() {
         let header = document.createElement("h2");
         header.innerHTML = this.title;
-        header.style.display = "inline";
-        header.style.overflow = "hidden";
-        header.style.background = "#A167A5";
-        header.style.padding = "0.5vw 0.5vw 2vh";
-        header.style.margin = "0vw";
+        header.style.padding = defaultPadding;
         let caption = document.createElement("p");
-        caption.style.display = "inline";
-        caption.style.overflow = "hidden";
-        caption.style.background = "#5268A566";
-        caption.style.padding = "0.5vw 0.5vw 2vw";
+        caption.style.background = backgroundAccent;
+        caption.style.padding = defaultPadding;
         caption.innerHTML = this.content;
-        let item = document.createElement("div");
-        item.style.display = "grid";
-        item.style.minWidth = "28vw";
-        item.style.maxWidth = "56.5vw";
-        if(window.matchMedia("(orientation:portrait)").matches) item.style.maxWidth = "86.5vw";
-        item.style.overflow = "hidden";
+        let item = createCardItem();
+        item.classList.add("custom-style");
+
         this.parentDiv.appendChild(item);
         if(this.imagePath !== null && this.imageCaptionText !== null){
             let imageDiv = document.createElement("div");
             imageDiv.style.float = "right";
             imageDiv.style.minWidth = "20vw";
-
+            
             let imageCaption = document.createElement("h5")
             imageCaption.innerHTML = this.imageCaptionText;
             imageCaption.style.textAlign = "center";
-
+            
             let sideImage = document.createElement("img");
             sideImage.src = this.imagePath;
             imageDiv.appendChild(sideImage);
             imageDiv.appendChild(imageCaption);
-
+            
             caption.appendChild(imageDiv);
         }
         item.appendChild(header);
@@ -94,6 +123,7 @@ class Queue extends Array{
     }
 }
 
+
 function loadPage(resolve, reject){
     fetch('navigation.txt')
     .then(response => response.text())
@@ -102,19 +132,18 @@ function loadPage(resolve, reject){
         sidebar = document.getElementById("sidebarDiv");
         titleBar = document.getElementById("topDiv");
         content_div = document.getElementById("content");
-        content_div.style.paddingBottom = "4vh";
         sidebarOpen = false;
         sideBarAnimated = true;
         content_div.addEventListener("click", ()=>{
             if(window.matchMedia("(orientation:portrait)").matches) closeSidebar();
         });
-        resolve();
+        resolve(content_div);
     }
     ).catch(()=>{reject();});
 }
 
 function loadHomepage(){
-    new Promise(loadPage).then(()=>{
+    new Promise(loadPage).then((content_div)=>{
         let itemArray = new Queue();
         itemArray.push(new ItemBuilder(content_div, "New website up and running!", 
         "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!").build());
@@ -123,14 +152,11 @@ function loadHomepage(){
 }
 
 function loadAboutpage(){
-    new Promise(loadPage).then(() => {
+    new Promise(loadPage).then((content_div) => {
         let header = document.createElement("h1");
         header.innerHTML = "About us!";
+
         let caption = document.createElement("h2");
-        caption.style.display = "inline";
-        caption.style.overflow = "hidden";
-        caption.style.background = "#5268A566";
-        caption.style.padding = "0.5vw 0.5vw 2vw 0.5vw";
         caption.innerHTML = "Our team was created in 2023 in time for the Powerplay season from 2023-2024. We started \
         out with very little other than the knowledge of the others in our school robotics club, a driving station, some\
         old spare tools from other teams, and a drivertrain kit from goBilda. Starting with what we started with, we did \
@@ -138,51 +164,28 @@ function loadAboutpage(){
         the 2024-2025 season starting with the creation of this very website! Not only do we hope to do better this season but \
         to be able to preserve as much knowledge and experience as possible through the documentation on this website and through our \
         our school-wide robotics club and this junior team.";
-        let item = document.createElement("div");
-        item.style.display = "grid";
-        item.style.minWidth = "38vw";
-        item.style.maxWidth = "55.5vw";
-        item.style.overflow = "hidden";
+        caption.style.background = backgroundAccent;
+        caption.style.padding = defaultPadding;
+
+        let item = createCardItem();
         item.style.alignSelf = "flex-start";
-        content_div.appendChild(item);
+        item.classList.add("custom-style");
+
         item.appendChild(header);
         item.appendChild(caption);
-        item.classList.add("custom-style");
+        content_div.appendChild(item);
         
-        let image2023 = document.createElement("img");
-        image2023.src = "2023group_photo.jpg";
-        image2023.style.width = "95%";
-        image2023.style.paddingTop = "1.5vh";
-        
-        let caption2023 = document.createElement("h4");
-        caption2023.innerHTML = "Our team in the 2023-2024 season.";
-        
-        let imageCurrent = document.createElement("img");
-        imageCurrent.src = "2023group_photo.jpg";
-        imageCurrent.style.width = "95%";
-        imageCurrent.style.paddingTop = "1.5vh";
-        let captionCurrent = document.createElement("h4");
-        captionCurrent.innerHTML = "Our current team.";
-        
-        let imagesContainer = document.createElement("aside");
-        imagesContainer.style.background = "#5268A566";
-        imagesContainer.style.flex = "1 1 auto";
-        imagesContainer.style.maxWidth = "30vw";
-        imagesContainer.style.paddingBottom = "1.5vh";
-        imagesContainer.style.width = "fit-content";
-        imagesContainer.style.display = "flex";
-        imagesContainer.style.flexDirection = "column";
-        imagesContainer.style.alignItems = "center";
-        
-        imagesContainer.appendChild(image2023);
-        imagesContainer.appendChild(caption2023);
-        imagesContainer.appendChild(imageCurrent);
-        imagesContainer.appendChild(captionCurrent);
-        imagesContainer.classList.add("custom-style");
+        let image2023 = new ImageWithCaption("Our team in the 2023-2024 season.", "2023group_photo.jpg").create();
+        let imageCurrent = new ImageWithCaption("Our current team.", "2023group_photo.jpg").create();
 
-        document.querySelector("style").innerText = "@media(orientation:portrait){\
-            .custom-style{max-width:86.5vw !important; width:86.5vw !important;}\
-        }";
+        let imagesContainer = document.createElement("aside");
+        imagesContainer.style.background = backgroundAccent;
+        imagesContainer.style.paddingBottom = "1.5vh";
+        imagesContainer.style.height = "fit-content";
+
+        imagesContainer.appendChild(image2023);
+        imagesContainer.appendChild(imageCurrent);
+        imagesContainer.classList.add("custom-style");
         content_div.appendChild(imagesContainer);
     });
 }
@@ -192,7 +195,7 @@ function loadSponsorspage(){
 }
 
 function loadDocumentationpage(){
-    new Promise(loadPage).then(()=>{
+    new Promise(loadPage).then((content_div)=>{
         content_div.style.flexDirection = "column";
         let programmingHeader = document.createElement("h1");
         programmingHeader.innerHTML = "Programming:";
@@ -243,7 +246,7 @@ function openSidebar(){
     titleBar.classList.add("shrinkContent");
     content_div.classList.remove("growContent");
     content_div.classList.add("shrinkContent");
-    if(window.matchMedia("(orientation:portrait)").matches) document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 }
 
 function closeSidebar(){
