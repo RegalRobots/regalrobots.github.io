@@ -136,6 +136,13 @@ h2.textSidebarContainer{
     gap: 2.5vw;
 }
 
+.captionImage{
+    float: right;
+    min-width: 20vw;
+    max-width: 25%;
+    margin: 1vh;
+}
+
 @media(orientation:portrait){
     h1{font-size: 6rem;}
     h1#aboutUsHeader{font-size: 5vw;}
@@ -147,19 +154,17 @@ h2.textSidebarContainer{
     .textSidebarContainer{margin-top: 16vh;}
     #content{flex-direction: column; margin-left:6vw; width: 94vw; gap: 4vw; 
         position: relative; margin-top:18vh; max-width: none;}
-    .title{gap:4vw;}
-    img.titleContent{content: url("Assets/Icons/logo_portrait.svg");}
+    .title{gap:4vw; content: url("Assets/Icons/logo_portrait.svg");}
     .shrinkContent{left: 0vw; width: 100vw;}
     aside{max-width: 86.5vw; width:86.5vw;}
     #content.shrinkContent{left: 59.5vw;}
-    #topDiv.staticContent{left: 0vw; width: 100vw;}
+    .captionImage{max-width: 50%;}
 }
 
 @media only screen and (orientation:landscape) and (max-width:992px){
     .sidebar{width: 20vw;}
     .textSidebarContainer > a > h3{margin-bottom: 5vh; font-size: 1.5rem;}
     .shrinkContent{left:calc(20vw + 4.5vw); width: calc(100vw - 24.5vw);}
-    .staticContent{left:calc(20vw + 4.5vw); width:calc(100vw - 24.5vw)}
     #content{margin-left: 3vw; max-width: calc(100vw - 3vw - 24.5vw); margin-top: calc(15vh + 3vh);}
     aside{min-width: 27.5vw;}
 }

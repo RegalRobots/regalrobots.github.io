@@ -14,6 +14,7 @@ function createCardItem(){
     item.style.gap = "2vh";
     item.style.display = "grid";
     item.style.maxWidth = "56.5vw";
+    item.classList.add("custom-style");
     return item;
 }
 
@@ -35,6 +36,13 @@ function createImageWithCaption(text, imgPath){
     return ImageWithCaption;
 }
 
+function createContentCaption(){
+    let caption = document.createElement("p");
+    caption.style.background = backgroundAccent;
+    caption.style.padding = defaultPadding;
+    return caption;
+}
+
 class Item{
     parentDiv;
     title;
@@ -53,20 +61,17 @@ class Item{
         let header = document.createElement("h2");
         header.innerHTML = this.title;
         header.style.padding = defaultPadding;
-        let caption = document.createElement("p");
-        caption.style.background = backgroundAccent;
-        caption.style.padding = defaultPadding;
+        let caption = createContentCaption();
         caption.innerHTML = this.content;
         let item = createCardItem();
-        item.classList.add("custom-style");
 
         this.parentDiv.appendChild(item);
         if(this.imagePath !== null && this.imageCaptionText !== null){
             let imageDiv = document.createElement("div");
-            imageDiv.style.float = "right";
-            imageDiv.style.minWidth = "20vw";
+            imageDiv.classList.add("captionImage");
+
             
-            let imageCaption = document.createElement("h5")
+            let imageCaption = document.createElement("h4")
             imageCaption.innerHTML = this.imageCaptionText;
             imageCaption.style.textAlign = "center";
             
@@ -75,7 +80,7 @@ class Item{
             imageDiv.appendChild(sideImage);
             imageDiv.appendChild(imageCaption);
             
-            caption.appendChild(imageDiv);
+            caption.insertAdjacentElement('afterbegin', imageDiv);
         }
         item.appendChild(header);
         item.appendChild(caption);
@@ -165,7 +170,6 @@ function loadAboutpage(){
 
         let item = createCardItem();
         item.style.alignSelf = "flex-start";
-        item.classList.add("custom-style");
 
         item.appendChild(header);
         item.appendChild(caption);
@@ -193,10 +197,11 @@ function loadSponsorspage(){
 function loadDocumentationpage(){
     new Promise(loadPage).then((content_div)=>{
         content_div.style.flexDirection = "column";
+
         let overviewHeader = document.createElement("h1");
         overviewHeader.innerHTML = "Overview:";
-        content_div.appendChild(overviewHeader);
-        let overviewText = document.createElement("h2");
+
+        let overviewText = createContentCaption();
         overviewText.innerHTML = "The First Tech Challenge is made up of two different periods where both you and your allied team face an alliance \
         of two other teams. These periods are an autonomous mode and a TeleOp mode. Every game starts in the autonomous mode which is active for 30 \
         seconds and in this period the robot must run a preset program without human input to complete tasks and objectives within the bounds of the \
@@ -204,7 +209,12 @@ function loadDocumentationpage(){
         as fast as possible. The last 30 seconds of the TeleOp mode constitute the endgame time where special rules apply and it is possible to score \
         more points. To see a more in depth explanation of this year's minigame check out the game manuals \
         <a href=\"https://www.firstinspires.org/resource-library/ftc/game-and-season-info\">here</a>.";
-        content_div.appendChild(overviewText);
+
+        let overviewCard = createCardItem();
+        overviewCard.appendChild(overviewHeader);
+        overviewCard.appendChild(overviewText);
+        content_div.appendChild(overviewCard);
+
         let programmingHeader = document.createElement("h1");
         programmingHeader.innerHTML = "Programming:";
         content_div.appendChild(programmingHeader);
@@ -224,7 +234,18 @@ function loadDocumentationpage(){
         itemArray.push(new ItemBuilder(content_div, "Init:", 
         "Lorem Ipsum").build());
         itemArray.push(new ItemBuilder(content_div, "OpMode Movement:", 
-        "Lorem Ipsum (gm0.org)").build());
+        " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu turpis sed libero placerat pretium. Sed et metus cursus, faucibus augue \
+        vitae, posuere turpis. Sed iaculis, libero ac tempor porttitor, sem dui consequat sem, sit amet fringilla erat mauris varius leo. Donec \
+        sollicitudin bibendum sem, at maximus arcu consectetur vel. Cras vestibulum urna id dolor efficitur pulvinar. Integer cursus tortor sit \
+        amet purus finibus, at ullamcorper nibh feugiat. Integer tempor dolor sed lectus accumsan mollis. Proin quis purus auctor, congue mauris \
+        a, placerat ipsum. Pellentesque facilisis blandit purus, in tempor quam posuere a. Suspendisse ut mollis felis. Aenean sit amet eros \
+        pharetra, fringilla felis nec, imperdiet nisl. Morbi purus massa, aliquet vitae lorem sed, vehicula eleifend lectus. Nulla molestie odio \
+        a turpis pharetra, sed interdum arcu tempor. Aliquam condimentum, lorem quis tempor condimentum, lectus magna scelerisque est, quis gravida \
+        felis urna eu massa. <br/><br/>\
+        Nulla quis vestibulum sapien. Nulla varius ultricies mollis. Aenean eget sapien condimentum, aliquam ipsum sed, placerat tortor. Nulla facilisi. \
+        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
+        accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
+    ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)").build());
         itemArray.push(new ItemBuilder(content_div, "CV:", 
         "Lorem Ipsum").build());
         itemArray.forEach((x)=>{x.render()});
@@ -283,7 +304,8 @@ function closeSidebar(){
 
 
 window.addEventListener("resize", function() {
-    if(window.matchMedia("(orientation:portrait)").matches) return;
+    if(window.matchMedia("(orientation:portrait)").matches || window.matchMedia(
+        "only screen and (orientation:landscape) and (max-width:992px)").matches) return;
     sideBarAnimated = false;
     if(!sidebarOpen) {
         sidebar.classList.remove("closeSidebar");
