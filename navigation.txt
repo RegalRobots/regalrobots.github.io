@@ -10,13 +10,8 @@
         </div>
     </div>
     <div id="topDiv" class="shrinkContentBack growContent">
-        <span id="textContainer">
-            <button onclick="openSideMenu()" id="menuButton"> 
-            </button>
-            <a class="title" href="index.html">
-                <img class="titleContent">
-            </a>
-        </span>
+        <button onclick="openSideMenu()" id="menuButton"></button>
+        <a class="title" href="index.html"></a>
     </div>
     <style class="custom-style">
         @media(orientation:portrait){

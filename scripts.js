@@ -266,10 +266,12 @@ function openSidebar(){
     titleBar.classList.add("shrinkContent");
     content_div.classList.remove("growContent");
     content_div.classList.add("shrinkContent");
-    document.body.style.overflow = "hidden";
+    if(window.matchMedia("only screen and (orientation:landscape) and (max-width:992px)").matches 
+    || window.matchMedia("(orientation:portrait)").matches) document.body.style.overflow = "hidden";
 }
 
 function closeSidebar(){
+    sidebarOpen = false;
     titleBar.classList.remove("shrinkContent");
     sidebar.classList.remove("openSidebar");
     titleBar.classList.add("growContent");
@@ -277,7 +279,6 @@ function closeSidebar(){
     content_div.classList.remove("shrinkContent");
     content_div.classList.add("growContent");
     document.body.style.overflow = "visible";
-    sidebarOpen = false;
 }
 
 
