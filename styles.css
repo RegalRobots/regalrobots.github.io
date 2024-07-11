@@ -21,52 +21,34 @@ body {
 #menuButton{
     background: none;
     background-image: url("Assets/Icons/menu.svg");
-    background-repeat: no-repeat;
-    background-position-y: center;
-    padding-right:0%;
     margin-left: 2vw;
     width:8vh;
     height:8vh;
-    outline: red;
-    border: red;
+    border: none;
     cursor: pointer;
 }
 
 #topDiv{
     display: flex;
-    justify-content: left;
     align-items: center;
-    height: inherit;
     background-color: #A167A5;
     height:14vh;
-    overflow: hidden;
 }
 
-h2.textSidebarContainer{
-    margin-top: 0.5vh;
-    margin-bottom: 0.5vh;
-}
-
-.title {
+.homeLogo {
     margin: 0vh;
     height: 8dvh;
     content: url("Assets/Icons/logo_landscape.svg");
-    cursor: pointer;
-    display: flex;
     margin-left: 6.5vw;
-    width: fit-content;
-    align-items: center;
 }
 
 .sidebar{
-    display: flex;
-    background-color:#A167A5;
-    color:#E8D7F1;
     min-height:100lvh;
     width: 9vw;
-    overflow:hidden;
     padding-left:1.5vw;
     padding-right:3vw;
+    background-color:#A167A5;
+    overflow: hidden;
     position: fixed;
     transition-property: transform;
     transition-duration: 0.5s;
@@ -123,7 +105,6 @@ h2.textSidebarContainer{
 }
 
 .navigation{
-    display: flex;
     overflow: hidden;
 }
 
@@ -154,7 +135,7 @@ h2.textSidebarContainer{
     .textSidebarContainer{margin-top: 16vh;}
     #content{flex-direction: column; margin-left:6vw; width: 94vw; gap: 4vw; 
         position: relative; margin-top:18vh; max-width: none;}
-    .title{gap:4vw; content: url("Assets/Icons/logo_portrait.svg");}
+    .homeLogo{gap:4vw; content: url("Assets/Icons/logo_portrait.svg");}
     .shrinkContent{left: 0vw; width: 100vw;}
     aside{max-width: 86.5vw; width:86.5vw;}
     #content.shrinkContent{left: 59.5vw;}
@@ -163,8 +144,9 @@ h2.textSidebarContainer{
 
 @media only screen and (orientation:landscape) and (max-width:992px){
     .sidebar{width: 20vw;}
-    .textSidebarContainer > a > h3{margin-bottom: 5vh; font-size: 1.5rem;}
+    .textSidebarContainer > a > h3{margin-bottom: 5vh; font-size: 2.5vw;}
     .shrinkContent{left:calc(20vw + 4.5vw); width: calc(100vw - 24.5vw);}
     #content{margin-left: 3vw; max-width: calc(100vw - 3vw - 24.5vw); margin-top: calc(15vh + 3vh);}
     aside{min-width: 27.5vw;}
+    .staticContent{left:calc(20vw + 4.5vw); width: calc(100vw - 24.5vw);}
 }

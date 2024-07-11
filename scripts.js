@@ -6,7 +6,6 @@ const defaultPadding = "0.5vw 0.5vw 2vh";
 let sidebar;
 let titleBar;
 let sidebarOpen;
-let sideBarAnimated;
 let content_div;
 
 function createCardItem(){
@@ -129,7 +128,6 @@ function loadPage(resolve, reject){
         titleBar = document.getElementById("topDiv");
         content_div = document.getElementById("content");
         sidebarOpen = false;
-        sideBarAnimated = true;
         content_div.addEventListener("click", ()=>{
             if(window.matchMedia("(orientation:portrait)").matches) closeSidebar();
         });
@@ -218,6 +216,7 @@ function loadDocumentationpage(){
         let programmingHeader = document.createElement("h1");
         programmingHeader.innerHTML = "Programming:";
         content_div.appendChild(programmingHeader);
+
         let itemArray = [];
         itemArray.push(new ItemBuilder(content_div, "Overview: ",
         "When programming a robot for the First Tech Challenge, one must use Android Studio, a REV \
@@ -227,12 +226,15 @@ function loadDocumentationpage(){
         code is pushed to it from a computer using Android Studio software. The driver hub serves as the human interface for running code already \
         uploaded onto the robot. This means that the driver hub is where controllers are plugged in, camera systems can be checked, telemetry is read,\
         and where different OpModes are run from with a simple GUI.").build());
+
         itemArray.push(new ItemBuilder(content_div, "Getting Started:", 
         "To get started fork <a href=\"https://github.com/FIRST-Tech-Challenge/FtcRobotController\">the ftc sdk</a> \
         by copying the link and pasting it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
         to have git downloaded from <a href=\"https://git-scm.com/downloads\">here</a>. ").build());
+
         itemArray.push(new ItemBuilder(content_div, "Init:", 
         "Lorem Ipsum").build());
+
         itemArray.push(new ItemBuilder(content_div, "OpMode Movement:", 
         " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu turpis sed libero placerat pretium. Sed et metus cursus, faucibus augue \
         vitae, posuere turpis. Sed iaculis, libero ac tempor porttitor, sem dui consequat sem, sit amet fringilla erat mauris varius leo. Donec \
@@ -246,28 +248,35 @@ function loadDocumentationpage(){
         Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
         accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
     ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)").build());
+
         itemArray.push(new ItemBuilder(content_div, "CV:", 
         "Lorem Ipsum").build());
+
         itemArray.forEach((x)=>{x.render()});
         
         let cadHeader = document.createElement("h1");
         cadHeader.innerHTML = "CAD:";
         content_div.appendChild(cadHeader);
+    
         itemArray = [];
+
         itemArray.push(new ItemBuilder(content_div, "Software to use:", "Lorem Ipsum").build());
+
         itemArray.forEach((x)=>{x.render()});
         
         let buildHeader = document.createElement("h1");
         buildHeader.innerHTML = "Building:";
         content_div.appendChild(buildHeader);
+
         itemArray = [];
+
         itemArray.push(new ItemBuilder(content_div, "Useful resources:", "Lorem Ipsum").build());
+
         itemArray.forEach((x)=>{x.render()});
     });
 }
 
-function openSideMenu(){
-    sideBarAnimated = true;
+function sideMenuHandler(){
     sidebar.classList.remove("staticSidebarClosed")
     titleBar.classList.remove("staticContentClosed")
     sidebar.classList.remove("staticSidebar")
@@ -306,16 +315,18 @@ function closeSidebar(){
 window.addEventListener("resize", function() {
     if(window.matchMedia("(orientation:portrait)").matches || window.matchMedia(
         "only screen and (orientation:landscape) and (max-width:992px)").matches) return;
-    sideBarAnimated = false;
+
+    // Reset sidebar
+    sidebar.classList.remove("closeSidebar");
+    titleBar.classList.remove("growContent")
+    sidebar.classList.remove("openSidebar");
+    titleBar.classList.remove("shrinkContent")
+
     if(!sidebarOpen) {
-        sidebar.classList.remove("closeSidebar");
         sidebar.classList.add("staticSidebarClosed");
-        titleBar.classList.remove("growContent")
         titleBar.classList.add("staticContentClosed")
     } else if(sidebarOpen){
-        sidebar.classList.remove("openSidebar");
         sidebar.classList.add("staticSidebar");
-        titleBar.classList.remove("shrinkContent")
         titleBar.classList.add("staticContent")
     }
   });
