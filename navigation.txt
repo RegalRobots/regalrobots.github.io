@@ -1,12 +1,12 @@
 <body>
 <div class="navigation">
     <div id="sidebarDiv" class="sidebar closeSidebar">
-        <div class="textSidebarContainer">
-            <a href="index.html"><h3>HOME</h3></a>
-            <a href="about-us.html"><h3>ABOUT US</h3></a>
-            <a href="sponsors.html"><h3>SPONSORS</h3></a>
-            <a href="documentation.html"><h3>DOCUMENTATION</h3></a>
-            <a href="mailto:24702regalrobots@gmail.com"><h3>CONTACT US</h3></a>
+        <div id="textSidebarContainer">
+            <a href="index.html" draggable="false"><h3>HOME</h3></a>
+            <a href="about-us.html" draggable="false"><h3>ABOUT US</h3></a>
+            <a href="sponsors.html" draggable="false"><h3>SPONSORS</h3></a>
+            <a href="documentation.html" draggable="false"><h3>DOCUMENTATION</h3></a>
+            <a href="mailto:24702regalrobots@gmail.com" draggable="false"><h3>CONTACT US</h3></a>
         </div>
     </div>
     <div id="topDiv" class="shrinkContentBack growContent">
