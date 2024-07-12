@@ -74,6 +74,7 @@ body {
 .closeSidebar {
     transform: translateX(-100%);
 }
+
 .openSidebar {
     transform: translateX(0%);
 }
