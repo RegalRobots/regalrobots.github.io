@@ -30,7 +30,6 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     margin-left: 2vw;
-    background-size: 8vh 8vh;
     width:8vh;
     height:8vh;
     border: none;
@@ -38,14 +37,18 @@ body {
     transition: background-size 0.1s, transform 0.1s;
 }
 
-#menuButton:hover, .homeLogo:hover{transform: scale(110%, 110%);}
+.homeLogo:hover{transform: scale(110%, 110%);}
 
-#menuButton:active{
+#menuButton:hover{
+    transform: scale(130%, 130%);
     background-size: 6vh 6vh;
     background-image: url("Assets/Icons/menu_active.svg");
     background-color: #CEAFDE;
-    transform: scale(150%, 150%);
     border-radius: 50%;
+}
+
+#menuButton:active{
+    transform: scale(150%, 150%);
 }
 
 #topDiv{
@@ -171,7 +174,33 @@ a > h3{
     margin: 1vh;
 }
 
+a.outsideLink:active{color:#A167A5;}
+a.outsideLink:hover{background-color:#A167A5;}
+
+#contactUsTitle{
+    font-size: 5rem;
+    align-self: flex-start; 
+    padding: 4vh 10vw;
+    width: calc(85.5vw - 2*10vw);
+    text-align: center;
+    word-break: break-all;
+}
+
+.iframeWrapper > iframe{
+    background:#FFFAFF;
+    border-radius:30px; 
+    height:calc(100% - 30px);
+}
+
+.iframeWrapper{
+    flex: 1 1 auto;
+    height: clamp(50vh, 600px, 100vh);
+    overflow: hidden;
+}
+
+
 @media(orientation:portrait){
+    .portraitWidth{max-width: 86.5vw !important; width: 86.5vw !important;}
     h1{font-size: 6rem;}
     h1#aboutUsHeader{font-size: 5vw;}
     h2{font-size: 4vw;}
@@ -184,9 +213,15 @@ a > h3{
         position: relative; margin-top:18vh; max-width: none;}
     .homeLogo{gap:4vw; content: url("Assets/Icons/logo_portrait.svg");}
     .shrinkContent{left: 0vw; width: 100vw;}
-    aside{max-width: 86.5vw; width:86.5vw;}
+    aside, iframe{max-width: 86.5vw; width:86.5vw;}
+    iframe{height:600px;}
     #content.shrinkContent{left: 59.5vw;}
     .captionImage{max-width: 50%;}
+    .staticContent{left:0; width:100vw;}
+    #contactUsTitle{padding: 4vh 4vw; width: calc(86.5vw - 2*4vw);}
+    #contactUsContent{flex-direction: column;}
+    .iframeWrapper > iframe{transform: scale(1.5); transform-origin: 50% 0; width: calc(1/1.5 * 100%); height: calc(1/1.5 * 100%); left: calc((1/1.5 * 100%)/4);
+        position: relative;}
 }
 
 @media only screen and (orientation:landscape) and (max-width:992px){
@@ -197,4 +232,5 @@ a > h3{
     #content{margin-left: 3vw; max-width: calc(100vw - 3vw - 24.5vw); margin-top: calc(15vh + 3vh);}
     aside{min-width: 27.5vw;}
     .staticContent{left:calc(20vw + 4.5vw); width: calc(100vw - 24.5vw);}
+    #contactUsTitle{font-size: 3rem; width:calc(100vw - 24.5vw - 3vw - 2*10vw)}
 }

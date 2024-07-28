@@ -1,7 +1,10 @@
 /* Place your JavaScript in this file */
 "use strict";
+// TODO: remove all references to `element.style` and move it to css vars
 const backgroundAccent = "#5268A566";
 const defaultPadding = "0.5vw 0.5vw 2vh";
+const defaultBorderRadius = "5px";
+const selectedPageColor = "rgba(202, 224, 255, 0.5)";
 
 let sidebar;
 let titleBar;
@@ -13,7 +16,7 @@ function createCardItem(){
     item.style.gap = "2vh";
     item.style.display = "grid";
     item.style.maxWidth = "56.5vw";
-    item.classList.add("custom-style");
+    item.classList.add("portraitWidth");
     return item;
 }
 
@@ -39,7 +42,14 @@ function createContentCaption(){
     let caption = document.createElement("p");
     caption.style.background = backgroundAccent;
     caption.style.padding = defaultPadding;
+    caption.style.borderRadius = defaultBorderRadius;
     return caption;
+}
+
+function createContentTitle(){
+    let title = document.createElement("h2");
+    title.style.padding = defaultPadding;
+    return title;
 }
 
 class Item{
@@ -57,28 +67,16 @@ class Item{
     }
 
     render() {
-        let header = document.createElement("h2");
+        let header = createContentTitle();
         header.innerHTML = this.title;
-        header.style.padding = defaultPadding;
         let caption = createContentCaption();
         caption.innerHTML = this.content;
         let item = createCardItem();
 
         this.parentDiv.appendChild(item);
         if(this.imagePath !== null && this.imageCaptionText !== null){
-            let imageDiv = document.createElement("div");
-            imageDiv.classList.add("captionImage");
-
-            
-            let imageCaption = document.createElement("h4")
-            imageCaption.innerHTML = this.imageCaptionText;
-            imageCaption.style.textAlign = "center";
-            
-            let sideImage = document.createElement("img");
-            sideImage.src = this.imagePath;
-            imageDiv.appendChild(sideImage);
-            imageDiv.appendChild(imageCaption);
-            
+            let imageDiv = createImageWithCaption(this.imageCaptionText, this.imagePath);
+            imageDiv.classList.add("captionImage");            
             caption.insertAdjacentElement('afterbegin', imageDiv);
         }
         item.appendChild(header);
@@ -128,6 +126,7 @@ function loadPage(resolve, reject){
         titleBar = document.getElementById("topDiv");
         content_div = document.getElementById("content");
         sidebarOpen = false;
+        if(window.matchMedia("not (orientation:portrait)").matches) openSidebar();
         content_div.addEventListener("click", ()=>{
             if(window.matchMedia("(orientation:portrait)").matches) closeSidebar();
         });
@@ -138,6 +137,8 @@ function loadPage(resolve, reject){
 
 function loadHomepage(){
     new Promise(loadPage).then((content_div)=>{
+        document.getElementById("home").style.color = selectedPageColor;
+        
         let itemArray = new Queue();
         itemArray.push(new ItemBuilder(content_div, "New website up and running!", 
         "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!").build());
@@ -147,15 +148,17 @@ function loadHomepage(){
 
 function loadAboutpage(){
     new Promise(loadPage).then((content_div) => {
+        document.getElementById("about-us").style.color = selectedPageColor;
+
         let header = document.createElement("h1");
         header.innerHTML = "About us!";
 
-        let caption = document.createElement("h2");
+        let caption = createContentTitle();
         caption.innerHTML = "The First Tech Challenge is a competition between different robotics teams across \
         the globe, split across different leagues and districts. In this competition, the teamwork, ingenuity, \
         innovation, and the creativity of these different teams are pitted against each other as every team \
         struggles to put together a robot that completes a variety of tasks in time before they face off against \
-        other teams. <br> <br>\
+        other teams. <br>\
         Our team was created in 2023 in time for the Powerplay season from 2023-2024. We started out with very \
         little other than the knowledge of the others in our school robotics club, a driving station, some old spare \
         tools from other teams in our school, and a drivertrain kit from goBilda. Starting with what we started with, \
@@ -164,36 +167,41 @@ function loadAboutpage(){
         better this season but to be able to preserve as much knowledge and experience as possible through the \
         documentation on this website and through our our school-wide robotics club and this junior team.";
         caption.style.background = backgroundAccent;
-        caption.style.padding = defaultPadding;
-
+        caption.style.borderRadius = defaultBorderRadius;
+        
         let item = createCardItem();
         item.style.alignSelf = "flex-start";
-
+        
         item.appendChild(header);
         item.appendChild(caption);
         content_div.appendChild(item);
         
         let image2023 = createImageWithCaption("Our team in the 2023-2024 season.", "Assets/Group_Photos/2023group_photo.jpg")
         let imageCurrent = createImageWithCaption("Our current team.", "Assets/Group_Photos/2023group_photo.jpg")
-
+        
         let imagesContainer = document.createElement("aside");
         imagesContainer.style.background = backgroundAccent;
         imagesContainer.style.paddingBottom = "1.5vh";
         imagesContainer.style.height = "fit-content";
+        imagesContainer.style.borderRadius = defaultBorderRadius;
 
         imagesContainer.appendChild(image2023);
         imagesContainer.appendChild(imageCurrent);
-        imagesContainer.classList.add("custom-style");
+        imagesContainer.classList.add("portraitWidth");
         content_div.appendChild(imagesContainer);
     });
 }
 
 function loadSponsorspage(){
-    loadPage();
+    new Promise(loadPage).then((content_div) => {
+        document.getElementById("sponsors").style.color = selectedPageColor;
+    });
 }
 
 function loadDocumentationpage(){
     new Promise(loadPage).then((content_div)=>{
+        document.getElementById("documentation").style.color = selectedPageColor;
+
         content_div.style.flexDirection = "column";
 
         let overviewHeader = document.createElement("h1");
@@ -206,7 +214,7 @@ function loadDocumentationpage(){
         game. Then the 2:30 minute TeleOp mode begins where players must control their robot with game controllers to complete tasks and score points \
         as fast as possible. The last 30 seconds of the TeleOp mode constitute the endgame time where special rules apply and it is possible to score \
         more points. To see a more in depth explanation of this year's minigame check out the game manuals \
-        <a href=\"https://www.firstinspires.org/resource-library/ftc/game-and-season-info\">here</a>.";
+        <a class=\"outsideLink\" href=\"https://www.firstinspires.org/resource-library/ftc/game-and-season-info\">here</a>.";
 
         let overviewCard = createCardItem();
         overviewCard.appendChild(overviewHeader);
@@ -228,12 +236,19 @@ function loadDocumentationpage(){
         and where different OpModes are run from with a simple GUI.").build());
 
         itemArray.push(new ItemBuilder(content_div, "Getting Started:", 
-        "To get started fork <a href=\"https://github.com/FIRST-Tech-Challenge/FtcRobotController\">the ftc sdk</a> \
-        by copying the link and pasting it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
-        to have git downloaded from <a href=\"https://git-scm.com/downloads\">here</a>. ").build());
+        "To get started fork <a class=\"outsideLink\" href=\"https://github.com/FIRST-Tech-Challenge/FtcRobotController\">the ftc sdk</a> \
+        and copy the link to the fork to paste it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
+        to have git which can be downloaded <a class=\"outsideLink\" href=\"https://git-scm.com/downloads\">here</a>. By doing this you will get your own\
+        version of the interface to the robotics parts to mess with.\
+        <br>\
+        Once you have this repository in your Android Studio, navigate to TeamCode and go through the various folders and make three files \
+        at the end: <code>Hardware.java</code>, <code>TeleOp.java</code>, <code>Auto.java</code>. This is where you will write your code, but you\
+        would only want your <code>Teleop</code> and <code>Auto</code> classes to be runnable from the driver hub tablet.").build());
 
         itemArray.push(new ItemBuilder(content_div, "Init:", 
-        "Lorem Ipsum").build());
+        "By this stage in the robotics game, no robots have moved and controllers are left alone. In the program, this is where all hardware \
+        needs to be initialized (hence the name) into the program. Usually code initializing hardware is written into an <code>init()</code> method\
+        in the <code>Hardware</code> class (file).").build());
 
         itemArray.push(new ItemBuilder(content_div, "OpMode Movement:", 
         " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu turpis sed libero placerat pretium. Sed et metus cursus, faucibus augue \
@@ -273,6 +288,73 @@ function loadDocumentationpage(){
         itemArray.push(new ItemBuilder(content_div, "Useful resources:", "Lorem Ipsum").build());
 
         itemArray.forEach((x)=>{x.render()});
+    });
+}
+
+function loadContactUspage(){
+    new Promise(loadPage).then((content_div)=>{
+        document.getElementById("contact-us").style.color = selectedPageColor;
+
+        content_div.style.flexDirection = "column";
+
+        var pageTitle = document.createElement("h1");
+        pageTitle.innerHTML = "CONTACT US";
+        pageTitle.id = "contactUsTitle";
+
+        var contactUsContentDiv = document.createElement("div");
+        var otherContactsDiv = document.createElement("div");
+        var otherContactsText = createContentCaption();
+        var formDiv = document.createElement("div");
+        var form = document.createElement("iframe");
+        
+        otherContactsDiv.classList.add("portraitWidth");
+        otherContactsDiv.style.flex = "1 1 0";
+        
+        otherContactsText.style.padding = "18px 4vw 15px 15px";
+        otherContactsText.style.borderRadius = "30px";
+        otherContactsText.innerHTML = `You can contact us through various means, please find which method is most 
+        convenient for you.
+        You can contact us via our email: <a href=mailto:24702regalrobots@gmail.com>24702regalrobots@gmail.com</a>,
+        you can message our instagram account: <a href=instagram.com>regal robots</a>, 
+        or you can complete the form to the side and we will promptly receive your message. `;
+        otherContactsDiv.appendChild(otherContactsText);
+        
+        form.src = "https://docs.google.com/forms/d/e/1FAIpQLScNBoul0k6i3fpKjC-CMVM2zc7ZCeh-rKvGRAPyI4UuYvx4Tg/viewform?embedded=true";
+        form.width="100%";
+        form.height="600";
+        form.frameBorder="0";
+        form.marginHeight="0";
+        form.marginWidth="0"; 
+        form.innerHTML = "Loading…";
+        
+        formDiv.appendChild(form);
+        formDiv.classList.add("iframeWrapper");
+        formDiv.classList.add("portraitWidth");
+        
+
+        // let test = document.createElement("div");
+        // test.style.flex = "1 1 0";
+        // test.innerHTML = `<iframe src="https://discord.com/widget?id=1266328894735126618&theme=dark" width="350" 
+        // height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox 
+        // allow-same-origin allow-scripts"></iframe>`;
+        
+        contactUsContentDiv.appendChild(otherContactsDiv);
+        contactUsContentDiv.appendChild(formDiv);
+        // contactUsContentDiv.appendChild(test);
+        contactUsContentDiv.style.display = "flex";
+        contactUsContentDiv.style.gap = "2vw";
+        contactUsContentDiv.id = "contactUsContent";
+        
+        
+        content_div.appendChild(pageTitle);
+        content_div.appendChild(contactUsContentDiv);
+    });
+}
+
+function loadImportantLinkspage(){
+    new Promise(loadPage).then((content_div)=>{
+        document.getElementById("links").style.color = selectedPageColor;
+
     });
 }
 
