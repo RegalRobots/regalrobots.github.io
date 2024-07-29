@@ -307,13 +307,15 @@ function loadContactUspage(){
         otherContactsDiv.appendChild(otherContactsText);
         
         form.src = "https://docs.google.com/forms/d/e/1FAIpQLScNBoul0k6i3fpKjC-CMVM2zc7ZCeh-rKvGRAPyI4UuYvx4Tg/viewform?embedded=true";
+        form.id = "contact-us-form";
         form.width="100%";
         form.height="600";
         form.frameBorder="0";
         form.marginHeight="0";
         form.marginWidth="0"; 
         form.innerHTML = "Loading…";
-        
+
+        formDiv.id = "form-div";
         formDiv.appendChild(form);
         formDiv.classList.add("iframe-wrapper");
         formDiv.classList.add("portrait-width");        

@@ -219,10 +219,6 @@ a.outsideLink:hover {
     word-break: break-all;
 }
 
-.iframe-wrapper>iframe {
-    background: #FFFAFF;
-}
-
 .selectedLink {
     color: rgba(202, 224, 255, 0.5);
 }
@@ -273,7 +269,7 @@ a.outsideLink:hover {
 
 #contact-us-content>div {
     flex: 1 1 0px;
-    height: min-content;
+    border-radius: var(--contact-us-border-radius);
     overflow: hidden;
 }
 
@@ -289,12 +285,18 @@ a.outsideLink:hover {
 #other-contacts-div>*{
     border-radius: var(--contact-us-border-radius);
     overflow:hidden;
-    height: min-content !important;
+}
+
+#contact-us-form{
+    background:#FFFAFF;
 }
 
 .iframe-wrapper {
-    height: clamp(50vh, 600px, 100vh) !important;
-    border-radius: var(--contact-us-border-radius);
+    height: min-content;
+}
+
+.iframe-wrapper>iframe{
+    border-radius: inherit;
 }
 
 @media(orientation:portrait) {
@@ -353,16 +355,6 @@ a.outsideLink:hover {
         width: 100vw;
     }
 
-    aside,
-    iframe {
-        max-width: 86.5vw;
-        width: 86.5vw;
-    }
-
-    iframe {
-        height: 600px;
-    }
-
     #content.shrink-content {
         left: 59.5vw;
     }
@@ -383,6 +375,10 @@ a.outsideLink:hover {
 
     #contact-us-content {
         display:grid;
+    }
+
+    .iframe-wrapper{
+        height: clamp(50vh, 600px, 100vh) !important;
     }
 
     .iframe-wrapper>iframe {
