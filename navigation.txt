@@ -1,7 +1,7 @@
 <body>
 <div class="navigation">
-    <div id="sidebarDiv" class="sidebar closeSidebar">
-        <div id="textSidebarContainer">
+    <div id="sidebar" class="close-sidebar">
+        <div id="sidebar-links">
             <a id="home" href="index.html" draggable="false"><h3>HOME</h3></a>
             <a id="about-us" href="about-us.html" draggable="false"><h3>ABOUT US</h3></a>
             <a id="sponsors" href="sponsors.html" draggable="false"><h3>SPONSORS</h3></a>
@@ -10,11 +10,11 @@
             <a id="links" href="important-links.html" draggable="false"><h3>LINKS</h3></a>
         </div>
     </div>
-    <div id="topDiv" class="shrinkContentBack growContent">
-        <button onclick="sideMenuHandler()" id="menuButton"></button>
-        <a class="homeLogo" href="index.html"></a>
+    <div id="top-div" class="grow-content">
+        <button onclick="sideMenuHandler()" id="menu-button"></button>
+        <a id="home-logo" href="index.html"></a>
     </div>
-    <div id="content" class="growContent">
+    <div id="content" class="grow-content">
 
     </div>
 </div>

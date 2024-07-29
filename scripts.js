@@ -1,54 +1,41 @@
 /* Place your JavaScript in this file */
 "use strict";
-// TODO: remove all references to `element.style` and move it to css vars
-const backgroundAccent = "#5268A566";
-const defaultPadding = "0.5vw 0.5vw 2vh";
-const defaultBorderRadius = "5px";
-const selectedPageColor = "rgba(202, 224, 255, 0.5)";
-
 let sidebar;
 let titleBar;
 let sidebarOpen;
 let content_div;
 
 function createCardItem(){
-    let item = document.createElement("div");
-    item.style.gap = "2vh";
-    item.style.display = "grid";
-    item.style.maxWidth = "56.5vw";
-    item.classList.add("portraitWidth");
+    const item = document.createElement("div");
+    item.classList.add("card-div");
+    item.classList.add("portrait-width");
     return item;
 }
 
 function createImageWithCaption(text, imgPath){
-    let img = document.createElement("img");
+    const img = document.createElement("img");
     img.src = imgPath;
-    img.style.width = "95%";
-    img.style.paddingTop = "1.5vh";
 
-    let caption = document.createElement("h4");
+    const caption = document.createElement("h4");
     caption.innerHTML = text;
 
-    let ImageWithCaption = document.createElement("div")
+    const ImageWithCaption = document.createElement("div")
     ImageWithCaption.appendChild(img);
     ImageWithCaption.appendChild(caption);
-    ImageWithCaption.style.display = "flex";
-    ImageWithCaption.style.flexDirection = "column";
-    ImageWithCaption.style.alignItems = "center";
+    ImageWithCaption.classList.add("image-with-caption");
+
     return ImageWithCaption;
 }
 
 function createContentCaption(){
-    let caption = document.createElement("p");
-    caption.style.background = backgroundAccent;
-    caption.style.padding = defaultPadding;
-    caption.style.borderRadius = defaultBorderRadius;
+    const caption = document.createElement("p");
+    caption.classList.add("caption");
     return caption;
 }
 
 function createContentTitle(){
-    let title = document.createElement("h2");
-    title.style.padding = defaultPadding;
+    const title = document.createElement("h2");
+    title.classList.add("default-padding");
     return title;
 }
 
@@ -67,16 +54,16 @@ class Item{
     }
 
     render() {
-        let header = createContentTitle();
+        const header = createContentTitle();
         header.innerHTML = this.title;
-        let caption = createContentCaption();
+        const caption = createContentCaption();
         caption.innerHTML = this.content;
-        let item = createCardItem();
+        const item = createCardItem();
 
         this.parentDiv.appendChild(item);
         if(this.imagePath !== null && this.imageCaptionText !== null){
-            let imageDiv = createImageWithCaption(this.imageCaptionText, this.imagePath);
-            imageDiv.classList.add("captionImage");            
+            const imageDiv = createImageWithCaption(this.imageCaptionText, this.imagePath);
+            imageDiv.classList.add("caption-image");            
             caption.insertAdjacentElement('afterbegin', imageDiv);
         }
         item.appendChild(header);
@@ -122,8 +109,8 @@ function loadPage(resolve, reject){
     .then(response => response.text())
     .then(text => {
         document.body.innerHTML = text;
-        sidebar = document.getElementById("sidebarDiv");
-        titleBar = document.getElementById("topDiv");
+        sidebar = document.getElementById("sidebar");
+        titleBar = document.getElementById("top-div");
         content_div = document.getElementById("content");
         sidebarOpen = false;
         if(window.matchMedia("not (orientation:portrait)").matches) openSidebar();
@@ -137,9 +124,9 @@ function loadPage(resolve, reject){
 
 function loadHomepage(){
     new Promise(loadPage).then((content_div)=>{
-        document.getElementById("home").style.color = selectedPageColor;
+        document.getElementById("home").classList.add("selectedLink");
         
-        let itemArray = new Queue();
+        const itemArray = new Queue();
         itemArray.push(new ItemBuilder(content_div, "New website up and running!", 
         "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!").build());
         itemArray.forEach((x)=>{x.render()});
@@ -148,12 +135,12 @@ function loadHomepage(){
 
 function loadAboutpage(){
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("about-us").style.color = selectedPageColor;
+        document.getElementById("about-us").classList.add("selectedLink");
 
-        let header = document.createElement("h1");
+        const header = document.createElement("h1");
         header.innerHTML = "About us!";
 
-        let caption = createContentTitle();
+        const caption = createContentTitle();
         caption.innerHTML = "The First Tech Challenge is a competition between different robotics teams across \
         the globe, split across different leagues and districts. In this competition, the teamwork, ingenuity, \
         innovation, and the creativity of these different teams are pitted against each other as every team \
@@ -166,48 +153,43 @@ function loadAboutpage(){
         starting in the 2024-2025 season starting with the creation of this very website! Not only do we hope to do \
         better this season but to be able to preserve as much knowledge and experience as possible through the \
         documentation on this website and through our our school-wide robotics club and this junior team.";
-        caption.style.background = backgroundAccent;
-        caption.style.borderRadius = defaultBorderRadius;
-        
-        let item = createCardItem();
-        item.style.alignSelf = "flex-start";
+        caption.classList.add("caption");
+
+        const item = createCardItem();
         
         item.appendChild(header);
         item.appendChild(caption);
         content_div.appendChild(item);
         
-        let image2023 = createImageWithCaption("Our team in the 2023-2024 season.", "Assets/Group_Photos/2023group_photo.jpg")
-        let imageCurrent = createImageWithCaption("Our current team.", "Assets/Group_Photos/2023group_photo.jpg")
+        const image2023 = createImageWithCaption("Our team in the 2023-2024 season.", "Assets/Group_Photos/2023group_photo.jpg")
+        const imageCurrent = createImageWithCaption("Our current team.", "Assets/Group_Photos/2023group_photo.jpg")
         
-        let imagesContainer = document.createElement("aside");
-        imagesContainer.style.background = backgroundAccent;
-        imagesContainer.style.paddingBottom = "1.5vh";
-        imagesContainer.style.height = "fit-content";
-        imagesContainer.style.borderRadius = defaultBorderRadius;
+        const imagesContainer = document.createElement("aside");
+        imagesContainer.classList.add("images-container")
 
         imagesContainer.appendChild(image2023);
         imagesContainer.appendChild(imageCurrent);
-        imagesContainer.classList.add("portraitWidth");
+        imagesContainer.classList.add("portrait-width");
         content_div.appendChild(imagesContainer);
     });
 }
 
 function loadSponsorspage(){
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("sponsors").style.color = selectedPageColor;
+        document.getElementById("sponsors").classList.add("selectedLink");
     });
 }
 
 function loadDocumentationpage(){
     new Promise(loadPage).then((content_div)=>{
-        document.getElementById("documentation").style.color = selectedPageColor;
+        document.getElementById("documentation").classList.add("selectedLink");
 
-        content_div.style.flexDirection = "column";
+        content_div.classList.add("flex-column");
 
-        let overviewHeader = document.createElement("h1");
+        const overviewHeader = document.createElement("h1");
         overviewHeader.innerHTML = "Overview:";
 
-        let overviewText = createContentCaption();
+        const overviewText = createContentCaption();
         overviewText.innerHTML = "The First Tech Challenge is made up of two different periods where both you and your allied team face an alliance \
         of two other teams. These periods are an autonomous mode and a TeleOp mode. Every game starts in the autonomous mode which is active for 30 \
         seconds and in this period the robot must run a preset program without human input to complete tasks and objectives within the bounds of the \
@@ -216,16 +198,16 @@ function loadDocumentationpage(){
         more points. To see a more in depth explanation of this year's minigame check out the game manuals \
         <a class=\"outsideLink\" href=\"https://www.firstinspires.org/resource-library/ftc/game-and-season-info\">here</a>.";
 
-        let overviewCard = createCardItem();
+        const overviewCard = createCardItem();
         overviewCard.appendChild(overviewHeader);
         overviewCard.appendChild(overviewText);
         content_div.appendChild(overviewCard);
 
-        let programmingHeader = document.createElement("h1");
+        const programmingHeader = document.createElement("h1");
         programmingHeader.innerHTML = "Programming:";
         content_div.appendChild(programmingHeader);
 
-        let itemArray = [];
+        const itemArray = [];
         itemArray.push(new ItemBuilder(content_div, "Overview: ",
         "When programming a robot for the First Tech Challenge, one must use Android Studio, a REV \
         driver hub (tablet), and a REV control hub. So, how does code from a computer program a robot's movements in TeleOp and autonomous modes?\
@@ -269,7 +251,7 @@ function loadDocumentationpage(){
 
         itemArray.forEach((x)=>{x.render()});
         
-        let cadHeader = document.createElement("h1");
+        const cadHeader = document.createElement("h1");
         cadHeader.innerHTML = "CAD:";
         content_div.appendChild(cadHeader);
     
@@ -279,7 +261,7 @@ function loadDocumentationpage(){
 
         itemArray.forEach((x)=>{x.render()});
         
-        let buildHeader = document.createElement("h1");
+        const buildHeader = document.createElement("h1");
         buildHeader.innerHTML = "Building:";
         content_div.appendChild(buildHeader);
 
@@ -293,27 +275,32 @@ function loadDocumentationpage(){
 
 function loadContactUspage(){
     new Promise(loadPage).then((content_div)=>{
-        document.getElementById("contact-us").style.color = selectedPageColor;
+        document.getElementById("contact-us").classList.add("selectedLink");
 
-        content_div.style.flexDirection = "column";
+        content_div.classList.add("flex-column");
 
-        var pageTitle = document.createElement("h1");
+        const pageTitle = document.createElement("h1");
+
+        const contactUsContentDiv = document.createElement("div");
+        
+        const otherContactsDiv = document.createElement("div");
+        const otherContactsText = createContentCaption();
+        
+        const formDiv = document.createElement("div");
+        const form = document.createElement("iframe");
+        
+        const discordWidgetDiv = document.createElement("div");
+        const discordWidget = document.createElement("iframe");
+
         pageTitle.innerHTML = "CONTACT US";
-        pageTitle.id = "contactUsTitle";
+        pageTitle.id = "contact-us-title";
+        
+        otherContactsDiv.classList.add("portrait-width");
+        otherContactsDiv.id = "other-contacts-div";
 
-        var contactUsContentDiv = document.createElement("div");
-        var otherContactsDiv = document.createElement("div");
-        var otherContactsText = createContentCaption();
-        var formDiv = document.createElement("div");
-        var form = document.createElement("iframe");
-        
-        otherContactsDiv.classList.add("portraitWidth");
-        otherContactsDiv.style.flex = "1 1 0";
-        
-        otherContactsText.style.padding = "18px 4vw 15px 15px";
-        otherContactsText.style.borderRadius = "30px";
+        otherContactsText.id = "contact-us-text";
         otherContactsText.innerHTML = `You can contact us through various means, please find which method is most 
-        convenient for you.
+        convenient for you. <br>
         You can contact us via our email: <a href=mailto:24702regalrobots@gmail.com>24702regalrobots@gmail.com</a>,
         you can message our instagram account: <a href=instagram.com>regal robots</a>, 
         or you can complete the form to the side and we will promptly receive your message. `;
@@ -328,23 +315,25 @@ function loadContactUspage(){
         form.innerHTML = "Loading…";
         
         formDiv.appendChild(form);
-        formDiv.classList.add("iframeWrapper");
-        formDiv.classList.add("portraitWidth");
+        formDiv.classList.add("iframe-wrapper");
+        formDiv.classList.add("portrait-width");        
         
+        discordWidget.src = "https://discord.com/widget?id=1266328894735126618&theme=dark";
+        discordWidget.width = "100%"; 
+        discordWidget.height = "500";
+        discordWidget.frameBorder = "0";
+        discordWidget.marginHeight="0";
+        discordWidget.marginWidth="0"; 
+        discordWidget.sandbox = "allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts";
 
-        // let test = document.createElement("div");
-        // test.style.flex = "1 1 0";
-        // test.innerHTML = `<iframe src="https://discord.com/widget?id=1266328894735126618&theme=dark" width="350" 
-        // height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox 
-        // allow-same-origin allow-scripts"></iframe>`;
-        
+        discordWidgetDiv.appendChild(discordWidget);
+        discordWidgetDiv.classList.add("portrait-width");
+        discordWidgetDiv.classList.add("iframe-wrapper");
+
         contactUsContentDiv.appendChild(otherContactsDiv);
         contactUsContentDiv.appendChild(formDiv);
-        // contactUsContentDiv.appendChild(test);
-        contactUsContentDiv.style.display = "flex";
-        contactUsContentDiv.style.gap = "2vw";
-        contactUsContentDiv.id = "contactUsContent";
-        
+        otherContactsDiv.appendChild(discordWidgetDiv);
+        contactUsContentDiv.id = "contact-us-content";
         
         content_div.appendChild(pageTitle);
         content_div.appendChild(contactUsContentDiv);
@@ -353,16 +342,16 @@ function loadContactUspage(){
 
 function loadImportantLinkspage(){
     new Promise(loadPage).then((content_div)=>{
-        document.getElementById("links").style.color = selectedPageColor;
+        document.getElementById("links").classList.add("selectedLink");
 
     });
 }
 
 function sideMenuHandler(){
-    sidebar.classList.remove("staticSidebarClosed")
-    titleBar.classList.remove("staticContentClosed")
-    sidebar.classList.remove("staticSidebar")
-    titleBar.classList.remove("staticContent")
+    sidebar.classList.remove("static-sidebar-closed")
+    titleBar.classList.remove("static-content-closed")
+    sidebar.classList.remove("static-sidebar")
+    titleBar.classList.remove("static-content")
     if(sidebarOpen){
         closeSidebar();
     } else if(!sidebarOpen){
@@ -372,24 +361,24 @@ function sideMenuHandler(){
 
 function openSidebar(){  
     sidebarOpen = true;
-    titleBar.classList.remove("growContent");
-    sidebar.classList.remove("closeSidebar");
-    sidebar.classList.add("openSidebar");
-    titleBar.classList.add("shrinkContent");
-    content_div.classList.remove("growContent");
-    content_div.classList.add("shrinkContent");
+    titleBar.classList.remove("grow-content");
+    sidebar.classList.remove("close-sidebar");
+    sidebar.classList.add("open-sidebar");
+    titleBar.classList.add("shrink-content");
+    content_div.classList.remove("grow-content");
+    content_div.classList.add("shrink-content");
     if(window.matchMedia("only screen and (orientation:landscape) and (max-width:992px)").matches 
     || window.matchMedia("(orientation:portrait)").matches) document.body.style.overflow = "hidden";
 }
 
 function closeSidebar(){
     sidebarOpen = false;
-    titleBar.classList.remove("shrinkContent");
-    sidebar.classList.remove("openSidebar");
-    titleBar.classList.add("growContent");
-    sidebar.classList.add("closeSidebar");
-    content_div.classList.remove("shrinkContent");
-    content_div.classList.add("growContent");
+    titleBar.classList.remove("shrink-content");
+    sidebar.classList.remove("open-sidebar");
+    titleBar.classList.add("grow-content");
+    sidebar.classList.add("close-sidebar");
+    content_div.classList.remove("shrink-content");
+    content_div.classList.add("grow-content");
     document.body.style.overflow = "visible";
 }
 
@@ -399,16 +388,16 @@ window.addEventListener("resize", function() {
         "only screen and (orientation:landscape) and (max-width:992px)").matches) return;
 
     // Reset sidebar
-    sidebar.classList.remove("closeSidebar");
-    titleBar.classList.remove("growContent")
-    sidebar.classList.remove("openSidebar");
-    titleBar.classList.remove("shrinkContent")
+    sidebar.classList.remove("close-sidebar");
+    titleBar.classList.remove("grow-content")
+    sidebar.classList.remove("open-sidebar");
+    titleBar.classList.remove("shrink-content")
 
     if(!sidebarOpen) {
-        sidebar.classList.add("staticSidebarClosed");
-        titleBar.classList.add("staticContentClosed")
+        sidebar.classList.add("static-sidebar-closed");
+        titleBar.classList.add("static-content-closed")
     } else if(sidebarOpen){
-        sidebar.classList.add("staticSidebar");
-        titleBar.classList.add("staticContent")
+        sidebar.classList.add("static-sidebar");
+        titleBar.classList.add("static-content")
     }
   });
