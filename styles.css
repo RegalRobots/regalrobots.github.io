@@ -41,6 +41,7 @@ p {
 
 a {
     text-decoration: none;
+    outline: none;
     color: var(--accent-color);
 }
 
