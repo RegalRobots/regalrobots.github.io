@@ -202,11 +202,11 @@ a>h3 {
     margin: 1vh;
 }
 
-a.outsideLink:active {
+a.outside-link:active {
     color: var(--primary-color);
 }
 
-a.outsideLink:hover {
+a.outside-link:hover {
     background-color: var(--primary-color);
 }
 
@@ -233,6 +233,11 @@ a.outsideLink:hover {
     background-color: var(--caption-background);
     padding: var(--default-padding);
     border-radius: var(--default-border-radius);
+}
+
+.caption>li{
+    list-style-position: inside;
+    list-style-type: "\2B95 \0020";
 }
 
 .image-with-caption {
