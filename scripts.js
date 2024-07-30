@@ -164,8 +164,13 @@ function loadHomepage() {
 
         const itemArray = new Queue();
         itemArray.push(new ItemBuilder(content_div, "New website up and running!").addContent(
-            "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!").build());
-        itemArray.forEach((x) => { x.render() });
+            "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
+        itemArray.push(new ItemBuilder(content_div, "New Logo!").addContent(
+            "Say hello to our new logo now on both the website and our various accounts!").addImage("Assets/Icons/favicon.svg", "Our Logo"));
+        itemArray.push(new ItemBuilder(content_div, "Contact Us Page Operational!").addContent(
+            "Our Contact Us page is now operational. Navigate there through the side menu or click <a class=outside-link\
+            href=contact-us.html>here</a> to check it out!"));
+        itemArray.forEach((x) => { x.build().render() });
     });
 }
 

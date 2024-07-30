@@ -173,6 +173,7 @@ body {
     margin-left: 1vw;
     max-width: 85.5vw;
     display: flex;
+    flex-wrap: wrap;
     gap: 2.5vmax;
 }
 
