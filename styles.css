@@ -6,8 +6,7 @@
     --primary-color: #A167A5;
     --accent-color: #E8D7F1;
     --default-padding: 0.5vw 0.5vw 2vh;
-    --default-border-radius: 5px;
-    --contact-us-border-radius: 30px;
+    --default-border-radius: 30px;
 }
 
 input,
@@ -284,7 +283,7 @@ a.outside-link:hover {
 
 #contact-us-content>div {
     flex: 1 1 0px;
-    border-radius: var(--contact-us-border-radius);
+    border-radius: var(--default-border-radius);
     overflow: hidden;
 }
 
@@ -298,7 +297,7 @@ a.outside-link:hover {
 }
 
 #other-contacts-div>*{
-    border-radius: var(--contact-us-border-radius);
+    border-radius: var(--default-border-radius);
     overflow:hidden;
 }
 
