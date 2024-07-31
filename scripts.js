@@ -5,14 +5,18 @@ let titleBar;
 let sidebarOpen;
 let content_div;
 
-function createCardItem() {
+let applyAttributes = (attributeObj, item) => {if(attributeObj) 
+    Object.keys(attributeObj).forEach((key)=>{item.setAttribute(key, attributeObj[key])})};
+
+function createCardItem(attrs=null) {
     const item = document.createElement("div");
+    applyAttributes(attrs, item);
     item.classList.add("card-div");
     item.classList.add("portrait-width");
     return item;
 }
 
-function createImageWithCaption(text, imgPath) {
+function createImageWithCaption(text, imgPath, attrs=null) {
     const img = document.createElement("img");
     img.src = imgPath;
 
@@ -20,6 +24,7 @@ function createImageWithCaption(text, imgPath) {
     caption.innerHTML = text;
 
     const ImageWithCaption = document.createElement("div")
+    applyAttributes(attrs, ImageWithCaption);
     ImageWithCaption.appendChild(img);
     ImageWithCaption.appendChild(caption);
     ImageWithCaption.classList.add("image-with-caption");
@@ -47,6 +52,8 @@ class Item {
     imageCaptionText;
     list;
     addToContent;
+    imageAttrs;
+    cardAttrs;
     constructor(itemBuilder) {
         this.parentDiv = itemBuilder.parentDiv;
         this.title = itemBuilder.title;
@@ -55,10 +62,12 @@ class Item {
         this.imageCaptionText = itemBuilder.imageCaptionText;
         this.list = itemBuilder.list;
         this.addToContent = itemBuilder.addToContent;
+        this.imageAttrs = itemBuilder.imageAttrs;
+        this.cardAttrs = itemBuilder.cardAttrs;
     }
 
     render() {
-        const item = createCardItem();
+        const item = createCardItem(this.cardAttrs);
         const caption = createContentCaption();
 
         const header = createContentTitle();
@@ -82,7 +91,7 @@ class Item {
         }
 
         if (this.content && this.imagePath && this.imageCaptionText) {
-            const imageDiv = createImageWithCaption(this.imageCaptionText, this.imagePath);
+            const imageDiv = createImageWithCaption(this.imageCaptionText, this.imagePath, this.imageAttrs);
             imageDiv.classList.add("caption-image");
             caption.insertAdjacentElement('afterbegin', imageDiv);
         }
@@ -99,18 +108,22 @@ class ItemBuilder {
     imageCaptionText;
     list;
     addToContent;
-    constructor(parentDiv, title) {
+    cardAttrs;
+    imageAttrs;
+    constructor(parentDiv, title, cardAttrs=null) {
         this.parentDiv = parentDiv;
         this.title = title;
         this.content = null;
         this.imagePath = null;
         this.imageCaptionText = null;
         this.addToContent = null;
-        this.addToContent = null
+        this.cardAttrs = cardAttrs;
+        this.imageAttrs = null;
     }
-
-    addContent(content) {
+    
+    addContent(content, attrs=null) {
         this.content = content;
+        this.captionAttrs = attrs;
         return this;
     }
 
@@ -120,9 +133,10 @@ class ItemBuilder {
         return this;
     }
 
-    addImage(imagePath, imageCaptionText) {
+    addImage(imagePath, imageCaptionText, attrs=null) {
         this.imagePath = imagePath;
         this.imageCaptionText = imageCaptionText;
+        this.imageAttrs = attrs;
         return this;
     }
     build() {
@@ -163,11 +177,12 @@ function loadHomepage() {
         document.getElementById("home").classList.add("selectedLink");
 
         const itemArray = new Queue();
-        itemArray.push(new ItemBuilder(content_div, "New website up and running!").addContent(
+        itemArray.push(new ItemBuilder(content_div, "New website up and running!", {class:"home-card"}).addContent(
             "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
-        itemArray.push(new ItemBuilder(content_div, "New Logo!").addContent(
-            "Say hello to our new logo now on both the website and our various accounts!").addImage("Assets/Icons/favicon.svg", "Our Logo"));
-        itemArray.push(new ItemBuilder(content_div, "Contact Us Page Operational!").addContent(
+        itemArray.push(new ItemBuilder(content_div, "New Logo!", {class:"home-card"}).addContent(
+            "Say hello to our new logo now on both the website and our various accounts!"
+        ).addImage("Assets/Icons/favicon.svg", "Our Logo", {class:"home-image"}));
+        itemArray.push(new ItemBuilder(content_div, "Contact Us Page Operational!", {class:"home-card"}).addContent(
             "Our Contact Us page is now operational. Navigate there through the side menu or click <a class=outside-link\
             href=contact-us.html>here</a> to check it out!"));
         itemArray.forEach((x) => { x.build().render() });
@@ -334,7 +349,7 @@ function loadContactUspage() {
         const discordWidget = document.createElement("iframe");
 
         pageTitle.innerHTML = "CONTACT US";
-        pageTitle.id = "contact-us-title";
+        pageTitle.classList.add("contact-us-title");
 
         otherContactsDiv.classList.add("portrait-width");
         otherContactsDiv.id = "other-contacts-div";
@@ -394,6 +409,7 @@ function loadImportantLinkspage() {
         content_div.classList.add("flex-column");
 
         const importantLinksHeader = document.createElement("h1");
+        importantLinksHeader.classList.add("large-title");
         importantLinksHeader.innerHTML = "Important Links";
 
         content_div.appendChild(importantLinksHeader);
