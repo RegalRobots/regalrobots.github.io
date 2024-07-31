@@ -10,6 +10,14 @@
     --contact-us-border-radius: 30px;
 }
 
+input,
+textarea,
+button,
+select,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
 h1,
 h2 {
     font-size: clamp(2vw, 3rem, 4vw);
