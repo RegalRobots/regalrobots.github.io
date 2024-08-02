@@ -11,7 +11,7 @@
         </div>
     </div>
     <div id="top-div" class="grow-content">
-        <button onclick="sideMenuHandler()" id="menu-button"></button>
+        <button onclick="sideMenuHandler()" id="menu-button" name="sidebar button"></button>
         <a id="home-logo" href="index.html"></a>
     </div>
     <div id="content" class="grow-content">

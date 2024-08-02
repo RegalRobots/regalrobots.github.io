@@ -185,9 +185,8 @@ body {
 }
 
 #content {
-    margin-top: calc(14vh + 1vw);
+    margin-top: 14vh;
     padding: 1vw;
-    padding-top: 0vw;
     display: flex;
     flex-wrap: wrap;
     width: inherit;
@@ -229,6 +228,19 @@ a.outside-link:hover {
     background-color: var(--primary-color);
 }
 
+.about-us-images {
+    flex: 0.5;
+}
+
+.documentation-header {
+    background: none;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #a167a5;
+    /* border-radius: 50%; */
+    padding-top: 0px;
+}
+
 .large-title {
     font-size: 5rem;
     padding: 4vh 10vw;
@@ -236,7 +248,7 @@ a.outside-link:hover {
     text-align: center;
 }
 
-.selectedLink {
+.selected-link {
     color: rgba(202, 224, 255, 0.5);
 }
 
@@ -244,7 +256,8 @@ a.outside-link:hover {
     display: flex;
     flex-direction: column;
     gap: 2vh;
-    flex: 1 1 0;
+    height: min-content;
+    flex: 1;
 }
 
 .home-card {
@@ -280,7 +293,7 @@ a.outside-link:hover {
 }
 
 .image-with-caption>img {
-    padding-top: 1.5vh;
+    padding-top: 2.5%;
     width: 95%;
     border-radius: 30px;
 }
@@ -317,6 +330,10 @@ a.outside-link:hover {
     gap: 2vmax;
 }
 
+#contact-us-text {
+    padding-right: 4vw;
+}
+
 #other-contacts-div>* {
     border-radius: var(--default-border-radius);
     overflow:hidden;
@@ -336,6 +353,7 @@ a.outside-link:hover {
 
 @media(orientation:portrait) {
     .portrait-width {
+        box-sizing: border-box;
         max-width: 86.5vw !important;
         width: 86.5vw !important;
     }
@@ -349,7 +367,7 @@ a.outside-link:hover {
     }
 
     h2 {
-        font-size: 4vw;
+        font-size: 5rem;
     }
 
     h3 {
@@ -385,7 +403,7 @@ a.outside-link:hover {
         content: url("Assets/Icons/logo_portrait.svg");
     }
 
-    .shrink-content {
+    #top-div.shrink-content {
         left: 0vw;
         width: 100vw;
     }
@@ -407,15 +425,15 @@ a.outside-link:hover {
         padding: 4vh 4vw;
         width: calc(86.5vw - 2*4vw);
     }
-
+    
     #contact-us-content {
         display:grid;
     }
-
+    
     .iframe-wrapper{
         height: clamp(50vh, 600px, 100vh) !important;
     }
-
+    
     .iframe-wrapper>iframe {
         --scale-factor: 1.5;
         transform: scale(var(--scale-factor));
@@ -431,38 +449,37 @@ a.outside-link:hover {
     #sidebar {
         width: 24.5vw;
     }
-
+    
     #sidebar-links>a>h3 {
         font-size: 2.4vw;
     }
-
+    
     #sidebar-links>a {
         padding-top: 2.5vh;
         padding-bottom: 2.5vh;
     }
-
+    
     .shrink-content {
         left: calc(20vw + 4.5vw);
         width: calc(100vw - 24.5vw);
     }
-
-    #content {
-        margin-left: 3vw;
-        max-width: calc(100vw - 3vw - 24.5vw);
-        margin-top: calc(15vh + 3vh);
-    }
-
+    
     aside {
         min-width: 27.5vw;
     }
-
+    
     .static-content {
         left: calc(20vw + 4.5vw);
         width: calc(100vw - 24.5vw);
     }
-
+    
+    .about-us-images {
+        flex: 0.8;
+    }
+    
     #contact-us-title {
         font-size: 3rem;
-        width: calc(100vw - 24.5vw - 3vw - 2*10vw)
+        padding: 4vh 4vw;
+        width: calc(100% - 2*4vw)
     }
 }

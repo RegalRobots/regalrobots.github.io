@@ -174,7 +174,7 @@ function loadPage(resolve, reject) {
 
 function loadHomepage() {
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("home").classList.add("selectedLink");
+        document.getElementById("home").classList.add("selected-link");
 
         const itemArray = new Queue();
         itemArray.push(new ItemBuilder(content_div, "New website up and running!", {class:"home-card"}).addContent(
@@ -191,10 +191,10 @@ function loadHomepage() {
 
 function loadAboutpage() {
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("about-us").classList.add("selectedLink");
+        document.getElementById("about-us").classList.add("selected-link");
 
         const header = document.createElement("h1");
-        header.innerHTML = "About us!";
+        header.innerHTML = "About us: What is FTC Robotics and our Regal Robotics Team?";
 
         const caption = createContentTitle();
         caption.innerHTML = "The First Tech Challenge is a competition between different robotics teams across \
@@ -222,28 +222,33 @@ function loadAboutpage() {
 
         const imagesContainer = document.createElement("aside");
         imagesContainer.classList.add("images-container")
+        imagesContainer.classList.add("about-us-images")
+        imagesContainer.classList.add("portrait-width");
 
         imagesContainer.appendChild(image2023);
         imagesContainer.appendChild(imageCurrent);
-        imagesContainer.classList.add("portrait-width");
         content_div.appendChild(imagesContainer);
     });
 }
 
 function loadSponsorspage() {
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("sponsors").classList.add("selectedLink");
+        document.getElementById("sponsors").classList.add("selected-link");
+
+        let sponsorUsDiv = document.createElement("div");
+        let thankSponsorsDiv = document.createElement("div");
     });
 }
 
 function loadDocumentationpage() {
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("documentation").classList.add("selectedLink");
+        document.getElementById("documentation").classList.add("selected-link");
 
         content_div.classList.add("flex-column");
 
         const overviewHeader = document.createElement("h1");
-        overviewHeader.innerHTML = "Overview:";
+        overviewHeader.innerHTML = "How does an FTC game work?";
+        overviewHeader.id = "how-FTC-game-works";
 
         const overviewText = createContentCaption();
         overviewText.innerHTML = "The First Tech Challenge is made up of two different periods where both you and your allied team face an alliance \
@@ -260,69 +265,76 @@ function loadDocumentationpage() {
         content_div.appendChild(overviewCard);
 
         const programmingHeader = document.createElement("h1");
+        programmingHeader.classList.add("portrait-width");
+        programmingHeader.classList.add("documentation-header");
         programmingHeader.innerHTML = "Programming:";
         content_div.appendChild(programmingHeader);
 
+        
         let itemArray = [];
         itemArray.push(new ItemBuilder(content_div, "Overview: ").addContent(
             "When programming a robot for the First Tech Challenge, one must use Android Studio, a REV \
-        driver hub (tablet), and a REV control hub. So, how does code from a computer program a robot's movements in TeleOp and autonomous modes?\
-        Code is pushed from a computer running Android Studio to the REV control hub which has motors, servos, sensors, and other hardware parts\
-        plugged into it via different colorful cables. So, the REV control hub is attached to the rest of the robot on the actual drivetrain and\
-        code is pushed to it from a computer using Android Studio software. The driver hub serves as the human interface for running code already \
-        uploaded onto the robot. This means that the driver hub is where controllers are plugged in, camera systems can be checked, telemetry is read,\
-        and where different OpModes are run from with a simple GUI.").build());
+            driver hub (tablet), and a REV control hub. So, how does code from a computer program a robot's movements in TeleOp and autonomous modes?\
+            Code is pushed from a computer running Android Studio to the REV control hub which has motors, servos, sensors, and other hardware parts\
+            plugged into it via different colorful cables. So, the REV control hub is attached to the rest of the robot on the actual drivetrain and\
+            code is pushed to it from a computer using Android Studio software. The driver hub serves as the human interface for running code already \
+            uploaded onto the robot. This means that the driver hub is where controllers are plugged in, camera systems can be checked, telemetry is read,\
+            and where different OpModes are run from with a simple GUI.").build());
 
         itemArray.push(new ItemBuilder(content_div, "Getting Started:").addContent(
             "To get started fork <a class=outside-link target=_blank href=https://github.com/FIRST-Tech-Challenge/FtcRobotController>the ftc sdk</a> \
-        and copy the link to the fork to paste it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
-        to have git which can be downloaded <a class=outside-link target=_blank href=https://git-scm.com/downloads>here</a>. By doing this you \
-        will get your own version of the interface to the robotics parts to mess with.\
-        <br>\
-        Once you have this repository in your Android Studio, navigate to TeamCode and go through the various folders and make three files \
-        at the end: <code>Hardware.java</code>, <code>TeleOp.java</code>, <code>Auto.java</code>. This is where you will write your code, but you\
-        would only want your <code>Teleop</code> and <code>Auto</code> classes to be runnable from the driver hub tablet.").build());
-
+            and copy the link to the fork to paste it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
+            to have git which can be downloaded <a class=outside-link target=_blank href=https://git-scm.com/downloads>here</a>. By doing this you \
+            will get your own version of the interface to the robotics parts to mess with.\
+            <br>\
+            Once you have this repository in your Android Studio, navigate to TeamCode and go through the various folders and make three files \
+            at the end: <code>Hardware.java</code>, <code>TeleOp.java</code>, <code>Auto.java</code>. This is where you will write your code, but you\
+            would only want your <code>Teleop</code> and <code>Auto</code> classes to be runnable from the driver hub tablet.").build());
+        
         itemArray.push(new ItemBuilder(content_div, "Init:").addContent(
             "By this stage in the robotics game, no robots have moved and controllers are left alone. In the program, this is where all hardware \
-        needs to be initialized (hence the name) into the program. Usually code initializing hardware is written into an <code>init()</code> method\
-        in the <code>Hardware</code> class (file).").build());
-
+            needs to be initialized (hence the name) into the program. Usually code initializing hardware is written into an <code>init()</code> method\
+            in the <code>Hardware</code> class (file).").build());
+            
         itemArray.push(new ItemBuilder(content_div, "OpMode Movement:").addContent(
             " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu turpis sed libero placerat pretium. Sed et metus cursus, faucibus augue \
-        vitae, posuere turpis. Sed iaculis, libero ac tempor porttitor, sem dui consequat sem, sit amet fringilla erat mauris varius leo. Donec \
-        sollicitudin bibendum sem, at maximus arcu consectetur vel. Cras vestibulum urna id dolor efficitur pulvinar. Integer cursus tortor sit \
-        amet purus finibus, at ullamcorper nibh feugiat. Integer tempor dolor sed lectus accumsan mollis. Proin quis purus auctor, congue mauris \
-        a, placerat ipsum. Pellentesque facilisis blandit purus, in tempor quam posuere a. Suspendisse ut mollis felis. Aenean sit amet eros \
-        pharetra, fringilla felis nec, imperdiet nisl. Morbi purus massa, aliquet vitae lorem sed, vehicula eleifend lectus. Nulla molestie odio \
-        a turpis pharetra, sed interdum arcu tempor. Aliquam condimentum, lorem quis tempor condimentum, lectus magna scelerisque est, quis gravida \
-        felis urna eu massa. <br/><br/>\
-        Nulla quis vestibulum sapien. Nulla varius ultricies mollis. Aenean eget sapien condimentum, aliquam ipsum sed, placerat tortor. Nulla facilisi. \
-        Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
-        accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
+            vitae, posuere turpis. Sed iaculis, libero ac tempor porttitor, sem dui consequat sem, sit amet fringilla erat mauris varius leo. Donec \
+            sollicitudin bibendum sem, at maximus arcu consectetur vel. Cras vestibulum urna id dolor efficitur pulvinar. Integer cursus tortor sit \
+            amet purus finibus, at ullamcorper nibh feugiat. Integer tempor dolor sed lectus accumsan mollis. Proin quis purus auctor, congue mauris \
+            a, placerat ipsum. Pellentesque facilisis blandit purus, in tempor quam posuere a. Suspendisse ut mollis felis. Aenean sit amet eros \
+            pharetra, fringilla felis nec, imperdiet nisl. Morbi purus massa, aliquet vitae lorem sed, vehicula eleifend lectus. Nulla molestie odio \
+            a turpis pharetra, sed interdum arcu tempor. Aliquam condimentum, lorem quis tempor condimentum, lectus magna scelerisque est, quis gravida \
+            felis urna eu massa. <br/><br/>\
+            Nulla quis vestibulum sapien. Nulla varius ultricies mollis. Aenean eget sapien condimentum, aliquam ipsum sed, placerat tortor. Nulla facilisi. \
+            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
+            accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
         ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)").build());
-
+            
         itemArray.push(new ItemBuilder(content_div, "CV:").addContent(
             "Lorem Ipsum").build());
-
+            
         itemArray.forEach((x) => { x.render() });
-
+        
         const cadHeader = document.createElement("h1");
+        cadHeader.classList.add("portrait-width");
+        cadHeader.classList.add("documentation-header");
         cadHeader.innerHTML = "CAD:";
         content_div.appendChild(cadHeader);
-
+        
         itemArray = [];
-
+                
         itemArray.push(new ItemBuilder(content_div, "Software to use:").addContent("Lorem Ipsum").build());
 
         itemArray.forEach((x) => { x.render() });
-
+        
         const buildHeader = document.createElement("h1");
+        buildHeader.classList.add("portrait-width");
+        buildHeader.classList.add("documentation-header");
         buildHeader.innerHTML = "Building:";
         content_div.appendChild(buildHeader);
-
+        
         itemArray = [];
-
+        
         itemArray.push(new ItemBuilder(content_div, "Useful resources:").addContent("Lorem Ipsum").build());
 
         itemArray.forEach((x) => { x.render() });
@@ -331,7 +343,7 @@ function loadDocumentationpage() {
 
 function loadContactUspage() {
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("contact-us").classList.add("selectedLink");
+        document.getElementById("contact-us").classList.add("selected-link");
 
         content_div.classList.add("flex-column");
 
@@ -349,7 +361,7 @@ function loadContactUspage() {
         const discordWidget = document.createElement("iframe");
 
         pageTitle.innerHTML = "CONTACT US";
-        pageTitle.classList.add("contact-us-title");
+        pageTitle.id = "contact-us-title";
 
         otherContactsDiv.classList.add("portrait-width");
         otherContactsDiv.id = "other-contacts-div";
@@ -404,7 +416,7 @@ function loadContactUspage() {
 
 function loadImportantLinkspage() {
     new Promise(loadPage).then((content_div) => {
-        document.getElementById("links").classList.add("selectedLink");
+        document.getElementById("links").classList.add("selected-link");
 
         content_div.classList.add("flex-column");
 
