@@ -8,42 +8,6 @@ let content_div;
 let applyAttributes = (attributeObj, item) => {if(attributeObj) 
     Object.keys(attributeObj).forEach((key)=>{item.setAttribute(key, attributeObj[key])})};
 
-function createCardItem(attrs=null) {
-    const item = document.createElement("div");
-    applyAttributes(attrs, item);
-    item.classList.add("card-div");
-    item.classList.add("portrait-width");
-    return item;
-}
-
-function createImageWithCaption(text, imgPath, attrs=null) {
-    const img = document.createElement("img");
-    img.src = imgPath;
-
-    const caption = document.createElement("h4");
-    caption.innerHTML = text;
-
-    const ImageWithCaption = document.createElement("div")
-    applyAttributes(attrs, ImageWithCaption);
-    ImageWithCaption.appendChild(img);
-    ImageWithCaption.appendChild(caption);
-    ImageWithCaption.classList.add("image-with-caption");
-
-    return ImageWithCaption;
-}
-
-function createContentCaption() {
-    const caption = document.createElement("p");
-    caption.classList.add("caption");
-    return caption;
-}
-
-function createContentTitle() {
-    const title = document.createElement("h2");
-    title.classList.add("default-padding");
-    return title;
-}
-
 class Item {
     parentDiv;
     title;
@@ -64,19 +28,57 @@ class Item {
         this.addToContent = itemBuilder.addToContent;
         this.imageAttrs = itemBuilder.imageAttrs;
         this.cardAttrs = itemBuilder.cardAttrs;
+        this.titleAttrs = itemBuilder.titleAttrs;
+        this.item = null;
+    }
+
+    createCardItem(attrs = null) {
+        const item = document.createElement("div");
+        applyAttributes(attrs, item);
+        item.classList.add("card-div");
+        return item;
+    }
+    
+    createImageWithCaption(text, imgPath, attrs=null) {
+        const img = document.createElement("img");
+        img.src = imgPath;
+    
+        const caption = document.createElement("h4");
+        caption.innerHTML = text;
+    
+        const ImageWithCaption = document.createElement("div")
+        applyAttributes(attrs, ImageWithCaption);
+        ImageWithCaption.appendChild(img);
+        ImageWithCaption.appendChild(caption);
+        ImageWithCaption.classList.add("image-with-caption");
+    
+        return ImageWithCaption;
+    }
+    
+    createContentCaption() {
+        const caption = document.createElement("p");
+        caption.classList.add("caption");
+        return caption;
+    }
+    
+    createContentTitle(attrs=null) {
+        const title = document.createElement("h2");
+        applyAttributes(title, attrs);
+        title.classList.add("default-padding");
+        return title;
     }
 
     render() {
-        const item = createCardItem(this.cardAttrs);
-        const caption = createContentCaption();
+        this.item = this.createCardItem(this.cardAttrs);
+        const caption = this.createContentCaption();
 
-        const header = createContentTitle();
+        const header = this.createContentTitle(this.titleAttrs);
         header.innerHTML = this.title;
-        item.appendChild(header);
+        this.item.appendChild(header);
 
         if(this.content){
             caption.innerHTML = this.content;
-            item.appendChild(caption);
+            this.item.appendChild(caption);
         }
 
         if(this.list){
@@ -84,19 +86,23 @@ class Item {
             if(this.addToContent && this.content){
                 listHtml.forEach((listElem) => this.caption.innerHTML += listElem);
             } else {
-                const listCaption = createContentCaption();
+                const listCaption = this.createContentCaption();
                 listHtml.forEach((listElem) => listCaption.innerHTML += listElem);
-                item.appendChild(listCaption);
+                this.item.appendChild(listCaption);
             }
         }
 
         if (this.content && this.imagePath && this.imageCaptionText) {
-            const imageDiv = createImageWithCaption(this.imageCaptionText, this.imagePath, this.imageAttrs);
+            const imageDiv = this.createImageWithCaption(this.imageCaptionText, this.imagePath, this.imageAttrs);
             imageDiv.classList.add("caption-image");
             caption.insertAdjacentElement('afterbegin', imageDiv);
         }
 
-        this.parentDiv.appendChild(item);
+        this.parentDiv.appendChild(this.item);
+    }
+
+    toggleHide() {
+        this.item.style.display = this.item.style.display == "none" ? "" : "none";
     }
 }
 
@@ -110,17 +116,25 @@ class ItemBuilder {
     addToContent;
     cardAttrs;
     imageAttrs;
-    constructor(parentDiv, title, cardAttrs=null) {
+    titleAttrs;
+    constructor(parentDiv, cardAttrs=null) {
         this.parentDiv = parentDiv;
-        this.title = title;
+        this.title = null;
         this.content = null;
         this.imagePath = null;
         this.imageCaptionText = null;
         this.addToContent = null;
-        this.cardAttrs = cardAttrs;
         this.imageAttrs = null;
+        this.cardAttrs = cardAttrs;
+        this.titleAttrs = null;
     }
     
+    addTitle(title, attrs=null){
+        this.title = title;
+        this.titleAttrs = attrs;
+        return this;
+    }
+
     addContent(content, attrs=null) {
         this.content = content;
         this.captionAttrs = attrs;
@@ -139,6 +153,7 @@ class ItemBuilder {
         this.imageAttrs = attrs;
         return this;
     }
+
     build() {
         return new Item(this);
     }
@@ -177,15 +192,17 @@ function loadHomepage() {
         document.getElementById("home").classList.add("selected-link");
 
         const itemArray = new Queue();
-        itemArray.push(new ItemBuilder(content_div, "New website up and running!", {class:"home-card"}).addContent(
+        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New website up and running!").addContent(
             "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
-        itemArray.push(new ItemBuilder(content_div, "New Logo!", {class:"home-card"}).addContent(
+        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New Logo!").addContent(
             "Say hello to our new logo now on both the website and our various accounts!"
         ).addImage("Assets/Icons/favicon.svg", "Our Logo", {class:"home-image"}));
-        itemArray.push(new ItemBuilder(content_div, "Contact Us Page Operational!", {class:"home-card"}).addContent(
+        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("Contact Us Page Operational!").addContent(
             "Our Contact Us page is now operational. Navigate there through the side menu or click <a class=outside-link\
             href=contact-us.html>here</a> to check it out!"));
-        itemArray.forEach((x) => { x.build().render() });
+        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New Season!").addContent(
+            "As the new season 'Into the Deep' begins, we are very excited to begin a new chapter in the story of our team!"));
+        itemArray.forEach((x) => {x.build().render()});
     });
 }
 
@@ -196,7 +213,7 @@ function loadAboutpage() {
         const header = document.createElement("h1");
         header.innerHTML = "About us: What is FTC Robotics and our Regal Robotics Team?";
 
-        const caption = createContentTitle();
+        const caption = Item.prototype.createContentTitle();
         caption.innerHTML = "The First Tech Challenge is a competition between different robotics teams across \
         the globe, split across different leagues and districts. In this competition, the teamwork, ingenuity, \
         innovation, and the creativity of these different teams are pitted against each other as every team \
@@ -211,19 +228,18 @@ function loadAboutpage() {
         documentation on this website and through our our school-wide robotics club and this junior team.";
         caption.classList.add("caption");
 
-        const item = createCardItem();
+        const item = Item.prototype.createCardItem();
 
         item.appendChild(header);
         item.appendChild(caption);
         content_div.appendChild(item);
 
-        const image2023 = createImageWithCaption("Our team in the 2023-2024 season.", "Assets/Group_Photos/2023group_photo.jpg")
-        const imageCurrent = createImageWithCaption("Our current team.", "Assets/Group_Photos/2023group_photo.jpg")
+        const image2023 = Item.prototype.createImageWithCaption("Our team in the 2023-2024 season.", "Assets/Group_Photos/2023group_photo.jpg")
+        const imageCurrent = Item.prototype.createImageWithCaption("Our current team.", "Assets/Group_Photos/2023group_photo.jpg")
 
         const imagesContainer = document.createElement("aside");
         imagesContainer.classList.add("images-container")
         imagesContainer.classList.add("about-us-images")
-        imagesContainer.classList.add("portrait-width");
 
         imagesContainer.appendChild(image2023);
         imagesContainer.appendChild(imageCurrent);
@@ -237,6 +253,8 @@ function loadSponsorspage() {
 
         let sponsorUsDiv = document.createElement("div");
         let thankSponsorsDiv = document.createElement("div");
+        content_div.appendChild(sponsorUsDiv);
+        content_div.appendChild(thankSponsorsDiv);
     });
 }
 
@@ -245,12 +263,46 @@ function loadDocumentationpage() {
         document.getElementById("documentation").classList.add("selected-link");
 
         content_div.classList.add("flex-column");
+        content_div.classList.add("documentation-content");
 
+        const docNavBar = document.createElement("div");
+        docNavBar.id = "documentation-navigation-sidebar";
+        
+        function createHeader(title, id) {
+            const header = document.createElement("h1");
+            header.innerHTML = title;
+            header.id = id;
+            header.classList.add("documentation-header");
+            addToDocNavBar(header.id, "How to program a bot");
+            return header;
+        }
+
+        function addToDocNavBar(id, name){
+            const anchor = document.createElement("a");
+            anchor.classList.add("documentation-nav-links");
+            anchor.classList.add("outside-link");
+            anchor.innerHTML = name;
+            anchor.href = "./documentation.html#" + id;
+            docNavBar.appendChild(anchor);
+        }
+
+        function createNewIcon(header, informationList) {
+            const collapseIcon = document.createElement("button");
+            header.insertAdjacentElement("beforeend", collapseIcon);
+            collapseIcon.classList.add("collapse-button");
+            collapseIcon.addEventListener("click", () => {
+                collapseIcon.classList.toggle("collapse-button-close")
+                informationList.forEach((elem) =>{elem.toggleHide();});
+            });
+            return collapseIcon;
+        }        
+        
         const overviewHeader = document.createElement("h1");
         overviewHeader.innerHTML = "How does an FTC game work?";
-        overviewHeader.id = "how-FTC-game-works";
-
-        const overviewText = createContentCaption();
+        overviewHeader.id = "how-ftc-game-works";
+        addToDocNavBar(overviewHeader.id, "How an FTC game works");
+        
+        const overviewText = Item.prototype.createContentCaption();
         overviewText.innerHTML = "The First Tech Challenge is made up of two different periods where both you and your allied team face an alliance \
         of two other teams. These periods are an autonomous mode and a TeleOp mode. Every game starts in the autonomous mode which is active for 30 \
         seconds and in this period the robot must run a preset program without human input to complete tasks and objectives within the bounds of the \
@@ -258,30 +310,24 @@ function loadDocumentationpage() {
         as fast as possible. The last 30 seconds of the TeleOp mode constitute the endgame time where special rules apply and it is possible to score \
         more points. To see a more in depth explanation of this year's minigame check out the game manuals \
         <a class=outside-link target=_blank href=https://www.firstinspires.org/resource-library/ftc/game-and-season-info>here</a>.";
-
-        const overviewCard = createCardItem();
+        
+        const overviewCard = Item.prototype.createCardItem();
         overviewCard.appendChild(overviewHeader);
         overviewCard.appendChild(overviewText);
-        content_div.appendChild(overviewCard);
-
-        const programmingHeader = document.createElement("h1");
-        programmingHeader.classList.add("portrait-width");
-        programmingHeader.classList.add("documentation-header");
-        programmingHeader.innerHTML = "Programming:";
-        content_div.appendChild(programmingHeader);
-
         
-        let itemArray = [];
-        itemArray.push(new ItemBuilder(content_div, "Overview: ").addContent(
+        const programmingHeader = createHeader("How do you program in FTC?", "programming-guide");
+        let programmingItemArray = [];
+
+        programmingItemArray.push(new ItemBuilder(content_div).addTitle("Overview:").addContent(
             "When programming a robot for the First Tech Challenge, one must use Android Studio, a REV \
             driver hub (tablet), and a REV control hub. So, how does code from a computer program a robot's movements in TeleOp and autonomous modes?\
             Code is pushed from a computer running Android Studio to the REV control hub which has motors, servos, sensors, and other hardware parts\
             plugged into it via different colorful cables. So, the REV control hub is attached to the rest of the robot on the actual drivetrain and\
             code is pushed to it from a computer using Android Studio software. The driver hub serves as the human interface for running code already \
             uploaded onto the robot. This means that the driver hub is where controllers are plugged in, camera systems can be checked, telemetry is read,\
-            and where different OpModes are run from with a simple GUI.").build());
+            and where different OpModes are run from with a simple GUI."));
 
-        itemArray.push(new ItemBuilder(content_div, "Getting Started:").addContent(
+        programmingItemArray.push(new ItemBuilder(content_div).addTitle("Getting Started:").addContent(
             "To get started fork <a class=outside-link target=_blank href=https://github.com/FIRST-Tech-Challenge/FtcRobotController>the ftc sdk</a> \
             and copy the link to the fork to paste it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
             to have git which can be downloaded <a class=outside-link target=_blank href=https://git-scm.com/downloads>here</a>. By doing this you \
@@ -289,14 +335,14 @@ function loadDocumentationpage() {
             <br>\
             Once you have this repository in your Android Studio, navigate to TeamCode and go through the various folders and make three files \
             at the end: <code>Hardware.java</code>, <code>TeleOp.java</code>, <code>Auto.java</code>. This is where you will write your code, but you\
-            would only want your <code>Teleop</code> and <code>Auto</code> classes to be runnable from the driver hub tablet.").build());
+            would only want your <code>Teleop</code> and <code>Auto</code> classes to be runnable from the driver hub tablet."));
         
-        itemArray.push(new ItemBuilder(content_div, "Init:").addContent(
+        programmingItemArray.push(new ItemBuilder(content_div).addTitle("Init:").addContent(
             "By this stage in the robotics game, no robots have moved and controllers are left alone. In the program, this is where all hardware \
             needs to be initialized (hence the name) into the program. Usually code initializing hardware is written into an <code>init()</code> method\
-            in the <code>Hardware</code> class (file).").build());
+            in the <code>Hardware</code> class (file)."));
             
-        itemArray.push(new ItemBuilder(content_div, "OpMode Movement:").addContent(
+        programmingItemArray.push(new ItemBuilder(content_div).addTitle("OpMode Movement:").addContent(
             " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu turpis sed libero placerat pretium. Sed et metus cursus, faucibus augue \
             vitae, posuere turpis. Sed iaculis, libero ac tempor porttitor, sem dui consequat sem, sit amet fringilla erat mauris varius leo. Donec \
             sollicitudin bibendum sem, at maximus arcu consectetur vel. Cras vestibulum urna id dolor efficitur pulvinar. Integer cursus tortor sit \
@@ -308,36 +354,39 @@ function loadDocumentationpage() {
             Nulla quis vestibulum sapien. Nulla varius ultricies mollis. Aenean eget sapien condimentum, aliquam ipsum sed, placerat tortor. Nulla facilisi. \
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
             accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
-        ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)").build());
+        ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)"));
             
-        itemArray.push(new ItemBuilder(content_div, "CV:").addContent(
-            "Lorem Ipsum").build());
+        programmingItemArray.push(new ItemBuilder(content_div).addTitle("CV:").addContent(
+            "Lorem Ipsum"));
             
-        itemArray.forEach((x) => { x.render() });
-        
-        const cadHeader = document.createElement("h1");
-        cadHeader.classList.add("portrait-width");
-        cadHeader.classList.add("documentation-header");
-        cadHeader.innerHTML = "CAD:";
-        content_div.appendChild(cadHeader);
-        
-        itemArray = [];
+        const cadHeader = createHeader("How do you CAD for FTC?", "cad-guide");        
+        let cadItemArray = [];
                 
-        itemArray.push(new ItemBuilder(content_div, "Software to use:").addContent("Lorem Ipsum").build());
-
-        itemArray.forEach((x) => { x.render() });
+        cadItemArray.push(new ItemBuilder(content_div).addTitle("Software to use:").addContent("Lorem Ipsum"));
         
-        const buildHeader = document.createElement("h1");
-        buildHeader.classList.add("portrait-width");
-        buildHeader.classList.add("documentation-header");
-        buildHeader.innerHTML = "Building:";
+        const buildHeader = createHeader("How do you build for FTC?", "build-guide");
+        let buildingItemArray = [];
+
+        buildingItemArray.push(new ItemBuilder(content_div).addTitle("Useful resources:").addContent("Lorem Ipsum"));
+
+
+        document.body.appendChild(docNavBar);
+        content_div.appendChild(overviewCard);
+
+        content_div.appendChild(programmingHeader);
+        programmingItemArray = programmingItemArray.map((x) => {return x.build();});        
+        createNewIcon(programmingHeader, programmingItemArray);
+        programmingItemArray.forEach((elem) => {elem.render();})
+        
+        content_div.appendChild(cadHeader);
+        cadItemArray = cadItemArray.map((x) => {return x.build();});        
+        createNewIcon(cadHeader, cadItemArray);
+        cadItemArray.forEach((x) => {x.render()});
+        
         content_div.appendChild(buildHeader);
-        
-        itemArray = [];
-        
-        itemArray.push(new ItemBuilder(content_div, "Useful resources:").addContent("Lorem Ipsum").build());
-
-        itemArray.forEach((x) => { x.render() });
+        buildingItemArray = buildingItemArray.map((x) => {return x.build();});        
+        createNewIcon(buildHeader, buildingItemArray);
+        buildingItemArray.forEach((x) => {x.render()});
     });
 }
 
@@ -352,7 +401,7 @@ function loadContactUspage() {
         const contactUsContentDiv = document.createElement("div");
 
         const otherContactsDiv = document.createElement("div");
-        const otherContactsText = createContentCaption();
+        const otherContactsText = Item.prototype.createContentCaption();
 
         const formDiv = document.createElement("div");
         const form = document.createElement("iframe");
@@ -363,7 +412,6 @@ function loadContactUspage() {
         pageTitle.innerHTML = "CONTACT US";
         pageTitle.id = "contact-us-title";
 
-        otherContactsDiv.classList.add("portrait-width");
         otherContactsDiv.id = "other-contacts-div";
 
         otherContactsText.id = "contact-us-text";
@@ -390,7 +438,6 @@ function loadContactUspage() {
         formDiv.id = "form-div";
         formDiv.appendChild(form);
         formDiv.classList.add("iframe-wrapper");
-        formDiv.classList.add("portrait-width");
 
         discordWidget.src = "https://discord.com/widget?id=1266328894735126618&theme=dark";
         discordWidget.width = "100%";
@@ -401,7 +448,6 @@ function loadContactUspage() {
         discordWidget.sandbox = "allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts";
 
         discordWidgetDiv.appendChild(discordWidget);
-        discordWidgetDiv.classList.add("portrait-width");
         discordWidgetDiv.classList.add("iframe-wrapper");
 
         contactUsContentDiv.appendChild(otherContactsDiv);
@@ -426,20 +472,21 @@ function loadImportantLinkspage() {
 
         content_div.appendChild(importantLinksHeader);
     
-        const followUsLinks = new ItemBuilder(content_div, "Follow Us Here:").addList([
+        const followUsLinks = new ItemBuilder(content_div).addTitle("Follow Us Here:").addList([
             "<a class=outside-link target=_blank href=https://www.facebook.com/profile.php?id=61563126485686>Facebook</a>",
             "<a class=outside-link target=_blank href=https://www.instagram.com/regalrobots>Instagram</a>",
-            "<a class=outside-link target=_blank href=https://github.com/RegalRobots>Github</a>"
+            "<a class=outside-link target=_blank href=https://github.com/RegalRobots>Github</a>",
+            "<a class=outside-link target=_blank href=https://www.youtube.com/@RegalRobots>Youtube</a>"
         ]).build();
         followUsLinks.render();
-        const contactUsLinks = new ItemBuilder(content_div, "Contact Us Here:").addList([
+        const contactUsLinks = new ItemBuilder(content_div).addTitle("Contact Us Here:").addList([
             "<a class=outside-link target=_blank href=mailto:24702regalrobots@gmail.com>24702regalrobots@gmail.com</a>",
             "<a class=outside-link target=_blank href=https://www.instagram.com/regalrobots>Instagram</a>",
             "<a class=outside-link target=_blank href=https://discord.gg/Avy2Zf9r>Discord</a>",
             "<a class=outside-link target=_blank href=https://docs.google.com/forms/d/e/1FAIpQLScNBoul0k6i3fpKjC-CMVM2zc7ZCeh-rKvGRAPyI4UuYvx4Tg/viewform>Google Forms</a>"
         ]).build();
         contactUsLinks.render();
-        const forOurMembers = new ItemBuilder(content_div, "For Members:").addList([
+        const forOurMembers = new ItemBuilder(content_div).addTitle("For Members:").addList([
             "<a class=outside-link target=_blank href=>This Year's Github Repository</a>",
             "<a class=outside-link target=_blank href=https://drive.google.com/drive/folders/1-O-36OPSPy68EVvZNUkGn2VLgfqbVDlj?usp=sharing>Request Access to the Google Drive</a>",
             "<a class=outside-link target=_blank href=https://discord.gg/Avy2Zf9r>Discord</a>"
