@@ -54,6 +54,10 @@ p {
     word-wrap: break-word;
     -ms-word-break: break-all;
     word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
 }
 
 a {
@@ -518,6 +522,10 @@ a.outside-link:hover {
         height: calc(1/var(--scale-factor) * 100%);
         left: calc((1/var(--scale-factor) * 100%)/4);
         position: relative;
+    }
+
+    .large-title {
+        font-size: 4rem;
     }
 }
 
