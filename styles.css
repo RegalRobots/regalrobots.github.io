@@ -1,14 +1,15 @@
 /* Place your CSS styles in this file */
 
 :root {
-    --caption-background: #5268A566;
+    --caption-background: #0E3569;
     --background-color: #CEAFDE;
     --primary-color: #A167A5;
-    --accent-color: #E8D7F1;
+    --accent-color: #FFDEFF;
     --default-padding: 15px 15px 2vh;
     --default-border-radius: 30px;
     --desktop-sidebar-width: 13.5vw;
     --top-div-height: 14vh;
+    color: #CCC;
 }
 
 input,
@@ -21,7 +22,8 @@ a {
 
 h1,
 h2 {
-    font-size: clamp(2vw, 3rem, 4vw);
+    color: #000;
+    font-size: clamp(2vw, 3rem, 8vw);
     margin: 0;
     text-align: center;
     background: var(--primary-color);
@@ -31,11 +33,11 @@ h2 {
 }
 
 h2 {
-    font-size: clamp(1vw, 1.5rem, 3vw);
+    font-size: clamp(1vw, 1.5rem, 4.5vw);
 }
 
 h3 {
-    font-size: 1.2vw;
+    font-size: clamp(1.2vw, 1.2rem, 2vw);
 }
 
 h4,
@@ -45,17 +47,13 @@ h5 {
 }
 
 p {
-    font-size: clamp(1vw, 26px, 4vw);
+    font-size: 26px;
     margin: 0;
     /* yucky */
     overflow-wrap: break-word;
     word-wrap: break-word;
     -ms-word-break: break-all;
     word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
 }
 
 a {
@@ -206,6 +204,10 @@ body {
     display: block;
 }
 
+#sidebar-links>a>h3 {
+    font-size: 1.25vw;
+}
+
 a>h3 {
     word-wrap: break-word;
     margin: 0;
@@ -221,11 +223,19 @@ a>h3 {
     color: var(--primary-color);
 }
 
+#contact-us-title {
+    padding: 4vh 4vw;
+}
+
 .caption-image {
     float: right;
     min-width: 20vw;
     max-width: 25%;
     margin: 1vh;
+}
+
+a.outside-link {
+    text-decoration: underline solid var(--primary-color) 10%;
 }
 
 a.outside-link:active {
@@ -282,7 +292,7 @@ a.outside-link:hover {
 }
 
 .documentation-content {
-    width: calc(100% - var(--desktop-sidebar-width) - 2vw) !important;
+    width: calc(100% - 2 * var(--desktop-sidebar-width) - 2vw) !important;
     left: var(--desktop-sidebar-width);
 }
 
@@ -323,15 +333,21 @@ a.outside-link:hover {
 }
 
 .caption {
+    color: #CCC;
     background-color: var(--caption-background);
     padding: var(--default-padding);
     border-radius: var(--default-border-radius);
     flex: 1;
 }
 
-.caption>li{
-    list-style-position: inside;
+.caption>ul>li {
     list-style-type: "\2B95 \0020";
+}
+
+/* disastrous */
+.caption>ul>li>a {
+    display: list-item;
+    width: 100%;
 }
 
 .image-with-caption {
@@ -400,7 +416,7 @@ a.outside-link:hover {
 }
 
 .documentation-nav-links {
-    color: var(--accent-color);
+    color: var(--caption-background);
 }
 
 @media(orientation:portrait) {
@@ -408,12 +424,8 @@ a.outside-link:hover {
         --portrait-sidebar-width: 55vw;
     }
 
-    h1 {
-        font-size: 6rem;
-    }
-
-    h2 {
-        font-size: 3rem;
+    .home-card h2 {
+        font-size: 6vw;
     }
 
     h3 {
@@ -425,7 +437,7 @@ a.outside-link:hover {
     }
 
     p {
-        font-size: 4.5vw;
+        font-size: 5vw;
     }
 
     #sidebar {
@@ -471,11 +483,6 @@ a.outside-link:hover {
         left: 0;
         width: 100%;
     }
-
-    #contact-us-title {
-        padding: 4vh 4vw;
-        width: calc(100% - var(--desktop-sidebar-width) - 2*4vw);
-    }
     
     #contact-us-content {
         display:grid;
@@ -510,8 +517,12 @@ a.outside-link:hover {
 }
 
 @media only screen and (orientation:landscape) and (max-width:992px) {
+    :root {
+        --mobile-landscape-sidebar-width: 24.5vw;
+    }
+
     #sidebar {
-        width: 24.5vw;
+        width: var(--mobile-landscape-sidebar-width);
     }
     
     #sidebar-links > a > h3 {
@@ -524,17 +535,17 @@ a.outside-link:hover {
     }
     
     .shrink-content {
-        left: calc(20vw + 4.5vw);
-        width: calc(100% - 24.5vw);
+        left: var(--mobile-landscape-sidebar-width);
+        width: calc(100% - var(--mobile-landscape-sidebar-width));
     }
     
     aside {
-        min-width: 27.5vw;
+        min-width: calc(var(--mobile-landscape-sidebar-width) + 3vw);
     }
     
     .static-content {
-        left: calc(20vw + 4.5vw);
-        width: calc(100% - 24.5vw);
+        left: var(--mobile-landscape-sidebar-width);
+        width: calc(100% - var(--mobile-landscape-sidebar-width));
     }
     
     .about-us-images {
@@ -542,12 +553,6 @@ a.outside-link:hover {
     }
  
     .documentation-content {
-        width: calc(100% - 24.5vw - 2vw) !important;
-    }
-
-    #contact-us-title {
-        font-size: 3rem;
-        padding: 4vh 4vw;
-        width: calc(100% - 2*4vw)
+        width: calc(100% - var(--mobile-landscape-sidebar-width) - 2vw) !important;
     }
 }

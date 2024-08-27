@@ -18,6 +18,7 @@ class Item {
     addToContent;
     imageAttrs;
     cardAttrs;
+    alt;
     constructor(itemBuilder) {
         this.parentDiv = itemBuilder.parentDiv;
         this.title = itemBuilder.title;
@@ -29,6 +30,7 @@ class Item {
         this.imageAttrs = itemBuilder.imageAttrs;
         this.cardAttrs = itemBuilder.cardAttrs;
         this.titleAttrs = itemBuilder.titleAttrs;
+        this.alt = itemBuilder.altText;
         this.item = null;
     }
 
@@ -39,19 +41,33 @@ class Item {
         return item;
     }
     
-    createImageWithCaption(text, imgPath, attrs=null) {
+    createImageWithCaption(text, imgPath, altText, attrs=null) {
         const img = document.createElement("img");
+        img.alt = altText;
         img.src = imgPath;
     
-        const caption = document.createElement("h4");
+        const caption = document.createElement("h3");
         caption.innerHTML = text;
     
-        const ImageWithCaption = document.createElement("div")
+        const ImageWithCaption = document.createElement("aside")
+        ImageWithCaption.title = "Click to fullscreen image";
         applyAttributes(attrs, ImageWithCaption);
+        
         ImageWithCaption.appendChild(img);
         ImageWithCaption.appendChild(caption);
         ImageWithCaption.classList.add("image-with-caption");
-    
+
+        ImageWithCaption.addEventListener("click", () => {
+           img.requestFullscreen();
+           img.style.width = document.body.offsetWidth;
+           img.style.height = document.body.offsetHeight;
+           img.style.width = "";
+           img.style.height = "";
+           closeSidebar();  // Chrome stinks
+        });
+
+        img.addEventListener("click", () => {if(document.fullscreenElement) document.exitFullscreen();});
+
         return ImageWithCaption;
     }
     
@@ -82,18 +98,21 @@ class Item {
         }
 
         if(this.list){
-            const listHtml = this.list.map((listElem)=>`<li>${listElem}</li>`);
+            const listHtml = this.list.map((listItem)=>`<li>${listItem}</li>`);
+            let listStr = "<ul>";
+            listHtml.forEach((listItem) => listStr += listItem);
+            listStr += "</ul>";
             if(this.addToContent && this.content){
-                listHtml.forEach((listElem) => this.caption.innerHTML += listElem);
+                this.content.innerHTML += listStr;
             } else {
                 const listCaption = this.createContentCaption();
-                listHtml.forEach((listElem) => listCaption.innerHTML += listElem);
+                listCaption.innerHTML = listStr;
                 this.item.appendChild(listCaption);
             }
         }
 
         if (this.content && this.imagePath && this.imageCaptionText) {
-            const imageDiv = this.createImageWithCaption(this.imageCaptionText, this.imagePath, this.imageAttrs);
+            const imageDiv = this.createImageWithCaption(this.imageCaptionText, this.imagePath, this.alt, this.imageAttrs);
             imageDiv.classList.add("caption-image");
             caption.insertAdjacentElement('afterbegin', imageDiv);
         }
@@ -117,6 +136,7 @@ class ItemBuilder {
     cardAttrs;
     imageAttrs;
     titleAttrs;
+    alt;
     constructor(parentDiv, cardAttrs=null) {
         this.parentDiv = parentDiv;
         this.title = null;
@@ -127,6 +147,7 @@ class ItemBuilder {
         this.imageAttrs = null;
         this.cardAttrs = cardAttrs;
         this.titleAttrs = null;
+        this.alt = null;
     }
     
     addTitle(title, attrs=null){
@@ -147,10 +168,11 @@ class ItemBuilder {
         return this;
     }
 
-    addImage(imagePath, imageCaptionText, attrs=null) {
+    addImage(imagePath, imageCaptionText, altText, attrs=null) {
         this.imagePath = imagePath;
         this.imageCaptionText = imageCaptionText;
         this.imageAttrs = attrs;
+        this.altText = altText;
         return this;
     }
 
@@ -179,9 +201,11 @@ function loadPage(resolve, reject) {
             content_div = document.getElementById("content");
             sidebarOpen = false;
             if (window.matchMedia("not (orientation:portrait)").matches) openSidebar();
+            
             content_div.addEventListener("click", () => {
                 if (window.matchMedia("(orientation:portrait)").matches) closeSidebar();
             });
+
             resolve(content_div);
         }
         ).catch(() => { reject(); });
@@ -196,15 +220,16 @@ function loadHomepage() {
             "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
         itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New Logo!").addContent(
             "Say hello to our new logo now on both the website and our various accounts!"
-        ).addImage("Assets/Icons/favicon.svg", "Our Logo", {class:"home-image"}));
+        ).addImage("Assets/Icons/favicon.svg", "Our Logo", "Our new Logo", {class:"home-image"}));
         itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("Contact Us Page Operational!").addContent(
-            "Our Contact Us page is now operational. Navigate there through the side menu or click <a class=outside-link\
-            href=contact-us.html>here</a> to check it out!"));
+            "Our <a class=outside-link href=contact-us.html>Contact Us</a> page is now operational. Navigate there through the \
+            side menu to check it out!"));
         itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New Season!").addContent(
             "As the new season 'Into the Deep' begins, we are very excited to begin a new chapter in the story of our team!"));
         itemArray.forEach((x) => {x.build().render()});
     });
 }
+
 
 function loadAboutpage() {
     new Promise(loadPage).then((content_div) => {
@@ -273,7 +298,7 @@ function loadDocumentationpage() {
             header.innerHTML = title;
             header.id = id;
             header.classList.add("documentation-header");
-            addToDocNavBar(header.id, "How to program a bot");
+            addToDocNavBar(id, title);
             return header;
         }
 
@@ -286,8 +311,9 @@ function loadDocumentationpage() {
             docNavBar.appendChild(anchor);
         }
 
-        function createNewIcon(header, informationList) {
+        function createCollapseButton(header, informationList) {
             const collapseIcon = document.createElement("button");
+            collapseIcon.ariaLabel = "Collapse Header";
             header.insertAdjacentElement("beforeend", collapseIcon);
             collapseIcon.classList.add("collapse-button");
             collapseIcon.addEventListener("click", () => {
@@ -308,14 +334,14 @@ function loadDocumentationpage() {
         seconds and in this period the robot must run a preset program without human input to complete tasks and objectives within the bounds of the \
         game. Then the 2:30 minute TeleOp mode begins where players must control their robot with game controllers to complete tasks and score points \
         as fast as possible. The last 30 seconds of the TeleOp mode constitute the endgame time where special rules apply and it is possible to score \
-        more points. To see a more in depth explanation of this year's minigame check out the game manuals \
-        <a class=outside-link target=_blank href=https://www.firstinspires.org/resource-library/ftc/game-and-season-info>here</a>.";
+        more points. To see a more in depth explanation of this year's game check out \
+        <a class=outside-link aria-label=\"Check out this year's game manuals\" target=_blank href=https://www.firstinspires.org/resource-library/ftc/game-and-season-info>the game manuals</a>.";
         
         const overviewCard = Item.prototype.createCardItem();
         overviewCard.appendChild(overviewHeader);
         overviewCard.appendChild(overviewText);
         
-        const programmingHeader = createHeader("How do you program in FTC?", "programming-guide");
+        const programmingHeader = createHeader("How do you program for FTC?", "programming-guide");
         let programmingItemArray = [];
 
         programmingItemArray.push(new ItemBuilder(content_div).addTitle("Overview:").addContent(
@@ -328,9 +354,11 @@ function loadDocumentationpage() {
             and where different OpModes are run from with a simple GUI."));
 
         programmingItemArray.push(new ItemBuilder(content_div).addTitle("Getting Started:").addContent(
-            "To get started fork <a class=outside-link target=_blank href=https://github.com/FIRST-Tech-Challenge/FtcRobotController>the ftc sdk</a> \
-            and copy the link to the fork to paste it into Android Studio (Create new project > Get from VCS > Paste link > Clone). Note you need \
-            to have git which can be downloaded <a class=outside-link target=_blank href=https://git-scm.com/downloads>here</a>. By doing this you \
+            "To get started fork <a class=outside-link aria-label=\"Fork this year's github sdk\" \
+            target=_blank href=https://github.com/FIRST-Tech-Challenge/FtcRobotController>the ftc sdk</a> and \
+            copy the link to the fork to paste it into Android Studio (Create new project > Get from VCS > Paste link > Clone). \
+            Note you need to have <a class=outside-link aria-label=\"Download Git here to use it \
+            in Android Studio\" target=_blank href=https://git-scm.com/downloads>git downloaded</a>. By doing this you \
             will get your own version of the interface to the robotics parts to mess with.\
             <br>\
             Once you have this repository in your Android Studio, navigate to TeamCode and go through the various folders and make three files \
@@ -354,7 +382,11 @@ function loadDocumentationpage() {
             Nulla quis vestibulum sapien. Nulla varius ultricies mollis. Aenean eget sapien condimentum, aliquam ipsum sed, placerat tortor. Nulla facilisi. \
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
             accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
-        ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)"));
+        ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)", 
+            `To drive forward, backward, or to strafe, the left slant wheels move together and the
+            right slant wheels move together. However to rotate skid-steer style, the left slant
+            wheels move counter to one another as do the right slant wheels - this requires four
+            separate channels on your motor controller.`));
             
         programmingItemArray.push(new ItemBuilder(content_div).addTitle("CV:").addContent(
             "Lorem Ipsum"));
@@ -375,17 +407,17 @@ function loadDocumentationpage() {
 
         content_div.appendChild(programmingHeader);
         programmingItemArray = programmingItemArray.map((x) => {return x.build();});        
-        createNewIcon(programmingHeader, programmingItemArray);
+        createCollapseButton(programmingHeader, programmingItemArray);
         programmingItemArray.forEach((elem) => {elem.render();})
         
         content_div.appendChild(cadHeader);
         cadItemArray = cadItemArray.map((x) => {return x.build();});        
-        createNewIcon(cadHeader, cadItemArray);
+        createCollapseButton(cadHeader, cadItemArray);
         cadItemArray.forEach((x) => {x.render()});
         
         content_div.appendChild(buildHeader);
         buildingItemArray = buildingItemArray.map((x) => {return x.build();});        
-        createNewIcon(buildHeader, buildingItemArray);
+        createCollapseButton(buildHeader, buildingItemArray);
         buildingItemArray.forEach((x) => {x.render()});
     });
 }
@@ -421,8 +453,7 @@ function loadContactUspage() {
         <a class="outside-link" target=_blank href=mailto:24702regalrobots@gmail.com>24702regalrobots@gmail.com</a>,<br><br>
         you can message our instagram account: 
         <a class= "outside-link" target=_blank href=https://www.instagram.com/regalrobots/>regal robots</a>,<br><br>
-        join our discord server by clicking on the widget below or clicking 
-        <a class="outside-link" target=_blank href=https://discord.gg/Avy2Zf9r>here</a>,<br><br>
+        <a class="outside-link" target=_blank href=https://discord.gg/Avy2Zf9r>join our discord server</a> by clicking on the widget below,<br><br>
         or you can complete the form to the side and we will promptly receive your message.`;
         otherContactsDiv.appendChild(otherContactsText);
 
