@@ -45,6 +45,7 @@ class Item {
         const img = document.createElement("img");
         img.alt = altText;
         img.src = imgPath;
+        img.tabIndex = 0;
     
         const caption = document.createElement("h3");
         caption.innerHTML = text;
@@ -55,7 +56,6 @@ class Item {
         
         ImageWithCaption.appendChild(img);
         ImageWithCaption.appendChild(caption);
-        ImageWithCaption.tabIndex = 0;
         ImageWithCaption.classList.add("image-with-caption");
 
         let fullScreenImg = () => {
@@ -67,15 +67,13 @@ class Item {
             closeSidebar();  // Chrome stinks
         }
 
-        ImageWithCaption.addEventListener("click", () => {
-            fullScreenImg();
+        img.addEventListener("click", () => {
+            document.fullscreenElement ? document.exitFullscreen() : fullScreenImg();
         });
 
-        ImageWithCaption.addEventListener("keyup", (e) => {
+        img.addEventListener("keyup", (e) => {
             if(e.code === "Enter") fullScreenImg();
         });
-
-        img.addEventListener("click", () => {if(document.fullscreenElement) document.exitFullscreen();});
 
         document.addEventListener("keyup", (e) => {
             if(e.code === "Enter" && document.fullscreenElement) document.exitFullscreen();
@@ -305,6 +303,11 @@ function loadDocumentationpage() {
 
         const docNavBar = document.createElement("div");
         docNavBar.id = "documentation-navigation-sidebar";
+
+        const docNavBarAnchorContainer = document.createElement("div");
+        docNavBarAnchorContainer.id = "documentation-navigation-anchor-container";
+
+        docNavBar.appendChild(docNavBarAnchorContainer);
         
         function createHeader(title, id) {
             const header = document.createElement("h1");
@@ -321,7 +324,7 @@ function loadDocumentationpage() {
             anchor.classList.add("outside-link");
             anchor.innerHTML = name;
             anchor.href = "./documentation.html#" + id;
-            docNavBar.appendChild(anchor);
+            docNavBarAnchorContainer.appendChild(anchor);
         }
 
         function createCollapseButton(header, informationList) {

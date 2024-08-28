@@ -1,7 +1,7 @@
 /* Place your CSS styles in this file */
 
 :root {
-    --caption-background: #0E3569;
+    --caption-background: #0E3569A9;
     --background-color: #CEAFDE;
     --primary-color: #A167A5;
     --accent-color: #FFDEFF;
@@ -9,7 +9,7 @@
     --default-border-radius: 30px;
     --desktop-sidebar-width: 13.5vw;
     --top-div-height: 14vh;
-    color: #CCC;
+    --text-color: #CCC;
 }
 
 input,
@@ -21,7 +21,7 @@ a {
 }
 
 *:focus {
-    outline:auto;
+    outline: auto;
 }
 
 h1,
@@ -75,6 +75,10 @@ img {
     height: auto;
 }
 
+img:focus {
+    outline: blue solid 3px;
+}
+
 body {
     display: flex;
     width: 100%;
@@ -97,13 +101,15 @@ body {
     transition: background-size 0.1s, transform 0.1s;
 }
 
-#home-logo:hover, #home-logo:focus {
+#home-logo:hover,
+#home-logo:focus {
     transform: scale(1.1);
 }
 
 #menu-button-box {
     margin-left: 2vw;
     transform: scale(1.5);
+    display: flex;
 }
 
 #menu-button-box:hover>#menu-button {
@@ -222,8 +228,7 @@ a>h3 {
 }
 
 #sidebar-links>a:hover,
-#sidebar-links>a>h3:hover
-#sidebar-links>a:focus {
+#sidebar-links>a>h3:hover #sidebar-links>a:focus {
     color: #FFFFFF;
     background-color: var(--background-color);
 }
@@ -234,6 +239,23 @@ a>h3 {
 
 #contact-us-title {
     padding: 4vh 4vw;
+}
+
+.image-with-caption>img {
+    margin-top: 2.5%;
+    width: 95%;
+    border-radius: 30px;
+}
+
+.default-padding {
+    padding: var(--default-padding);
+}
+
+.images-container {
+    border-radius: var(--default-border-radius);
+    background: var(--caption-background);
+    padding-bottom: 1.5vh;
+    height: fit-content;
 }
 
 .caption-image {
@@ -251,12 +273,15 @@ a.outside-link:active {
     color: var(--primary-color);
 }
 
-a.outside-link:hover, a.outside-link:focus {
+a.outside-link:hover,
+a.outside-link:focus {
     background-color: var(--primary-color);
 }
 
 .about-us-images {
+    /* background-color: darkgreen; */
     flex: 0.5;
+    color: var(--text-color);
 }
 
 .documentation-header {
@@ -288,7 +313,7 @@ a.outside-link:hover, a.outside-link:focus {
     cursor: pointer;
     background-image: url("Assets/Icons/collapse-arrow.svg");
     transform-origin: 100% 50%;
-    transform: rotate(-90deg) translate(2vmax, -50%);
+    transform: rotate(-90deg) translate(50%, -50%);
     align-self: center;
     justify-self: right;
     transition: transform 200ms;
@@ -308,19 +333,23 @@ a.outside-link:hover, a.outside-link:focus {
 #documentation-navigation-sidebar {
     display: flex;
     flex-direction: column;
-    padding: 0.5vw;
-    gap: 1rem;
     justify-content: center;
     margin: 1vmax;
     width: calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width)));
     margin-top: calc(var(--top-div-height) + 1vw);
     height: calc(100lvh - 2 * var(--top-div-height) - 2vmax);
+    overflow-y: scroll;
     position: fixed;
     border-left: 0.2vw solid var(--primary-color);
 }
 
-#documentation-navigation-sidebar>a {
+#documentation-navigation-sidebar>#documentation-navigation-anchor-container>a {
+    display: flex;
+    flex-direction: column;
     text-decoration-line: none;
+    margin: auto;
+    padding: 0.5vw;
+    gap: 1rem;
 }
 
 .card-div {
@@ -346,12 +375,16 @@ a.outside-link:hover, a.outside-link:focus {
 }
 
 .caption {
-    color: #CCC;
+    color: var(--text-color);
     background-color: var(--caption-background);
     padding: var(--default-padding);
     border-radius: var(--default-border-radius);
     flex: 1;
 }
+
+/* :nth-child(3n + 2 of .card-div)>.caption {
+    background-color: green;
+} */
 
 .caption>ul>li {
     list-style-type: "\2B95 \0020";
@@ -367,27 +400,6 @@ a.outside-link:hover, a.outside-link:focus {
     flex-direction: column;
     align-items: center;
     display: flex;
-}
-
-.image-with-caption:focus {
-    outline: blue solid 3px;
-}
-
-.image-with-caption>img {
-    margin-top: 2.5%;
-    width: 95%;
-    border-radius: 30px;
-}
-
-.default-padding {
-    padding: var(--default-padding);
-}
-
-.images-container {
-    border-radius: var(--default-border-radius);
-    background: var(--caption-background);
-    padding-bottom: 1.5vh;
-    height: fit-content;
 }
 
 .flex-column {
