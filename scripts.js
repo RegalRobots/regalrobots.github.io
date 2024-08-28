@@ -49,24 +49,37 @@ class Item {
         const caption = document.createElement("h3");
         caption.innerHTML = text;
     
-        const ImageWithCaption = document.createElement("aside")
+        const ImageWithCaption = document.createElement("div")
         ImageWithCaption.title = "Click to fullscreen image";
         applyAttributes(attrs, ImageWithCaption);
         
         ImageWithCaption.appendChild(img);
         ImageWithCaption.appendChild(caption);
+        ImageWithCaption.tabIndex = 0;
         ImageWithCaption.classList.add("image-with-caption");
 
+        let fullScreenImg = () => {
+            img.requestFullscreen();
+            img.style.width = document.body.offsetWidth;
+            img.style.height = document.body.offsetHeight;
+            img.style.width = "";
+            img.style.height = "";
+            closeSidebar();  // Chrome stinks
+        }
+
         ImageWithCaption.addEventListener("click", () => {
-           img.requestFullscreen();
-           img.style.width = document.body.offsetWidth;
-           img.style.height = document.body.offsetHeight;
-           img.style.width = "";
-           img.style.height = "";
-           closeSidebar();  // Chrome stinks
+            fullScreenImg();
+        });
+
+        ImageWithCaption.addEventListener("keyup", (e) => {
+            if(e.code === "Enter") fullScreenImg();
         });
 
         img.addEventListener("click", () => {if(document.fullscreenElement) document.exitFullscreen();});
+
+        document.addEventListener("keyup", (e) => {
+            if(e.code === "Enter" && document.fullscreenElement) document.exitFullscreen();
+        });
 
         return ImageWithCaption;
     }

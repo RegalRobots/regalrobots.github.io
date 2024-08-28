@@ -20,6 +20,10 @@ a {
     -webkit-tap-highlight-color: transparent;
 }
 
+*:focus {
+    outline:auto;
+}
+
 h1,
 h2 {
     color: #000;
@@ -93,7 +97,7 @@ body {
     transition: background-size 0.1s, transform 0.1s;
 }
 
-#home-logo:hover {
+#home-logo:hover, #home-logo:focus {
     transform: scale(1.1);
 }
 
@@ -218,7 +222,8 @@ a>h3 {
 }
 
 #sidebar-links>a:hover,
-#sidebar-links>a>h3:hover {
+#sidebar-links>a>h3:hover
+#sidebar-links>a:focus {
     color: #FFFFFF;
     background-color: var(--background-color);
 }
@@ -246,7 +251,7 @@ a.outside-link:active {
     color: var(--primary-color);
 }
 
-a.outside-link:hover {
+a.outside-link:hover, a.outside-link:focus {
     background-color: var(--primary-color);
 }
 
@@ -306,10 +311,10 @@ a.outside-link:hover {
     padding: 0.5vw;
     gap: 1rem;
     justify-content: center;
-    margin: 1vw;
+    margin: 1vmax;
     width: calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width)));
     margin-top: calc(var(--top-div-height) + 1vw);
-    height: calc(100% - 2 * var(--top-div-height) - 2vw);
+    height: calc(100lvh - 2 * var(--top-div-height) - 2vmax);
     position: fixed;
     border-left: 0.2vw solid var(--primary-color);
 }
@@ -362,6 +367,10 @@ a.outside-link:hover {
     flex-direction: column;
     align-items: center;
     display: flex;
+}
+
+.image-with-caption:focus {
+    outline: blue solid 3px;
 }
 
 .image-with-caption>img {
