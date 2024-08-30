@@ -584,7 +584,11 @@ function sideMenuHandler() {
 
 function openSidebar() {
     sidebarOpen = true;
-    document.querySelector("#menu-button").classList.add("close-sidebar-button");
+    let menuButton = document.querySelector("#menu-button");
+    menuButton.classList.add("close-sidebar-button");
+    menuButton.ariaLabel = "Sidebar button, select to close";
+    menuButton.title = "Open Sidebar";
+
     titleBar.classList.remove("grow-content");
     titleBar.classList.add("shrink-content");
     sidebar.classList.remove("close-sidebar");
@@ -597,7 +601,11 @@ function openSidebar() {
 
 function closeSidebar() {
     sidebarOpen = false;
-    document.querySelector("#menu-button").classList.remove("close-sidebar-button");
+    let menuButton = document.querySelector("#menu-button");
+    menuButton.classList.remove("close-sidebar-button");
+    menuButton.ariaLabel = "Sidebar button, select to open";
+    menuButton.title = "Open Sidebar";
+
     titleBar.classList.remove("shrink-content");
     titleBar.classList.add("grow-content");
     sidebar.classList.remove("open-sidebar");

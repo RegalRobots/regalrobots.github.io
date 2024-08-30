@@ -13,7 +13,7 @@
     <div id="top-div" class="grow-content">
         <div id="menu-button-box">
             <button onclick="sideMenuHandler()" id="menu-button" class="svg-button"
-            aria-label="Sidebar Button", aria-labelledby="sidebar-links", title="Open Sidebar"></button>
+            aria-label="Sidebar button, select to open", aria-labelledby="sidebar-links", title="Open Sidebar"></button>
         </div>
         <a id="home-logo" aria-label="Go to home page" href="index.html"></a>
     </div>
