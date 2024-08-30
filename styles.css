@@ -1,5 +1,3 @@
-/* Place your CSS styles in this file */
-
 :root {
     --caption-background: #0E3569A9;
     --background-color: #CEAFDE;
@@ -12,6 +10,7 @@
     --text-color: #CCC;
 }
 
+/* || reset defaults || */
 input,
 textarea,
 button,
@@ -33,7 +32,7 @@ h2 {
     background: var(--primary-color);
     overflow: hidden;
     display: inline;
-    padding: 1vmax;
+    padding: var(--default-border-radius);
 }
 
 h2 {
@@ -42,6 +41,7 @@ h2 {
 
 h3 {
     font-size: clamp(1.2vw, 1.2rem, 2vw);
+    margin: 0.5rem;
 }
 
 h4,
@@ -88,15 +88,19 @@ body {
     background-color: var(--background-color);
 }
 
-#menu-button {
+/* || navigation || */
+.svg-button {
     background: none;
-    background-image: url("Assets/Icons/menu.svg");
     background-position: center center;
     background-repeat: no-repeat;
-    width: 8vh;
-    height: 8vh;
     border: none;
     cursor: pointer;
+}
+
+#menu-button {
+    background-image: url("Assets/Icons/menu.svg");
+    width: 8vh;
+    height: 8vh;
     transform: scale(calc(1 / 1.5));
     transition: background-size 0.1s, transform 0.1s;
 }
@@ -104,6 +108,15 @@ body {
 #home-logo:hover,
 #home-logo:focus {
     transform: scale(1.1);
+}
+
+.close-sidebar-button {
+    background-image: url("Assets/Icons/close_menu.svg") !important;
+}
+
+.close-sidebar-button:hover,
+.close-sidebar-button:focus {
+    background-image: url("Assets/Icons/close_menu_active.svg") !important;
 }
 
 #menu-button-box {
@@ -150,6 +163,7 @@ body {
 }
 
 /* keep in this order */
+/* || content shrinking, sidebar opening || */
 .grow-content {
     position: absolute;
     transition-property: left, width;
@@ -204,6 +218,7 @@ body {
     overflow: hidden;
 }
 
+/* || content, styling || */
 #content {
     margin-top: var(--top-div-height);
     padding: 1vw;
@@ -211,6 +226,60 @@ body {
     flex-wrap: wrap;
     width: inherit;
     gap: 2.5vmax;
+}
+
+.default-padding {
+    padding: var(--default-padding);
+}
+
+.card-div {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    height: min-content;
+    flex: 1;
+}
+
+.caption {
+    color: var(--text-color);
+    background-color: var(--caption-background);
+    padding: var(--default-padding);
+    border-radius: var(--default-border-radius);
+    flex: 1;
+}
+
+.image-with-caption>img {
+    margin-top: 2.5%;
+    width: 95%;
+    border-radius: 30px;
+}
+
+
+.images-container {
+    border-radius: var(--default-border-radius);
+    background: var(--caption-background);
+    padding-bottom: 1.5vh;
+    height: fit-content;
+}
+
+.caption-image {
+    float: right;
+    min-width: 20vw;
+    max-width: 25%;
+    margin: 1vh;
+}
+
+.home-content {
+    display: grid !important;
+    grid-template:auto / 1fr 1fr 1fr;
+}
+
+.home-image {
+    min-width: auto;
+}
+
+.home-image>img {
+    border-radius: 0px !important;
 }
 
 #sidebar-links>a {
@@ -228,7 +297,8 @@ a>h3 {
 }
 
 #sidebar-links>a:hover,
-#sidebar-links>a>h3:hover #sidebar-links>a:focus {
+#sidebar-links>a>h3:hover,
+ #sidebar-links>a:focus {
     color: #FFFFFF;
     background-color: var(--background-color);
 }
@@ -239,30 +309,6 @@ a>h3 {
 
 #contact-us-title {
     padding: 4vh 4vw;
-}
-
-.image-with-caption>img {
-    margin-top: 2.5%;
-    width: 95%;
-    border-radius: 30px;
-}
-
-.default-padding {
-    padding: var(--default-padding);
-}
-
-.images-container {
-    border-radius: var(--default-border-radius);
-    background: var(--caption-background);
-    padding-bottom: 1.5vh;
-    height: fit-content;
-}
-
-.caption-image {
-    float: right;
-    min-width: 20vw;
-    max-width: 25%;
-    margin: 1vh;
 }
 
 a.outside-link {
@@ -276,6 +322,10 @@ a.outside-link:active {
 a.outside-link:hover,
 a.outside-link:focus {
     background-color: var(--primary-color);
+}
+
+.about-us-caption {
+    text-align: left;
 }
 
 .about-us-images {
@@ -306,12 +356,8 @@ a.outside-link:focus {
 }
 
 .collapse-button {
-    background: none;
     background-position: right center;
-    background-repeat: no-repeat;
-    border: none;
-    cursor: pointer;
-    background-image: url("Assets/Icons/collapse-arrow.svg");
+    background-image: url("Assets/Icons/collapse_arrow.svg");
     transform-origin: 100% 50%;
     transform: rotate(-90deg) translate(50%, -50%);
     align-self: center;
@@ -330,7 +376,7 @@ a.outside-link:focus {
     left: var(--desktop-sidebar-width);
 }
 
-#documentation-navigation-sidebar {
+#documentation-navbar {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -343,7 +389,7 @@ a.outside-link:focus {
     border-left: 0.2vw solid var(--primary-color);
 }
 
-#documentation-navigation-sidebar>#documentation-navigation-anchor-container>a {
+#documentation-navbar>#navbar-anchor-container>a {
     display: flex;
     flex-direction: column;
     text-decoration-line: none;
@@ -352,35 +398,36 @@ a.outside-link:focus {
     gap: 1rem;
 }
 
-.card-div {
+.copy-toast-content {
+    /* position: absolute; */
+    display: block;
+    margin: 2.5%;
+    align-self: center;
+    justify-self: center;
+    text-align: center;
+}
+
+.copy-toast-container {
+    display: none;
+    position: fixed;
+    height: fit-content;
+    overflow: auto;
+    width: calc(72.5% * calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width))));
+    left: calc(22.5% * calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width))));
+    border-radius: 25%;
+    /* top: 2rem; */
+    /* z-index: 1; */
+    margin-top: -3rem;
+    background: var(--primary-color);
+}
+
+.show-toast {
     display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    height: min-content;
-    flex: 1;
 }
 
-.home-card {
-    max-width: 30%;
-    height: min-content;
-    flex: auto;
-}
-
-.home-image {
-    min-width: auto;
-}
-
-.home-image>img {
-    border-radius: 0px !important;
-}
-
-.caption {
-    color: var(--text-color);
-    background-color: var(--caption-background);
-    padding: var(--default-padding);
-    border-radius: var(--default-border-radius);
-    flex: 1;
-}
+/* #documentation-navbar>#navbar-anchor-container>a.activate::before {
+    display:relative;
+} */
 
 /* :nth-child(3n + 2 of .card-div)>.caption {
     background-color: green;
@@ -457,6 +504,10 @@ a.outside-link:focus {
         font-size: 6vw;
     }
 
+    .home-content {
+        grid-template: auto / 1fr !important;
+    }
+
     #sidebar-links>a>h3,
     h3 {
         font-size: 5.5vw;
@@ -488,7 +539,7 @@ a.outside-link:focus {
         max-width: none;
     }
 
-    #documentation-navigation-sidebar {
+    #documentation-navbar {
         display: none;
     }
 

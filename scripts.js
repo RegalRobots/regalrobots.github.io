@@ -225,17 +225,18 @@ function loadPage(resolve, reject) {
 function loadHomepage() {
     new Promise(loadPage).then((content_div) => {
         document.getElementById("home").classList.add("selected-link");
+        content_div.classList.add("home-content");
 
         const itemArray = new Queue();
-        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New website up and running!").addContent(
+        itemArray.push(new ItemBuilder(content_div).addTitle("New website up and running!").addContent(
             "Hello world! This is our website made ahead of the 2024-2025 season of the FTC robotics competition!"));
-        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New Logo!").addContent(
+        itemArray.push(new ItemBuilder(content_div).addTitle("New Logo!").addContent(
             "Say hello to our new logo now on both the website and our various accounts!"
         ).addImage("Assets/Icons/favicon.svg", "Our Logo", "Our new Logo", {class:"home-image"}));
-        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("Contact Us Page Operational!").addContent(
+        itemArray.push(new ItemBuilder(content_div).addTitle("Contact Us Page Operational!").addContent(
             "Our <a class=outside-link href=contact-us.html>Contact Us</a> page is now operational. Navigate there through the \
             side menu to check it out!"));
-        itemArray.push(new ItemBuilder(content_div, {class:"home-card"}).addTitle("New Season!").addContent(
+        itemArray.push(new ItemBuilder(content_div).addTitle("New Season!").addContent(
             "As the new season 'Into the Deep' begins, we are very excited to begin a new chapter in the story of our team!"));
         itemArray.forEach((x) => {x.build().render()});
     });
@@ -263,6 +264,7 @@ function loadAboutpage() {
         better this season but to be able to preserve as much knowledge and experience as possible through the \
         documentation on this website and through our our school-wide robotics club and this junior team.";
         caption.classList.add("caption");
+        caption.classList.add("about-us-caption");
 
         const item = Item.prototype.createCardItem();
 
@@ -302,13 +304,13 @@ function loadDocumentationpage() {
         content_div.classList.add("documentation-content");
 
         const docNavBar = document.createElement("div");
-        docNavBar.id = "documentation-navigation-sidebar";
+        docNavBar.id = "documentation-navbar";
 
         const docNavBarAnchorContainer = document.createElement("div");
-        docNavBarAnchorContainer.id = "documentation-navigation-anchor-container";
+        docNavBarAnchorContainer.id = "navbar-anchor-container";
 
         docNavBar.appendChild(docNavBarAnchorContainer);
-        
+
         function createHeader(title, id) {
             const header = document.createElement("h1");
             header.innerHTML = title;
@@ -320,10 +322,35 @@ function loadDocumentationpage() {
 
         function addToDocNavBar(id, name){
             const anchor = document.createElement("a");
+            const copyToastContainer = document.createElement("div");
+            const copyToastContent =  document.createElement("div");
+            copyToastContainer.appendChild(copyToastContent);
+
             anchor.classList.add("documentation-nav-links");
             anchor.classList.add("outside-link");
             anchor.innerHTML = name;
             anchor.href = "./documentation.html#" + id;
+            
+            
+            copyToastContainer.classList.add("copy-toast-container");
+            copyToastContent.classList.add("copy-toast-content");
+            
+            async function writeClipboardText(text) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                } catch(error) {
+                    console.error("Could not copy navigator text.", error.message);
+                    return false;
+                } return true;
+            }
+            
+            anchor.addEventListener("click", () => {
+                copyToastContainer.classList.add("show-toast");
+                if (writeClipboardText(anchor.href)) copyToastContent.textContent = "Copied to clipboard.";
+                else copyToastContent.textContent = "Could not copy to clipboard.";
+                setTimeout(() => {copyToastContainer.classList.remove("show-toast");}, 2000);
+            });
+            docNavBarAnchorContainer.appendChild(copyToastContainer);
             docNavBarAnchorContainer.appendChild(anchor);
         }
 
@@ -331,6 +358,7 @@ function loadDocumentationpage() {
             const collapseIcon = document.createElement("button");
             collapseIcon.ariaLabel = "Collapse Header";
             header.insertAdjacentElement("beforeend", collapseIcon);
+            collapseIcon.classList.add("svg-button");
             collapseIcon.classList.add("collapse-button");
             collapseIcon.addEventListener("click", () => {
                 collapseIcon.classList.toggle("collapse-button-close")
@@ -556,21 +584,23 @@ function sideMenuHandler() {
 
 function openSidebar() {
     sidebarOpen = true;
+    document.querySelector("#menu-button").classList.add("close-sidebar-button");
     titleBar.classList.remove("grow-content");
+    titleBar.classList.add("shrink-content");
     sidebar.classList.remove("close-sidebar");
     sidebar.classList.add("open-sidebar");
-    titleBar.classList.add("shrink-content");
     content_div.classList.remove("grow-content");
     content_div.classList.add("shrink-content");
     if (window.matchMedia("only screen and (orientation:landscape) and (max-width:992px)").matches
-        || window.matchMedia("(orientation:portrait)").matches) document.body.style.overflow = "hidden";
+    || window.matchMedia("(orientation:portrait)").matches) document.body.style.overflow = "hidden";
 }
 
 function closeSidebar() {
     sidebarOpen = false;
+    document.querySelector("#menu-button").classList.remove("close-sidebar-button");
     titleBar.classList.remove("shrink-content");
-    sidebar.classList.remove("open-sidebar");
     titleBar.classList.add("grow-content");
+    sidebar.classList.remove("open-sidebar");
     sidebar.classList.add("close-sidebar");
     content_div.classList.remove("shrink-content");
     content_div.classList.add("grow-content");
