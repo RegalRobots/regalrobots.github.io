@@ -253,7 +253,10 @@ function loadHomepage() {
             "As the new season 'Into the Deep' begins, we are very excited to begin a new chapter in the story of our team!"));
         itemArray.push(new ItemBuilder(content_div, {class:"large-home-card"}).addTitle("Lighthouse score of 100!").addContent(
             "Google Lighthouse, a web development indicator, when run on our site retuns a score of 100 for performance, \
-            accessibility, best practices, and SEO. The most important aspect of our site, to us at Regal Robots, is creating an \
+            accessibility, best practices, and SEO \
+            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io/oz0ehijm76?form_factor=mobile>\
+            Check for yourself! </a>). \
+            The most important aspect of our site, to us at Regal Robots, is creating an \
             experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this \
             possible including changing colors to have more contrast and to make text clearer as well as adding labels for \
             screenreaders for users that use assistive technology. This is a real point of pride for us since we can now freely say \
