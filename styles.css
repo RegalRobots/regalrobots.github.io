@@ -1,16 +1,17 @@
 :root {
-    --caption-background: #0E3569A9;
+    --caption-background: #3D17A6;
     --background-color: #CEAFDE;
-    --primary-color: #A167A5;
+    --primary-color: #7C288F;
     --accent-color: #FFDEFF;
+    --text-color: #CCC;
+    --text-color-2: #2B2B2B;
     --default-padding: 15px 15px 2vh;
     --default-border-radius: 30px;
     --desktop-sidebar-width: 13.5vw;
     --top-div-height: 14vh;
-    --text-color: #CCC;
 }
 
-/* || reset defaults || */
+/* || reset defaults*/
 input,
 textarea,
 button,
@@ -25,7 +26,7 @@ a {
 
 h1,
 h2 {
-    color: #000;
+    color: var(--text-color);
     font-size: clamp(2vw, 3rem, 8vw);
     margin: 0;
     text-align: center;
@@ -88,7 +89,7 @@ body {
     background-color: var(--background-color);
 }
 
-/* || navigation || */
+/* || navigation*/
 .svg-button {
     background: none;
     background-position: center center;
@@ -163,7 +164,7 @@ body {
 }
 
 /* keep in this order */
-/* || content shrinking, sidebar opening || */
+/* || content shrinking, sidebar opening*/
 .grow-content {
     position: absolute;
     transition-property: left, width;
@@ -218,7 +219,27 @@ body {
     overflow: hidden;
 }
 
-/* || content, styling || */
+/* || content, styling */
+#sidebar-links>a {
+    padding: 2vh 1vw 1vh;
+    display: block;
+}
+
+#sidebar-links>a>h3 {
+    font-size: 1.25vw;
+}
+
+#sidebar-links>a:hover,
+#sidebar-links>a>h3:hover,
+#sidebar-links>a:focus {
+    color: #FFFFFF;
+    background-color: var(--background-color);
+}
+
+#sidebar-links>a:active {
+    color: var(--primary-color);
+}
+
 #content {
     margin-top: var(--top-div-height);
     padding: 1vw;
@@ -254,6 +275,10 @@ body {
     border-radius: 30px;
 }
 
+/* .image-img {
+    background: none;
+    border: none;
+} */
 
 .images-container {
     border-radius: var(--default-border-radius);
@@ -282,29 +307,13 @@ body {
     border-radius: 0px !important;
 }
 
-#sidebar-links>a {
-    padding: 2vh 1vw 1vh;
-    display: block;
-}
-
-#sidebar-links>a>h3 {
-    font-size: 1.25vw;
+.large-home-card {
+    grid-column: 1 / 3;
 }
 
 a>h3 {
     word-wrap: break-word;
     margin: 0;
-}
-
-#sidebar-links>a:hover,
-#sidebar-links>a>h3:hover,
- #sidebar-links>a:focus {
-    color: #FFFFFF;
-    background-color: var(--background-color);
-}
-
-#sidebar-links>a:active {
-    color: var(--primary-color);
 }
 
 #contact-us-title {
@@ -322,6 +331,7 @@ a.outside-link:active {
 a.outside-link:hover,
 a.outside-link:focus {
     background-color: var(--primary-color);
+    color: var(--accent-color);
 }
 
 .about-us-caption {
@@ -336,6 +346,7 @@ a.outside-link:focus {
 
 .documentation-header {
     background: none;
+    color: #000;
     text-align: left;
     padding: 10px;
     border-bottom: 0.15vh solid #a167a5;
@@ -352,7 +363,7 @@ a.outside-link:focus {
 }
 
 .selected-link {
-    color: rgba(202, 224, 255, 0.5);
+    color: rgba(202, 224, 255);
 }
 
 .collapse-button {
@@ -384,7 +395,7 @@ a.outside-link:focus {
     width: calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width)));
     margin-top: calc(var(--top-div-height) + 1vw);
     height: calc(100lvh - 2 * var(--top-div-height) - 2vmax);
-    overflow-y: scroll;
+    overflow-y: auto;
     position: fixed;
     border-left: 0.2vw solid var(--primary-color);
 }
@@ -403,26 +414,38 @@ a.outside-link:focus {
     display: block;
     margin: 2.5%;
     align-self: center;
-    justify-self: center;
     text-align: center;
 }
 
 .copy-toast-container {
     display: none;
+    color: var(--text-color);
     position: fixed;
     height: fit-content;
     overflow: auto;
-    width: calc(72.5% * calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width))));
-    left: calc(22.5% * calc(100% - 2vw - calc(100% - var(--desktop-sidebar-width))));
-    border-radius: 25%;
-    /* top: 2rem; */
-    /* z-index: 1; */
-    margin-top: -3rem;
-    background: var(--primary-color);
+    border-radius: 10px;
+    left: 40%;
+    width: 20%;
+    bottom: 2vmax;
+    background: #0E3569;
 }
 
 .show-toast {
+    --toast-animation-delay: 1000ms;
+    --toast-animation-duration: 350ms;
     display: flex;
+    box-shadow: 0.1vmax 0.25vmax 0.2vmax 0.1vmax #00000039;
+    animation: toast-animation var(--toast-animation-duration) ease-in 1 forwards, 
+               toast-animation 200ms ease-out calc(var(--toast-animation-duration) + var(--toast-animation-delay)) 1 reverse;
+}
+
+@keyframes toast-animation {
+    from {
+        bottom: 2vmax;
+    } 
+    to {
+        bottom: 5vmax;
+    }
 }
 
 /* #documentation-navbar>#navbar-anchor-container>a.activate::before {
@@ -492,7 +515,7 @@ a.outside-link:focus {
 }
 
 .documentation-nav-links {
-    color: var(--caption-background);
+    color: var(--text-color-2);
 }
 
 @media(orientation:portrait) {
@@ -598,6 +621,10 @@ a.outside-link:focus {
 
     .large-title {
         font-size: 4rem;
+    }
+
+    .large-home-card {
+        grid-column: auto / auto;
     }
 }
 

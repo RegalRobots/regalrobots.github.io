@@ -1,6 +1,6 @@
 <body>
 <div class="navigation">
-    <div id="sidebar" class="close-sidebar">
+    <nav id="sidebar" class="close-sidebar" aria-label="Sidebar for other pages on this site">
         <div id="sidebar-links">
             <a id="home" href="index.html" draggable="false"><h3>HOME</h3></a>
             <a id="about-us" href="about-us.html" draggable="false"><h3>ABOUT US</h3></a>
@@ -9,16 +9,16 @@
             <a id="contact-us" href="contact-us.html" draggable="false"><h3>CONTACT US</h3></a>
             <a id="links" href="important-links.html" draggable="false"><h3>LINKS</h3></a>
         </div>
-    </div>
-    <div id="top-div" class="grow-content">
-        <div id="menu-button-box">
+    </nav>
+    <div id="top-div" class="grow-content" role="menubar" aria-label="Topbar of website">
+        <div id="menu-button-box" role="menuitem">
             <button onclick="sideMenuHandler()" id="menu-button" class="svg-button"
-            aria-label="Sidebar button, select to open", aria-labelledby="sidebar-links", title="Open Sidebar"></button>
+            aria-label="Sidebar button, select to open", title="Open Sidebar"></button>
         </div>
-        <a id="home-logo" aria-label="Go to home page" href="index.html"></a>
+        <a id="home-logo" aria-label="Go to home page" href="index.html" role="menuitem"></a>
     </div>
-    <div id="content" class="grow-content">
+    <main id="content" class="grow-content" aria-disabled="true" aria-label="Site content">
 
-    </div>
+    </main>
 </div>
 </body>

@@ -45,13 +45,18 @@ class Item {
         const img = document.createElement("img");
         img.alt = altText;
         img.src = imgPath;
+        img.role = "button";
+        img.ariaLabel = "Click to fullscreen image";
+        img.title = "Click to fullscreen image";
         img.tabIndex = 0;
     
+        // const imageButton = document.createElement("button");
+        // imageButton.appendChild(img);
+
         const caption = document.createElement("h3");
         caption.innerHTML = text;
     
         const ImageWithCaption = document.createElement("div")
-        ImageWithCaption.title = "Click to fullscreen image";
         applyAttributes(attrs, ImageWithCaption);
         
         ImageWithCaption.appendChild(img);
@@ -67,16 +72,19 @@ class Item {
             closeSidebar();  // Chrome stinks
         }
 
+        // img.onclick = () => {};
+        // img.onkeyup = () => {};
+
         img.addEventListener("click", () => {
             document.fullscreenElement ? document.exitFullscreen() : fullScreenImg();
         });
 
         img.addEventListener("keyup", (e) => {
-            if(e.code === "Enter") fullScreenImg();
+            if(e.code === "Enter" || e.code === "Space") fullScreenImg();
         });
 
         document.addEventListener("keyup", (e) => {
-            if(e.code === "Enter" && document.fullscreenElement) document.exitFullscreen();
+            if((e.code === "Enter" || e.code === "Space") && document.fullscreenElement) document.exitFullscreen();
         });
 
         return ImageWithCaption;
@@ -216,6 +224,11 @@ function loadPage(resolve, reject) {
             content_div.addEventListener("click", () => {
                 if (window.matchMedia("(orientation:portrait)").matches) closeSidebar();
             });
+            
+            content_div.addEventListener("keyup", (e) => {
+                if (window.matchMedia("(orientation:portrait)").matches && 
+                (e.code === "Space" || e.code === "Enter")) closeSidebar();
+            });
 
             resolve(content_div);
         }
@@ -238,6 +251,16 @@ function loadHomepage() {
             side menu to check it out!"));
         itemArray.push(new ItemBuilder(content_div).addTitle("New Season!").addContent(
             "As the new season 'Into the Deep' begins, we are very excited to begin a new chapter in the story of our team!"));
+        itemArray.push(new ItemBuilder(content_div, {class:"large-home-card"}).addTitle("Lighthouse score of 100!").addContent(
+            "Google Lighthouse, a web development indicator, when run on our site retuns a score of 100 for performance, \
+            accessibility, best practices, and SEO. The most important aspect of our site, to us at Regal Robots, is creating an \
+            experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this \
+            possible including changing colors to have more contrast and to make text clearer as well as adding labels for \
+            screenreaders for users that use assistive technology. This is a real point of pride for us since we can now freely say \
+            that our website is accessible to all.").addImage(
+                "Assets/Images/lighthouse.jpg", "Lighthouse scores of one-hundred in each category", 
+                "A lighthouse report of this website surrounded with confetti. The report gives a score of 100 in each of \
+                these categories: performance, accessibility, best practices, and SEO.", {class:"home-image"}));
         itemArray.forEach((x) => {x.build().render()});
     });
 }
@@ -306,7 +329,7 @@ function loadDocumentationpage() {
         const docNavBar = document.createElement("div");
         docNavBar.id = "documentation-navbar";
 
-        const docNavBarAnchorContainer = document.createElement("div");
+        const docNavBarAnchorContainer = document.createElement("nav");
         docNavBarAnchorContainer.id = "navbar-anchor-container";
 
         docNavBar.appendChild(docNavBarAnchorContainer);
@@ -346,9 +369,10 @@ function loadDocumentationpage() {
             
             anchor.addEventListener("click", () => {
                 copyToastContainer.classList.add("show-toast");
+                copyToastContent.textContent = "Copied to clipboard.";
                 if (writeClipboardText(anchor.href)) copyToastContent.textContent = "Copied to clipboard.";
                 else copyToastContent.textContent = "Could not copy to clipboard.";
-                setTimeout(() => {copyToastContainer.classList.remove("show-toast");}, 2000);
+                setTimeout(() => {copyToastContainer.classList.remove("show-toast");}, 1525);
             });
             docNavBarAnchorContainer.appendChild(copyToastContainer);
             docNavBarAnchorContainer.appendChild(anchor);
