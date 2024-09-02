@@ -256,7 +256,7 @@ function loadHomepage() {
         itemArray.push(new ItemBuilder(content_div, {class:"large-home-card"}).addTitle("Lighthouse score of 100!").addContent(
             "Google Lighthouse, a web development indicator, when run on our site retuns a score of 100 for performance, \
             accessibility, best practices, and SEO \
-            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io/ttfyjajzam?form_factor=mobile \
+            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io-index-html/1rg7hcwn0i?form_factor=mobile \
             target=_blank>Check for yourself!</a>). \
             The most important aspect of our site, to us at Regal Robots, is creating an \
             experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this \
