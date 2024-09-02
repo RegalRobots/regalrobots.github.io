@@ -256,14 +256,14 @@ function loadHomepage() {
         itemArray.push(new ItemBuilder(content_div, {class:"large-home-card"}).addTitle("Lighthouse score of 100!").addContent(
             "Google Lighthouse, a web development indicator, when run on our site retuns a score of 100 for performance, \
             accessibility, best practices, and SEO \
-            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io/oz0ehijm76?form_factor=mobile \
+            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io/ttfyjajzam?form_factor=mobile \
             target=_blank>Check for yourself!</a>). \
             The most important aspect of our site, to us at Regal Robots, is creating an \
             experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this \
             possible including changing colors to have more contrast and to make text clearer as well as adding labels for \
             screenreaders for users that use assistive technology. This is a real point of pride for us since we can now freely say \
             that our website is accessible to all.").addImage(
-                "Assets/Images/lighthouse.jpg", "Lighthouse scores of one-hundred in each category", 
+                "Assets/Images/lighthouse.avif", "Lighthouse scores of one-hundred in each category", 
                 "A lighthouse report of this website surrounded with confetti. The report gives a score of 100 in each of \
                 these categories: performance, accessibility, best practices, and SEO.", {class:"home-image"}));
         itemArray.forEach((x) => {x.build().render()});
@@ -455,7 +455,7 @@ function loadDocumentationpage() {
             Nulla quis vestibulum sapien. Nulla varius ultricies mollis. Aenean eget sapien condimentum, aliquam ipsum sed, placerat tortor. Nulla facilisi. \
             Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas metus arcu, interdum vitae lobortis id, \
             accumsan nec arcu. Mauris nunc velit, volutpat at nunc consequat, ultricies tristique ligula. "
-        ).addImage("Assets/Images/Mecannum.png", "How Mecannum wheels move (fig. 1)", 
+        ).addImage("Assets/Images/meccanum.avif", "How Mecannum wheels move (fig. 1)", 
             `To drive forward, backward, or to strafe, the left slant wheels move together and the
             right slant wheels move together. However to rotate skid-steer style, the left slant
             wheels move counter to one another as do the right slant wheels - this requires four
