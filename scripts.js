@@ -48,6 +48,8 @@ class Item {
         img.role = "button";
         img.ariaLabel = "Click to fullscreen image";
         img.title = "Click to fullscreen image";
+        img.width = 200;
+        img.height = 200;
         img.tabIndex = 0;
     
         // const imageButton = document.createElement("button");
@@ -190,8 +192,8 @@ class ItemBuilder {
     addImage(imagePath, imageCaptionText, altText, attrs=null) {
         this.imagePath = imagePath;
         this.imageCaptionText = imageCaptionText;
-        this.imageAttrs = attrs;
         this.altText = altText;
+        this.imageAttrs = attrs;
         return this;
     }
 
@@ -254,8 +256,8 @@ function loadHomepage() {
         itemArray.push(new ItemBuilder(content_div, {class:"large-home-card"}).addTitle("Lighthouse score of 100!").addContent(
             "Google Lighthouse, a web development indicator, when run on our site retuns a score of 100 for performance, \
             accessibility, best practices, and SEO \
-            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io/oz0ehijm76?form_factor=mobile>\
-            Check for yourself! </a>). \
+            (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io/oz0ehijm76?form_factor=mobile \
+            target=_blank>Check for yourself!</a>). \
             The most important aspect of our site, to us at Regal Robots, is creating an \
             experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this \
             possible including changing colors to have more contrast and to make text clearer as well as adding labels for \

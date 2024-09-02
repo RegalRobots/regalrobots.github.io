@@ -193,7 +193,7 @@ body {
     transition: none;
     position: absolute;
     left: var(--desktop-sidebar-width);
-    width: 86.5vw;
+    width: calc(100% - var(--desktop-sidebar-width));
 }
 
 .static-sidebar {
