@@ -76,7 +76,8 @@ img {
     height: auto;
 }
 
-img:focus {
+img:focus,
+img:hover {
     outline: blue solid 3px;
 }
 
