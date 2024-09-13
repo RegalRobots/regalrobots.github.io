@@ -28,7 +28,7 @@
             "title": "Contact Us Page Operational!"
         },
         "addContent": {
-            "content": "Our <a class=outside-link href=contact-us.html>Contact Us</a> page is now operational. Navigate there through the side menu to check it out!"
+            "content": "Our <a class=outside-link href=/contact-us/contact-us.html>Contact Us</a> page is now operational. Navigate there through the side menu to check it out!"
         }
     },
     {
