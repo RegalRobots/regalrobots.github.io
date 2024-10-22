@@ -1,5 +1,25 @@
 {
+    "Overview": {
+        "addHeader": {
+            "header": "How does an FTC game work?",
+            "attrs": {
+                "id": "how-ftc-game-works"
+            }
+        },
+        "addContent": {
+            "content": "The First Tech Challenge is made up of two different periods where both you and your allied team face an alliance  of two other teams. These periods are an autonomous mode and a TeleOp mode. Every game starts in the autonomous mode which is active for 30  seconds and in this period the robot must run a preset program without human input to complete tasks and objectives within the bounds of the  game. Then the 2:30 minute TeleOp mode begins where players must control their robot with game controllers to complete tasks and score points  as fast as possible. The last 30 seconds of the TeleOp mode constitute the endgame time where special rules apply and it is possible to score  more points. To see a more in depth explanation of this year's game check out  <a class=outside-link aria-label=\"Check out this year's game manuals\" target=_blank  href=https://www.firstinspires.org/resource-library/ftc/game-and-season-info>the game manuals</a>."
+        }
+    },
     "Programming": [
+        {
+            "addHeader": {
+                "header": "How do you program for FTC?",
+                "attrs": {
+                    "id": "programming-guide",
+                    "class": "documentation-header"
+                }
+            }
+        },
         {
             "addTitle": {
                 "title": "Overview:"
@@ -18,10 +38,18 @@
         },
         {
             "addTitle": {
+                "title": "Making an OpMode"
+            }, 
+            "addContent": {
+                "content": "In both the <code>Teleop</code> and <code>Auto</code> classes (java files), create a class and add the correct <code>@TeleOp</code> or <code>@Autonomous</code> annotation with the name that your class will display on the driver station. Then just create the classes and leave them there for now. See the examples below.<br>"
+            }
+        },
+        {
+            "addTitle": {
                 "title": "Init:"
             }, 
             "addContent": {
-                "content": "By this stage in the robotics game, no robots have moved and controllers are left alone. In the program, this is where all hardware needs to be initialized (hence the name) into the program. Usually code initializing hardware is written into an <code>init()</code> method in the <code>Hardware</code> class (file)."
+                "content": "By this stage in the robotics game, no robots have moved and controllers are left alone. In the program, this is where all hardware needs to be initialized (hence the name) into the program. Usually code initializing hardware is written into an <code>init()</code> method in the <code>Hardware</code> class (file). When extending "
             }
         },
         {
@@ -48,6 +76,15 @@
     ],
     "Cad": [
         {
+            "addHeader": {
+                "header": "How do you CAD for FTC?",
+                "attrs": {
+                    "id": "cad-guide",
+                    "class": "documentation-header"
+                }
+            }
+        },
+        {
             "addTitle": {
                 "title": "Software to use:"
             },
@@ -57,6 +94,15 @@
         }
     ],
     "Building": [
+        {
+            "addHeader": {
+                "header": "How do you build for FTC?",
+                "attrs": {
+                    "id": "build-guide",
+                    "class": "documentation-header"
+                }
+            }
+        },
         {
             "addTitle": {
                 "title": "Useful Resources:"

@@ -1,7 +1,7 @@
 <body>
 <div class="navigation">
     <nav id="sidebar" class="close-sidebar" aria-label="Sidebar for other pages on this site">
-        <div id="sidebar-links">
+        <div aria-label="naviagation items" id="sidebar-links">
             <a id="home" href="/index.html" draggable="false"><h3>HOME</h3></a>
             <a id="about-us" href="/about-us/about-us.html" draggable="false"><h3>ABOUT US</h3></a>
             <a id="sponsors" href="/sponsors/sponsors.html" draggable="false"><h3>SPONSORS</h3></a>

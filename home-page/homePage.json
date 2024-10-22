@@ -40,7 +40,7 @@
         }
     },
     {
-        "addCard": {
+        "addCardAttrs": {
             "attrs": {
                 "class": "large-home-card"
             }
@@ -49,7 +49,7 @@
             "title": "Lighthouse score of one hundred!"
         },
         "addContent": {
-            "content": "Google Lighthouse, a web development indicator, when run on our site retuns a score of 100 for performance, accessibility, best practices, and SEO (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io-index-html/1rg7hcwn0i?form_factor=mobile target=_blank>Check for yourself!</a>). The most important aspect of our site, to us at Regal Robots, is creating an experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this possible including changing colors to have more contrast and to make text clearer as well as adding labels for screenreaders for users that use assistive technology. This is a real point of pride for us since we can now freely say that our website is accessible to all."
+            "content": "Google Light&shyhouse, a web &shydevelopment &shyindicator, when run on our &shysite returns a score of one hundred for performance, accessibility, best practices, and SEO (<a class=outside-link href=https://pagespeed.web.dev/analysis/https-regalrobots-github-io-index-html/1rg7hcwn0i?form_factor=mobile target=_blank>Check for yourself!</a>). The most important aspect of our site, to us at Regal Robots, is creating an experience that anybody can enjoy equally, no matter their ability to see. We have put in a lot of work to make this possible including changing colors to have more contrast and to make text clearer as well as adding labels for screenreaders for users that use assistive technology. This is a real point of pride for us since we can now freely say that our website is accessible to all."
         },
         "addImage": {
             "imagePath": "Assets/Images/lighthouse.avif",
