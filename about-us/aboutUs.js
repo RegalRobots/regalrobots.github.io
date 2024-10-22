@@ -1,1 +1,25 @@
-"use strict";import*as e from"/navigation/navigation.js";new Promise(e.loadPage).then(t=>{fetch("aboutUs.json").then(e=>e.json()).then(a=>{document.getElementById("about-us").classList.add("selected-link"),new e.ItemBuilder(t).buildFromObject(a).render();let s=e.Item.prototype.createImageWithCaption("Our team in the 2023-2024 season.","/Assets/Group_Photos/2023group_photo.jpg"),o=e.Item.prototype.createImageWithCaption("Our current team.","/Assets/Group_Photos/2023group_photo.jpg"),n=document.createElement("aside");n.classList.add("images-container"),n.classList.add("about-us-images"),n.appendChild(s),n.appendChild(o),t.appendChild(n)})});
+"use strict";
+
+import * as navigation from "/navigation/navigation.js";
+
+new Promise(navigation.loadPage).then(content_div => {
+    fetch("aboutUs.json")
+    .then(jsonResponse => jsonResponse.json())
+    .then(json => {
+        document.getElementById("about-us").classList.add("selected-link");
+        new navigation.ItemBuilder(content_div).buildFromObject(json).render();
+
+        const image2023 = navigation.Item.prototype.createImageWithCaption(
+            "Our team in the 2023-2024 season.", "/Assets/Group_Photos/2023group_photo.jpg")
+        const imageCurrent = navigation.Item.prototype.createImageWithCaption(
+            "Our current team.", "/Assets/Group_Photos/2023group_photo.jpg")
+
+        const imagesContainer = document.createElement("aside");
+        imagesContainer.classList.add("images-container")
+        imagesContainer.classList.add("about-us-images")
+
+        imagesContainer.appendChild(image2023);
+        imagesContainer.appendChild(imageCurrent);
+        content_div.appendChild(imagesContainer);
+    });
+});
