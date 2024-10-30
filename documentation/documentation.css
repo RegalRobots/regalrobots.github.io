@@ -34,7 +34,6 @@ h2 {
 #content {
     width: calc(100% - 2 * var(--desktop-sidebar-width) - 2vw) !important;
     left: var(--desktop-sidebar-width);
-    transition: margin 0.2s ease-in-out;
     gap: 2.5vmax;
     padding-bottom: 3vmax;
 }
@@ -444,5 +443,59 @@ a.reading-mode-light-gray {
 @media only screen and (orientation:landscape) and (max-width:992px) {
     #content {
         width: calc(100% - var(--mobile-landscape-sidebar-width) - 2vw) !important;
+        left: var(--mobile-landscape-sidebar-width);
+    }
+
+    #documentation-navbar {
+        width: calc(100% - 2vw - calc(100% - var(--mobile-landscape-sidebar-width)));
+    }
+
+    #read-button {
+        left: 1vmax;
+        top: calc(var(--top-div-height) + calc(100lvh - 2 * var(--top-div-height)));
+        transition: background-color 200ms ease-in-out, border-radius 200ms ease-in-out, transform 200ms ease-in-out;
+    }
+
+    #read-button:not(.reading-mode):hover,
+    #read-button:not(.reading-mode):focus, 
+    #read-button.reading-mode:hover,
+    #read-button:not(.reading-mode):focus,
+    #read-button:not(.reading-mode):not(:hover):focus,
+    #read-button.show {
+        border-radius: var(--default-border-radius);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    #reading-modes {
+        top: calc(var(--top-div-height) + calc(100lvh - 2 * var(--top-div-height)));
+        left: 7vmax;
+        border-bottom-left-radius: var(--default-border-radius);
+        border-bottom-right-radius: var(--default-border-radius);
+        height: 4vmax;
+        flex-direction: row;
+        width: 0vmax;
+        transition: width 200ms ease-in-out, background-color 200ms ease-in-out;
+    }
+
+    #reading-modes.show,
+    #read-button:hover + #reading-modes {
+        padding: 0;
+        padding-left: 2vmax;
+        border-radius: var(--default-border-radius);
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        height: 4vmax;
+        width: 13vmax;
+        opacity: 0.95;
+    }
+
+    #read-button:not(.reading-mode):not(:hover):focus {
+        border-top-right-radius: var(--default-border-radius);
+        border-bottom-right-radius: var(--default-border-radius);
+    }
+
+    #content:has(.reading-mode-dark) {
+        left: var(--desktop-sidebar-width);
     }
 }
