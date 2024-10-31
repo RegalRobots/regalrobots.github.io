@@ -31,7 +31,7 @@
     right: 1vmax;
     top: 1vmax;
     bottom: 1vmax;
-    height: 100%;
+    height: calc(100vh - 2vmax - var(--top-div-height));
 }
 
 @media screen and (orientation:portrait) {
