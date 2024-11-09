@@ -370,12 +370,12 @@ export function loadPage(resolve, reject) {
             if (window.matchMedia("not (orientation:portrait)").matches) openSidebar();
             
             content_div.addEventListener("click", () => {
-                if (window.matchMedia("(orientation:portrait)").matches) closeSidebar();
+                if (window.matchMedia("(orientation:portrait)").matches && sidebarOpen) closeSidebar();
             });
             
             content_div.addEventListener("keyup", (e) => {
                 if (window.matchMedia("(orientation:portrait)").matches && 
-                (e.code === "Space" || e.code === "Enter")) closeSidebar();
+                (e.code === "Space" || e.code === "Enter") && sidebarOpen) closeSidebar();
             });
 
             document.querySelector("#menu-button").onclick = sideMenuHandler;

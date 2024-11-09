@@ -6,12 +6,16 @@ import * as navigation from "/navigation/navigation.js"
  * Encapsulates all scripts and logic for documentation table of contents navbar that connects to the headers on the documentation page
  */
 class DocumentationNavbar {
+    copyToastContainer;
+    copyToastContent;
     navbarHeaderMap;
     anchorsList;
     /**
      * @param {Object} navbarHeaderMap {id {String} of header: text {String} text value to display on the navbar}
      */
-    constructor(navbarHeaderMap) {
+    constructor(navbarHeaderMap, copyToastContainer, copyToastContent) {
+        this.copyToastContainer = copyToastContainer;
+        this.copyToastContent = copyToastContent;
         this.navbarHeaderMap = navbarHeaderMap;
         this.anchorsList = [];
         this.buildNavbar();
@@ -33,37 +37,37 @@ class DocumentationNavbar {
         document.body.appendChild(docNavBar);
 
         for(const [key, value] of Object.entries(this.navbarHeaderMap)) {
-            this.anchorsList.push(addToDocNavBar(key, value));
+            this.anchorsList.push(this.addToDocNavBar(key, value, docNavBarAnchorContainer, this.copyToastContainer, this.copyToastContent));
         }
+    }
 
-        function addToDocNavBar(id, name){
-            const anchor = document.createElement("a");
-    
-            anchor.classList.add("documentation-nav-links");
-            anchor.classList.add("outside-link");
-            anchor.innerHTML = name;
-            anchor.href = "./documentation.html#" + id;
-    
-            async function writeClipboardText(text) {
-                try {
-                    await navigator.clipboard.writeText(text);
-                } catch(error) {
-                    console.error("Could not copy navigator text.", error.message);
-                    return false;
-                } return true;
-            }
-            
-            anchor.addEventListener("click", () => {
-                copyToastContainer.classList.add("show-toast");
-                copyToastContent.textContent = "Copied to clipboard.";
-                if (writeClipboardText(anchor.href)) copyToastContent.textContent = "Copied to clipboard.";
-                else copyToastContent.textContent = "Could not copy to clipboard.";
-                setTimeout(() => {copyToastContainer.classList.remove("show-toast");}, 1525);
-            });
-    
-            docNavBarAnchorContainer.appendChild(anchor);
-            return anchor;
+    addToDocNavBar(id, name, docNavBarAnchorContainer, copyToastContainer, copyToastContent){
+        const anchor = document.createElement("a");
+
+        anchor.classList.add("documentation-nav-links");
+        anchor.classList.add("outside-link");
+        anchor.innerHTML = name;
+        anchor.href = "./documentation.html#" + id;
+
+        async function writeClipboardText(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch(error) {
+                console.error("Could not copy navigator text.", error.message);
+                return false;
+            } return true;
         }
+        
+        anchor.addEventListener("click", () => {
+            copyToastContainer.classList.add("show-toast");
+            copyToastContent.textContent = "Copied to clipboard.";
+            if (writeClipboardText(anchor.href)) copyToastContent.textContent = "Copied to clipboard.";
+            else copyToastContent.textContent = "Could not copy to clipboard.";
+            setTimeout(() => {copyToastContainer.classList.remove("show-toast");}, 1525);
+        });
+
+        docNavBarAnchorContainer.appendChild(anchor);
+        return anchor;
     }
 
     highlightVisibleHeader() {
@@ -192,11 +196,13 @@ class ReadingModeButton extends HTMLButtonElement {
         this.classList.add("svg-button");
 
         this.addEventListener("click", () => {
-            if(lastAction !== actions.MOUSEOVER) this.active ? this.removeStyles(true) : this.addStyles(true);
-            else this.active ? this.removeStyles(true) : this.addStyles(false);
-            this.classList.toggle("reading-mode", !this.active);
-            this.active = !this.active;
-            lastAction = actions.CLICK;
+            if(!this.classList.contains("blur")) {
+                if(lastAction !== actions.MOUSEOVER) this.active ? this.removeStyles(true) : this.addStyles(true);
+                else this.active ? this.removeStyles(true) : this.addStyles(false);
+                this.classList.toggle("reading-mode", !this.active);
+                this.active = !this.active;
+                lastAction = actions.CLICK;
+            }
         });
 
         this.addEventListener("mouseover", () => {
@@ -262,7 +268,7 @@ new Promise(navigation.loadPage).then(content_div => {
     const lightGrayButton = new ColoredReadingButton("reading-mode-light-gray", "light-gray-button", "Activate Gray Reading Mode", ["a"]);
 
     const readButton = new ReadingModeButton("reading-mode-dark", "read-button", "Activate reading mode",
-        ["img", ".collapse-button", "#top-div", "#documentation-navbar", ".documentation-content", ".hide-item"]);
+        ["img", ".collapse-button", "#top-div", "#documentation-navbar", ".documentation-content", ".hide-item", ".mobile-nav-button"]);
     document.body.appendChild(readButton);
     document.body.appendChild(readingModes);
 
@@ -270,10 +276,12 @@ new Promise(navigation.loadPage).then(content_div => {
     readButton.setButtonsBar(buttonsBar);
 
     readButton.addEventListener("click", () => {
-        navigation.closeSidebar();
-        readingModes.classList.toggle("show");
-        readButton.classList.toggle("show");
-        buttonsBar.toggleReadingModeAll();
+        if(!readButton.classList.contains("blur")){
+            navigation.closeSidebar();
+            readingModes.classList.toggle("show");
+            readButton.classList.toggle("show");
+            buttonsBar.toggleReadingModeAll();
+        }
     });
     readButton.addEventListener("mouseover", navigation.closeSidebar);
 
@@ -284,10 +292,6 @@ new Promise(navigation.loadPage).then(content_div => {
             document.getElementById("documentation").classList.add("selected-link");
             content_div.classList.add("flex-column");
 
-            // Documentation Navigation Sidebar
-            new DocumentationNavbar({"how-ftc-game-works": "How an FTC game works", "programming-guide": "How do you program for FTC?", 
-                "cad-guide": "How do you CAD for FTC?", "build-guide": "How do you build for FTC?"});
-
             // Copy to Clipboard Toast Notification
             const copyToastContainer = document.createElement("div");
             copyToastContainer.classList.add("copy-toast-container");
@@ -296,6 +300,30 @@ new Promise(navigation.loadPage).then(content_div => {
             copyToastContent.classList.add("copy-toast-content");
             copyToastContainer.appendChild(copyToastContent);
             document.body.appendChild(copyToastContainer);
+
+            // Documentation Navigation Sidebar
+            const idHeaderObj = {"how-ftc-game-works": "How an FTC game works", "programming-guide": "How do you program for FTC?", 
+                "cad-guide": "How do you CAD for FTC?", "build-guide": "How do you build for FTC?"};
+            new DocumentationNavbar(idHeaderObj, copyToastContainer, copyToastContent);
+
+            const mobileNav = document.createElement("dialog");
+            mobileNav.id = "mobile-nav";
+            document.body.appendChild(mobileNav);
+
+            const mobileNavLinks = document.createElement("div");
+            mobileNavLinks.id = "mobile-nav-links";
+            mobileNav.appendChild(mobileNavLinks);
+
+            const closeMobileDialog = document.createElement("button");
+            closeMobileDialog.autofocus = false;
+            closeMobileDialog.id = "close-dialog";
+            closeMobileDialog.classList.add("svg-button");
+            closeMobileDialog.onclick = closeMobileNav;
+            mobileNav.appendChild(closeMobileDialog);
+
+            for(const [key, value] of Object.entries(idHeaderObj)) {
+                DocumentationNavbar.prototype.addToDocNavBar(key, value, mobileNavLinks);
+            }
 
             // Documentation Content from JSON
             new navigation.ItemBuilder(content_div).buildFromObject(jsonData["Overview"]).render();
@@ -318,6 +346,15 @@ new Promise(navigation.loadPage).then(content_div => {
              * @returns The button element of the Collapse Button
              */
             function createCollapseButton(headerIndex, informationList) {
+                const mobileNavIcon = document.createElement("button");
+                mobileNavIcon.classList.add("svg-button");
+                mobileNavIcon.classList.add("mobile-nav-button");
+                document.querySelectorAll(".documentation-header")[headerIndex].insertAdjacentElement("beforeend", mobileNavIcon);
+                mobileNavIcon.addEventListener("click", openMobileNav);
+                screen.orientation.addEventListener("change", closeMobileNav);
+                document.querySelector(".navigation").addEventListener("click", (e) => {
+                    if(e.target !== mobileNav && !e.target.classList.contains("mobile-nav-button")) closeMobileNav()
+                });
                 const collapseIcon = document.createElement("button");
                 collapseIcon.ariaLabel = "Collapse Header";
                 document.querySelectorAll(".documentation-header")[headerIndex].insertAdjacentElement("beforeend", collapseIcon);
@@ -328,6 +365,21 @@ new Promise(navigation.loadPage).then(content_div => {
                     informationList.slice(2).forEach((elem) =>{elem.toggleHide();});
                 });
                 return collapseIcon;
+            }
+
+            function closeMobileNav() {
+                document.body.style.overflow = "visible"; 
+                mobileNav.classList.remove("open");
+                document.querySelector(".navigation").classList.remove("blur");
+                document.querySelector("#read-button").classList.remove("blur");
+            }
+
+            function openMobileNav() {
+                navigation.closeSidebar();
+                mobileNav.classList.add("open");
+                document.querySelector(".navigation").classList.add("blur");
+                document.querySelector("#read-button").classList.add("blur");
+                document.body.style.overflow = "hidden";
             }
         });
 });

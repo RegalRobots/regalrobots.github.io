@@ -408,9 +408,9 @@ Makes every 2/3rd card green to match the crown logo,
     /* || Styling*/
     #content {
         flex-direction: column;
-        margin: 6vw;
+        margin: 1.5vmax;
         position: relative;
-        margin-top: calc(var(--top-div-height) + 6vw);
+        margin-top: calc(var(--top-div-height) + 1.5vmax);
         flex-wrap: nowrap;
         max-width: none;
     }

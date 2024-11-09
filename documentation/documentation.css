@@ -23,8 +23,6 @@ h2 {
 /*|| Documentation page-specific styles.css styling reset */
 #top-div {
     opacity: 1;
-    /* transition-property: left, width, opacity 0.2s;
-    transition: 0.5s; */
 }
 
 #top-div.reading-mode-delay {
@@ -73,6 +71,21 @@ h2 {
     transform: rotateX(0deg);
 }
 
+.mobile-nav-button {
+    display: none;
+}
+
+#mobile-nav {
+    position: fixed;
+    display: none;
+    background: var(--accent-color);
+    outline: var(--primary-color);
+    outline-width: 4px;
+    outline-style: solid;
+    border: none;
+    outline-offset: 0px;
+}
+
 /*|| Documentation navigation sidebar styling */
 #documentation-navbar {
     display: flex;
@@ -111,7 +124,6 @@ h2 {
 
 /*|| Copy to clipboard toast notification styling*/
 .copy-toast-content {
-    /* position: absolute; */
     display: block;
     margin: 2.5%;
     align-self: center;
@@ -312,6 +324,10 @@ body.reading-mode-delay {
     display: none !important;
 }
 
+.reading-mode-dark.mobile-nav-button {
+    display: none !important;
+}
+
 body.reading-mode-dark {
     background-color: var(--reading-mode-dark-color);
 }
@@ -352,6 +368,7 @@ img.reading-mode-dark {
 
 #top-div.reading-mode-dark {
     opacity: 0;
+    display: none;
 }
 
 .documentation-header.reading-mode-dark {
@@ -423,20 +440,97 @@ a.reading-mode-light-gray {
     color: #0e1a70;
 }
 
-@media only screen and (orientation:portrait) {    
-    #documentation-navbar,
-    #read-button {
+@media only screen and (orientation:portrait) {
+    #documentation-navbar {
         display: none;
     }
 
+    #content:has(.reading-mode-dark) {
+        margin: 3vmax;
+    }
+    
     #content {
         width: auto !important;
-        left: 0vw;
+        left: 0;
     }
 
+    #read-button:not(.reading-mode-dark) {
+        background-color: var(--accent-color);
+    }
+
+    #read-button,
+    #reading-modes {
+        right: 3vmax;
+    }
+
+    #read-button {
+        transition: background-color 200ms ease-in-out, border-radius 200ms ease-in-out, transform 200ms ease-in-out, top 200ms ease-in-out;
+    }
+
+    #reading-modes {
+        transition: height 200ms ease-in-out, background-color 200ms ease-in-out, top 200ms ease-in-out;
+    }
+
+    #read-button.show,
+    #reading-modes.show {
+        opacity: 0.8;
+    }
+
+    #read-button.show { 
+        top: 3vmax;
+    }
+
+    #reading-modes.show {
+        top: calc(3vmax + 6vmax);
+    }
+
+    .mobile-nav-button,
     .collapse-button {
         height: 4rem;
         width: 4rem;
+    }
+
+    .mobile-nav-button {
+        background-image: url("/Assets/Icons/mobile-nav.svg");
+        margin-right: 1em;
+        display: initial;
+        align-self: center;
+        justify-self: right;    
+        background-position: right center;
+    }
+
+    #mobile-nav.open {
+        --height: 65%;
+        display: grid;
+        padding: 5px;
+        grid-template: 1fr 1fr 20fr / 1fr 5fr 1fr;
+        width: 80%;
+        height: var(--height);
+        top: calc((100% - var(--height)) / 2);
+        z-index: 3;
+    }
+
+    #close-dialog {
+        background-image: url("/Assets/Icons/close_menu_active.svg");
+        grid-column: 3;
+        grid-row: 1 / span 2;
+    }
+
+    #mobile-nav-links {
+        display: grid;
+        line-height: 2.8rem;
+        justify-content: space-between;
+        grid-column: 2;
+        grid-row: 3;
+    }
+
+    #mobile-nav-links > a {
+        font-size: x-large;
+    }
+
+    .blur {
+        filter: blur(8px);
+        cursor: default;
     }
 }
 
@@ -453,49 +547,41 @@ a.reading-mode-light-gray {
     #read-button {
         left: 1vmax;
         top: calc(var(--top-div-height) + calc(100lvh - 2 * var(--top-div-height)));
-        transition: background-color 200ms ease-in-out, border-radius 200ms ease-in-out, transform 200ms ease-in-out;
-    }
-
-    #read-button:not(.reading-mode):hover,
-    #read-button:not(.reading-mode):focus, 
-    #read-button.reading-mode:hover,
-    #read-button:not(.reading-mode):focus,
-    #read-button:not(.reading-mode):not(:hover):focus,
-    #read-button.show {
-        border-radius: var(--default-border-radius);
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
+        transition: background-color 200ms ease-in-out, border-radius 200ms ease-in-out, transform 200ms ease-in-out, top 400ms ease-in-out;
     }
 
     #reading-modes {
-        top: calc(var(--top-div-height) + calc(100lvh - 2 * var(--top-div-height)));
-        left: 7vmax;
+        top: calc(var(--top-div-height) + calc(100lvh - 2 * var(--top-div-height)) + 5vmax);
+        left: 1vmax;
         border-bottom-left-radius: var(--default-border-radius);
         border-bottom-right-radius: var(--default-border-radius);
-        height: 4vmax;
-        flex-direction: row;
-        width: 0vmax;
-        transition: width 200ms ease-in-out, background-color 200ms ease-in-out;
-    }
-
-    #reading-modes.show,
-    #read-button:hover + #reading-modes {
-        padding: 0;
-        padding-left: 2vmax;
-        border-radius: var(--default-border-radius);
-        border-bottom-left-radius: 0;
-        border-top-left-radius: 0;
-        height: 4vmax;
-        width: 13vmax;
-        opacity: 0.95;
-    }
-
-    #read-button:not(.reading-mode):not(:hover):focus {
-        border-top-right-radius: var(--default-border-radius);
-        border-bottom-right-radius: var(--default-border-radius);
+        height: 0vmax;
+        transition: height 200ms ease-in-out, background-color 200ms ease-in-out, top 400ms ease-in-out;
     }
 
     #content:has(.reading-mode-dark) {
         left: var(--desktop-sidebar-width);
+    }
+
+    #read-button.reading-mode:hover,
+    #read-button.show {
+        top: calc(var(--top-div-height) + 1vmax);
+        left: 1vmax;
+        border-radius: var(--default-border-radius);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    #read-button.show + #reading-modes {
+        top: calc(var(--top-div-height) + 1vmax + 5vmax);
+        left: 1vmax;
+        width: 5vmax;
+        height: 14vmax;
+        flex-direction: column;
+        border-radius: var(--default-border-radius);
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        padding-left: 0;
+        padding-top: 2vmax;
     }
 }
