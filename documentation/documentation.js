@@ -347,6 +347,7 @@ new Promise(navigation.loadPage).then(content_div => {
              */
             function createCollapseButton(headerIndex, informationList) {
                 const mobileNavIcon = document.createElement("button");
+                mobileNavIcon.ariaLabel = "Open Page Navigation";
                 mobileNavIcon.classList.add("svg-button");
                 mobileNavIcon.classList.add("mobile-nav-button");
                 document.querySelectorAll(".documentation-header")[headerIndex].insertAdjacentElement("beforeend", mobileNavIcon);

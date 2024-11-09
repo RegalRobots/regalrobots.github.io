@@ -22,6 +22,7 @@ export class Item {
     imageAttrs;
     alt;
     list;
+    date;
     constructor(itemBuilder) {
         this.parentElement = itemBuilder.parentElement;
         this.title = itemBuilder.title;
@@ -36,6 +37,7 @@ export class Item {
         this.header = itemBuilder.header;
         this.headerAttrs = itemBuilder.headerAttrs;
         this.alt = itemBuilder.altText;
+        this.date = itemBuilder.date;
     }
 
     createCardItem(attrs = null) {
@@ -124,6 +126,12 @@ export class Item {
         return header;
     }
 
+    createDateSpan() {
+        const dateElem = document.createElement("span");
+        dateElem.classList.add("date-span");
+        return dateElem;
+    }
+
     render() {
         this.item = this.createCardItem(this.cardAttrs);
 
@@ -142,6 +150,11 @@ export class Item {
         if(this.content){
             const caption = this.createContent(this.contentAttrs);
             caption.innerHTML = this.content;
+            if(this.date) {
+                const dateSpan = this.createDateSpan();
+                dateSpan.innerHTML = `<br>${this.date}`;
+                caption.appendChild(dateSpan);
+            }
             this.item.appendChild(caption);
             if (this.imagePath && this.imageCaptionText) {
                 const imageDiv = this.createImageWithCaption(this.imageCaptionText, this.imagePath, this.alt, this.imageAttrs);
@@ -189,6 +202,7 @@ export class ItemBuilder {
     imageAttrs;
     titleAttrs;
     altText;
+    date;
     /**
      * Constructs ItemBuilder
      * @param {HTMLElement} parentElement Element that {@link ItemBuilter.build()} {@link Item} will be rendered to 
@@ -208,6 +222,7 @@ export class ItemBuilder {
         this.header = null;
         this.headerAttrs = null;
         this.contentAttrs = null;
+        this.date = null;
     }
 
     /**
@@ -242,7 +257,7 @@ export class ItemBuilder {
      * @example new ItemBuilder(parentDiv).addContent({content: "This is information."});
      */
     addContent(obj) {
-        ({content: this.content, attrs: this.contentAttrs} = obj);
+        ({content: this.content, attrs: this.contentAttrs, date: this.date} = obj);
         if(this.content === undefined) throw new ReferenceError("Did not define necessary 'content' key with String");
         return this;
     }

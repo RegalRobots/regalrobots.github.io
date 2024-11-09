@@ -271,6 +271,11 @@ body {
     border-radius: var(--default-border-radius);
 }
 
+.date-span {
+    color: #A6A6A6;
+    font-size: 1rem;
+}
+
 /* images-container > images-with-caption > (h3, img)*/
 .images-container {
     border-radius: var(--default-border-radius);
